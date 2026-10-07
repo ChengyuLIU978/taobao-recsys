@@ -380,3 +380,26 @@
   - Explicit history 提高了相关性指标，但 concentration 没有同时改善，且 V3B 与 ItemCF 的 R@50 gap 仍为 `-0.267632`。
 - **Trade-off**
   - 该结果只支持内部 temporal protocol 下的 V3A/V3B 因果方向对比，不是新 protected-test 结果，也不能与历史 V1 直接归因。
+
+## ISSUE-031 — Full-catalog item-specific representation coverage in V3
+
+- **Problem**
+  - V3 在 248,244-item full catalog 上做 exact retrieval，但 in-batch softmax 的 candidate columns 只来自 batch purchase targets。需要区分“共享参数被训练”与“某个 item-specific embedding row 获得 data-driven gradient”。
+- **Evidence / How we found it**
+  - 对冻结 V3_TRAIN mapping 和同一批 10,254 个 strict-history examples 做只读集合审计；mapping SHA-256、example count 和 unique target count 与已保存 artifact 完全一致。
+- **Actual coverage numbers**
+  - Catalog=`248,244`。Unique purchase targets=`9,318` (`3.753565%`)。Unique non-padding retained-history items=`101,095` (`40.724046%`)。
+  - Target/history intersection=`7,991`；union=`102,422` (`41.258600%`)；target 与 retained history 都未出现的 items=`145,822` (`58.741400%`)。
+  - V3A 中只有 target items 的 base embedding 获得 item-specific data gradient；未 target-exposed 为 `238,926/248,244=96.246435%`。V3B 通过 shared history item table 把 item-specific exposure 扩大到 `41.258600%`。
+- **Why in-batch negatives do not expose the full catalog**
+  - 每个 batch 的 negative columns 是同 batch 中其他 purchase targets，而不是从 248,244-item catalog 额外抽取的 items。因此“一个 item 作为 in-batch negative”仍要求它首先在某个训练 example 中成为 purchase target。
+- **Why shared history embeddings partially mitigate this in V3B**
+  - V3B 的 history encoder 和 candidate tower 共用 item embedding table。即使某 item 从未作为 target，只要它出现在 retained last-50 history 中，就会通过 user-side masked-mean path 获得 item-specific gradient。
+- **Remaining limitation**
+  - 仍有 145,822 个 catalog items 没有出现在 target 或 retained history 中，它们的 embedding rows 没有 data-driven item-specific gradient，却要在 full-catalog retrieval 中竞争。Item MLP 是已训练的共享参数，但不能替代这些 row 的个体监督。
+- **Fix / Decision**
+  - 可选 future fixes 包括 mixed full-catalog negatives、auxiliary behavior/item objective，或 pretrained/content item representation。这些只记录为 Future Work；本项目已 FINAL FREEZE，不实现、不重训、不新建 V3C。
+- **Result**
+  - “96% of catalog never trained”作为 V3B 或整体 V3 结论不成立。更精确的结论是：V3A 有 `96.246435%` item-specific embeddings 未被 target-side 暴露；V3B 因 shared history path 将 untouched fraction 降为 `58.741400%`。
+- **Trade-off**
+  - 扩大 item-specific supervision 可能增强 catalog representation，但会改变 objective、训练成本和 false-negative/popularity bias；必须在新实验协议下单独验证，不能用已消耗的 V3_EVAL 调整。

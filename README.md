@@ -147,7 +147,9 @@ flowchart BT
     IV --> L
 ```
 
-V3A and V3B used the same 10,254 strict-history purchase examples, batch order, optimizer, dimensions, in-batch softmax objective, logQ correction, false-negative masking, and exact full-catalog evaluation. Only the user representation changed: V3A used a user-ID embedding; V3B used behavior-aware masked mean pooling over the last 50 events. No historical-item filtering was applied.
+The controlled models share the same temporal split, 10,254 strict-history purchase examples, batch order, objective, optimizer, dimensions, candidate catalog, and exact full-catalog evaluation. Their primary architectural difference is the user representation: V3A used a user-ID embedding, while V3B used behavior-aware masked mean pooling over the last 50 events. Because V3B shares the item embedding table between the history encoder and candidate tower, history-side gradients additionally update item embeddings appearing in sequence contexts; therefore this is not a perfectly isolated single-parameter causal experiment. No historical-item filtering was applied.
+
+A final read-only coverage audit found 9,318 purchase-target items (`3.7536%` of the 248,244-item catalog) and 101,095 non-padding history items (`40.7240%`) across the retained windows. Their union contains 102,422 items (`41.2586%`), leaving 145,822 (`58.7414%`) without item-specific data gradients in V3B. Thus, the broad claim that 96% of the V3 catalog was never trained is incorrect. Approximately `96.2464%` of V3A base item embeddings were not target-exposed, but V3B's shared history path substantially broadened item-specific exposure.
 
 | Internal EVAL model | Recall@20 | Recall@50 | HitRate@50 | NDCG@50 | Dominant Top-1 | Top-50 coverage |
 |---|---:|---:|---:|---:|---:|---:|
