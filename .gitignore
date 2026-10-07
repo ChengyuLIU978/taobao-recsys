@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environments and IDE state
+.venv/
+venv/
+.idea/
+.vscode/
+.ipynb_checkpoints/
+
+# Raw and derived local data (the raw CSV is ~3.67 GB)
+data/raw/
+data/interim/
+data/processed/
+
+# Large/reproducible binary artifacts. Keep JSON/CSV/Markdown manifests and metrics.
+*.pt
+*.pth
+*.npy
+*.npz
+*.parquet
+*.pkl
+
+# Large per-user diagnostic table; aggregate exposure metrics remain tracked.
+artifacts/analysis/user_exposure_distribution.csv
+
+# Local logs and temporary staging
+*.log
+*.tmp
+artifacts/**/.staging*/
+
+# OS files
+.DS_Store
+Thumbs.db

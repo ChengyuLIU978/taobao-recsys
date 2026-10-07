@@ -1,0 +1,76 @@
+{
+  "experiment_name": "TIGER_STYLE_COLLABORATIVE_SID_V1",
+  "research_question": "Can collaborative Semantic-ID generative retrieval add warm or long-tail target coverage beyond ItemCF and the fixed current union?",
+  "seed": 42,
+  "catalog": {
+    "mode": "full_v1_vocab",
+    "selection_source": "persisted TT_V1_BUY_UNIFORM item mapping only",
+    "test_information_used": false
+  },
+  "embedding": {
+    "source_checkpoint": "artifacts/two_tower/experiments/TT_V1_BUY_UNIFORM/checkpoint_best.pt",
+    "source_item_mapping": "artifacts/two_tower/item_mapping.csv",
+    "representation": "normalized final V1 item-tower output",
+    "expected_items": 302016,
+    "expected_dimension": 64,
+    "batch_size": 8192
+  },
+  "rqvae": {
+    "input_dim": 64,
+    "hidden_dim": 128,
+    "latent_dim": 64,
+    "num_codebooks": 3,
+    "codebook_size": 128,
+    "beta": 0.25,
+    "batch_size": 1024,
+    "learning_rate": 0.001,
+    "epochs": 15,
+    "early_stopping_patience": 3,
+    "validation_fraction": 0.1,
+    "checkpoint_metric": "validation_reconstruction_loss",
+    "checkpoint_tie_break": "mean_codebook_utilization",
+    "codebook_init": "MiniBatchKMeans on deterministic RQ-VAE train-only sample",
+    "kmeans_max_samples": 100000,
+    "kmeans_batch_size": 4096,
+    "kmeans_max_iter": 50
+  },
+  "sequence": {
+    "history_source": "train_only",
+    "history_cutoff_protocol": "train.csv only for validation and test, matching scripts/07_build_multistage_recall.py",
+    "max_history_items": 30,
+    "keep_repeated_items": true,
+    "behavior_aware": true,
+    "event_tokens": ["behavior", "c0", "c1", "c2", "suffix", "SEP"],
+    "resource_implementation": "six token embeddings are pooled per event before the Transformer encoder; all six tokens remain represented"
+  },
+  "generator": {
+    "architecture": "native PyTorch encoder-decoder Transformer",
+    "d_model": 128,
+    "nhead": 4,
+    "encoder_layers": 2,
+    "decoder_layers": 2,
+    "dim_feedforward": 256,
+    "dropout": 0.1,
+    "positional_encoding": "learned",
+    "batch_size": 64,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "epochs": 10,
+    "early_stopping_patience": 2,
+    "checkpoint_metric": "validation_recall_at_20",
+    "checkpoint_tie_break": "validation_ndcg_at_20",
+    "beam_size": 50,
+    "evaluation_user_batch_size": 64,
+    "length_normalization": false
+  },
+  "evaluation": {
+    "validation_for_selection": true,
+    "test_once_after_freeze": true,
+    "ks": [5, 10, 20, 50],
+    "primary_population": "strict existing warm GT: user and item in persisted Two-Tower mappings",
+    "cold_target_policy": "structurally unavailable and never inserted into active catalog",
+    "ranker_retraining": false,
+    "existing_union_changed": false
+  },
+  "frozen_before_test": true
+}

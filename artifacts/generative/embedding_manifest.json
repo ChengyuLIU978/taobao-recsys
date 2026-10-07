@@ -1,0 +1,107 @@
+{
+  "status": "completed",
+  "source_checkpoint": "artifacts\\two_tower\\experiments\\TT_V1_BUY_UNIFORM\\checkpoint_best.pt",
+  "source_checkpoint_sha256": "e1ed81a8cd2523cb4cc318e31f56ed1835c38f0d95ef40d13d52e4a93b3d27e7",
+  "source_item_mapping": "artifacts\\two_tower\\item_mapping.csv",
+  "source_item_mapping_sha256": "dde0fa8f453a4f46e8f69e12811d786db19db1ed72da55fb73870ff1cce7fc8a",
+  "strict_state_dict_load": true,
+  "checkpoint_best_epoch": 3,
+  "checkpoint_seed": 42,
+  "item_count": 302016,
+  "embedding_dimension": 64,
+  "dtype": "float32",
+  "normalization": "L2 normalized final V1 item-tower representation",
+  "norm_min": 0.9999998211860657,
+  "norm_max": 1.0000001192092896,
+  "mapping_checks": [
+    {
+      "item_idx": 25955,
+      "item_id": 2700875
+    },
+    {
+      "item_idx": 26953,
+      "item_id": 2397174
+    },
+    {
+      "item_idx": 28442,
+      "item_id": 1847728
+    },
+    {
+      "item_idx": 38692,
+      "item_id": 1865479
+    },
+    {
+      "item_idx": 60844,
+      "item_id": 5104776
+    },
+    {
+      "item_idx": 130771,
+      "item_id": 1794421
+    },
+    {
+      "item_idx": 132541,
+      "item_id": 1712905
+    },
+    {
+      "item_idx": 136023,
+      "item_id": 1092475
+    },
+    {
+      "item_idx": 155001,
+      "item_id": 3658227
+    },
+    {
+      "item_idx": 159000,
+      "item_id": 662600
+    },
+    {
+      "item_idx": 197679,
+      "item_id": 4634672
+    },
+    {
+      "item_idx": 210607,
+      "item_id": 659291
+    },
+    {
+      "item_idx": 216686,
+      "item_id": 300740
+    },
+    {
+      "item_idx": 222203,
+      "item_id": 3860005
+    },
+    {
+      "item_idx": 229871,
+      "item_id": 1946093
+    },
+    {
+      "item_idx": 233733,
+      "item_id": 1424736
+    },
+    {
+      "item_idx": 237400,
+      "item_id": 4128884
+    },
+    {
+      "item_idx": 253616,
+      "item_id": 4758604
+    },
+    {
+      "item_idx": 259298,
+      "item_id": 2897279
+    },
+    {
+      "item_idx": 294645,
+      "item_id": 96048
+    }
+  ],
+  "embedding_sha256": "eaa22c29b00e5df16608215411e996b115cbcec4112ed0cd8e0a953bb42c2119",
+  "item_ids_sha256": "32595d4b7f11c1badd5b07ca8af479b109d54c551a266f5f4dc2750edf120db9",
+  "runtime": {
+    "python": "3.13.9",
+    "torch": "2.13.0+cpu",
+    "cuda_available": false,
+    "device": "cpu",
+    "cpu_count": 32
+  }
+}

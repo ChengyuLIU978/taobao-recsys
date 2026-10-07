@@ -1,0 +1,170 @@
+{
+  "status": "completed_once_after_validation_freeze",
+  "population": {
+    "strict_warm_users": 1116,
+    "strict_warm_interactions": 1438,
+    "all_gt_users": 1756,
+    "all_gt_interactions": 2512,
+    "active_target_coverage": 0.572452229299363,
+    "targets_outside_active_v1_catalog": 1059,
+    "train_cold_targets": 962
+  },
+  "standalone": {
+    "users": 1116,
+    "interactions": 1438,
+    "metrics": [
+      {
+        "K": 5,
+        "Recall": 0.04227897252090801,
+        "HitRate": 0.053763440860215055,
+        "NDCG": 0.03678724962043521,
+        "hit_interactions": 63,
+        "total_interactions": 1438,
+        "interaction_recall": 0.04381084840055633
+      },
+      {
+        "K": 10,
+        "Recall": 0.04245818399044205,
+        "HitRate": 0.053763440860215055,
+        "NDCG": 0.03687509844286473,
+        "hit_interactions": 64,
+        "total_interactions": 1438,
+        "interaction_recall": 0.04450625869262865
+      },
+      {
+        "K": 20,
+        "Recall": 0.04245818399044205,
+        "HitRate": 0.053763440860215055,
+        "NDCG": 0.03687509844286473,
+        "hit_interactions": 64,
+        "total_interactions": 1438,
+        "interaction_recall": 0.04450625869262865
+      },
+      {
+        "K": 50,
+        "Recall": 0.04245818399044205,
+        "HitRate": 0.053763440860215055,
+        "NDCG": 0.03687509844286473,
+        "hit_interactions": 64,
+        "total_interactions": 1438,
+        "interaction_recall": 0.04450625869262865
+      }
+    ]
+  },
+  "validity": {
+    "attempted_beams": 484050,
+    "valid_final_sids": 484050,
+    "invalid_or_incomplete_paths": 0,
+    "duplicate_items_removed": 0,
+    "valid_generation_rate": 1.0,
+    "resumed_from_frozen_generation_artifact": true
+  },
+  "segment_metrics": [
+    {
+      "segment": "Head",
+      "target_interactions": 907,
+      "target_users": 756,
+      "recall_at_20": 0.06569664902998237,
+      "recall_at_50": 0.06569664902998237,
+      "interaction_recall_at_20": 0.06835722160970231,
+      "interaction_recall_at_50": 0.06835722160970231,
+      "ndcg_at_20": 0.05586094430012117,
+      "ndcg_at_50": 0.05586094430012117
+    },
+    {
+      "segment": "Torso",
+      "target_interactions": 308,
+      "target_users": 289,
+      "recall_at_20": 0.006920415224913495,
+      "recall_at_50": 0.006920415224913495,
+      "interaction_recall_at_20": 0.006493506493506494,
+      "interaction_recall_at_50": 0.006493506493506494,
+      "ndcg_at_20": 0.0035217389647266405,
+      "ndcg_at_50": 0.0035217389647266405
+    },
+    {
+      "segment": "Tail",
+      "target_interactions": 223,
+      "target_users": 211,
+      "recall_at_20": 0.0,
+      "recall_at_50": 0.0,
+      "interaction_recall_at_20": 0.0,
+      "interaction_recall_at_50": 0.0,
+      "ndcg_at_20": 0.0,
+      "ndcg_at_50": 0.0
+    }
+  ],
+  "incremental": {
+    "population_users": 1116,
+    "population_interactions": 1438,
+    "itemcf_oracle": {
+      "Recall": 0.2440860215053763,
+      "HitRate": 0.27598566308243727,
+      "hit_interactions": 350,
+      "total_interactions": 1438,
+      "interaction_recall": 0.24339360222531292
+    },
+    "current_union_oracle": {
+      "Recall": 0.25554808841099164,
+      "HitRate": 0.289426523297491,
+      "hit_interactions": 366,
+      "total_interactions": 1438,
+      "interaction_recall": 0.2545201668984701
+    },
+    "generative_oracle": {
+      "Recall": 0.04245818399044205,
+      "HitRate": 0.053763440860215055,
+      "hit_interactions": 64,
+      "total_interactions": 1438,
+      "interaction_recall": 0.04450625869262865
+    },
+    "current_union_plus_generative_oracle": {
+      "Recall": 0.25554808841099164,
+      "HitRate": 0.289426523297491,
+      "hit_interactions": 366,
+      "total_interactions": 1438,
+      "interaction_recall": 0.2545201668984701
+    },
+    "absolute_macro_oracle_delta": 0.0,
+    "absolute_interaction_oracle_delta": 0.0,
+    "generative_hits_by_segment": {
+      "Head": 62,
+      "Torso": 2,
+      "Tail": 0,
+      "Cold": 0
+    },
+    "generative_exclusive_vs_itemcf_by_segment": {
+      "Head": 0,
+      "Torso": 0,
+      "Tail": 0,
+      "Cold": 0
+    },
+    "generative_exclusive_vs_current_union_by_segment": {
+      "Head": 0,
+      "Torso": 0,
+      "Tail": 0,
+      "Cold": 0
+    },
+    "generative_exclusive_vs_itemcf_total": 0,
+    "generative_exclusive_vs_current_union_total": 0
+  },
+  "exposure": {
+    "recommendation_count": 484050,
+    "users_with_recommendations": 9681,
+    "head_count": 377948,
+    "torso_count": 93533,
+    "tail_count": 12569,
+    "head_share": 0.7808036359880177,
+    "torso_share": 0.19323003821919224,
+    "tail_share": 0.025966325792790002,
+    "unique_items": 14137,
+    "catalog_coverage": 0.044495012920140624,
+    "head_coverage": 0.14336522724411432,
+    "torso_coverage": 0.03419153132737421,
+    "tail_coverage": 0.011129226178860765,
+    "gini_coefficient_full_train_catalog": 0.9884932702955653,
+    "mean_user_top50_novelty": 17.00516908812043,
+    "median_user_top50_novelty": 17.015525133886044
+  },
+  "best_epoch": 10
+}

@@ -1,0 +1,194 @@
+{
+  "project": {
+    "name": "Taobao Multi-Stage Recommender System with Generative Retrieval Extension",
+    "status": "PROJECT FROZEN — interview/recruiting-ready baseline",
+    "freeze_date": "2026-10-08",
+    "main_system": "Popularity + ItemCF + Two-Tower -> Candidate Union -> LightGBM LambdaRank",
+    "experimental_extension": "TIGER-style collaborative Semantic-ID generative retrieval",
+    "experimental_extension_in_main_union": false
+  },
+  "data": {
+    "dataset": "Taobao UserBehavior",
+    "raw_interactions": 100150807,
+    "raw_file_bytes": 3672347465,
+    "sampling_rule": "user_id % 100 == 0",
+    "sampling_level": "user",
+    "dev_interactions": 1001832,
+    "train_interactions": 724885,
+    "validation_interactions": 138406,
+    "test_interactions": 138541,
+    "split_type": "temporal",
+    "train_timestamp_range": [1511539200, 1512143999],
+    "validation_timestamp_range": [1512144000, 1512230399],
+    "test_timestamp_range": [1512230400, 1512316799]
+  },
+  "recall": {
+    "protocol": "protected test-warm purchase evaluation",
+    "popularity": {
+      "recall_at_10": 0.0017921146953405018,
+      "recall_at_20": 0.0031362007168458782,
+      "recall_at_50": 0.00966995221027479,
+      "ndcg_at_50": 0.0025533909506991457
+    },
+    "two_tower": {
+      "recall_at_10": 0.0013440860215053765,
+      "recall_at_20": 0.0013440860215053765,
+      "recall_at_50": 0.005376344086021506,
+      "ndcg_at_50": 0.0013123055246449635
+    },
+    "itemcf": {
+      "recall_at_10": 0.0802568697729988,
+      "recall_at_20": 0.12429808841099166,
+      "recall_at_50": 0.24139784946236556,
+      "ndcg_at_50": 0.07543273831305296
+    },
+    "rrf": {
+      "recall_at_10": 0.031137992831541218,
+      "recall_at_20": 0.05473416965352449,
+      "recall_at_50": 0.1191905615292712,
+      "ndcg_at_50": 0.03280524822053215
+    }
+  },
+  "two_tower": {
+    "vocabulary": {
+      "users": 9836,
+      "items": 302016,
+      "embedding_dimension": 64
+    },
+    "controlled_experiments": [
+      {"name": "TT_V0_PV_UNIFORM", "positive": "pv", "seed": "historical", "recall_at_50": 0.003846},
+      {"name": "TT_V1_BUY_UNIFORM", "positive": "buy", "seed": 42, "recall_at_50": 0.011966},
+      {"name": "TT_V1_BUY_UNIFORM_SEED2027", "positive": "buy", "seed": 2027, "recall_at_50": 0.008405},
+      {"name": "TT_V2_MULTI_UNIFORM", "positive": "multi_behavior", "seed": 42, "recall_at_50": 0.007058}
+    ],
+    "seed_replication_conclusion": "The Buy-only improvement replicated directionally under a preregistered alternate seed; strict stability is not established.",
+    "seed2027_relative_drop_vs_seed42": 0.2976,
+    "tail_recall_at_50": 0.0,
+    "tail_exclusive_hits": 0,
+    "exposure_head_share": 0.8499,
+    "exposure_tail_share": 0.0036
+  },
+  "candidate_union": {
+    "quotas": {"itemcf": 200, "two_tower": 100, "popularity": 50},
+    "max_candidates_per_user": 350,
+    "preserved_fields": ["source_provenance", "source_rank", "source_score", "recall_source_count", "rrf_score"],
+    "validation_itemcf_recall_at_50": 0.371696,
+    "validation_rrf_recall_at_50": 0.179821,
+    "rrf_conclusion": "Naive rank fusion hurt because heterogeneous sources had unequal strength and rank calibration.",
+    "test_warm_oracle_recall": 0.2555480884109916
+  },
+  "ranking": {
+    "model": "LightGBM LambdaRank",
+    "feature_count": 52,
+    "feature_time_boundary": "train-only aggregates",
+    "raw_user_or_item_id_as_numeric_feature": false,
+    "test_warm": {
+      "recall_at_10": 0.16677120669056153,
+      "recall_at_20": 0.2023148148148148,
+      "recall_at_50": 0.23879181600955796,
+      "hitrate_at_50": 0.27060931899641577,
+      "ndcg_at_50": 0.12418875675545177
+    },
+    "candidate_oracle_gap_at_50": 0.016756272401433625,
+    "interpretation": "Ranking improves early ordering and NDCG but is now bounded mainly by retrieval coverage. ItemCF remains slightly higher at Recall@50."
+  },
+  "cold_start": {
+    "test_purchase_interactions": 2512,
+    "train_cold_interactions": 962,
+    "train_cold_fraction": 0.38296178343949044,
+    "closed_catalog_ceiling": 0.617038,
+    "ranker_full_test_interaction_recall_at_50": 0.154061,
+    "status": "diagnosed_not_solved",
+    "required_future_capability": "metadata/content-based cold-item encoder"
+  },
+  "long_tail": {
+    "definition": {"head": "top 20%", "torso": "next 30%", "tail": "remaining 50%"},
+    "basis": "train-only interaction frequency",
+    "ranker_recall_at_50": {"head": 0.271739, "torso": 0.246291, "tail": 0.1843},
+    "candidate_oracle_recall_at_50": {"head": 0.290217, "torso": 0.261128, "tail": 0.197952},
+    "conclusion": "Tail performance is primarily constrained by retrieval coverage."
+  },
+  "generative": {
+    "status": "completed_experimental_baseline",
+    "main_union_integration": false,
+    "catalog_type": "closed collaborative V1 vocabulary",
+    "catalog_items": 302016,
+    "embedding_shape": [302016, 64],
+    "rqvae": {
+      "codebooks": 3,
+      "codes_per_codebook": 128,
+      "best_epoch": 15,
+      "validation_reconstruction_loss": 0.001888496965337966,
+      "utilization": [1.0, 1.0, 1.0],
+      "perplexity": [108.7561794625547, 114.90559244023473, 113.18564094895609],
+      "codebook_collapse": false
+    },
+    "semantic_ids": {
+      "raw_unique_tuples": 248774,
+      "collision_excess_items": 53242,
+      "collision_excess_rate": 0.17628867344776436,
+      "maximum_collision_group": 11,
+      "suffix_assignment": "item_id ascending within each raw tuple",
+      "maximum_suffix": 10,
+      "final_collision_count": 0
+    },
+    "transformer": {
+      "train_examples": 12207,
+      "d_model": 128,
+      "heads": 4,
+      "encoder_layers": 2,
+      "decoder_layers": 2,
+      "best_epoch": 10,
+      "strict_causal_histories": true
+    },
+    "generation": {
+      "constraint": "full-catalog Semantic-ID prefix trie",
+      "beam_size": 50,
+      "validation_valid_generation_rate": 1.0,
+      "test_valid_generation_rate": 1.0,
+      "invalid_paths": 0,
+      "duplicate_items": 0
+    },
+    "validation": {
+      "recall_at_20": 0.06331908831908832,
+      "recall_at_50": 0.06545584045584045,
+      "current_union_oracle": 0.3847161172161172,
+      "union_plus_generative_oracle": 0.3864255189255189,
+      "incremental_hits": 2
+    },
+    "test": {
+      "recall_at_20": 0.04245818399044205,
+      "recall_at_50": 0.04245818399044205,
+      "incremental_vs_itemcf": 0,
+      "incremental_vs_current_union": 0,
+      "tail_incremental_hits": 0,
+      "exposure_head_share": 0.7808036359880177,
+      "exposure_torso_share": 0.19323003821919224,
+      "exposure_tail_share": 0.025966325792790002,
+      "gini": 0.9884932702955653
+    },
+    "conclusion": "Validation showed a small positive signal that did not replicate on the protected test period. Retained as an experimental baseline, not a formal recall source."
+  },
+  "tests": {
+    "framework": "unittest",
+    "passed": 28,
+    "failed": 0,
+    "command": "python -m unittest discover -s tests -p test_*.py -v"
+  },
+  "limitations": [
+    "The reported development run uses a deterministic 1% user sample rather than full-scale training.",
+    "All collaborative models are closed-catalog and cannot retrieve truly train-unseen items.",
+    "The current Two-Tower is much weaker than ItemCF and offers no Tail-exclusive hits.",
+    "The validation GenRec increment did not replicate on test.",
+    "The protected test period is consumed and cannot be used for further model selection.",
+    "FAISS/ANN was not run in reported results."
+  ],
+  "authoritative_documents": [
+    "README.md",
+    "CURRENT_PROJECT_STATUS.md",
+    "PROJECT_ISSUES.md",
+    "EXPERIMENT_FREEZE.md",
+    "reports/FINAL_PROJECT_REPORT.md",
+    "artifacts/ARTIFACT_MANIFEST.md"
+  ]
+}

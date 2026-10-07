@@ -1,0 +1,58 @@
+{
+  "validation": {
+    "evaluation_interactions": 1496,
+    "exclusive_combination_counts": {
+      "only_itemcf": 538,
+      "only_two_tower": 6,
+      "only_popularity": 3,
+      "itemcf_two_tower": 17,
+      "itemcf_popularity": 5,
+      "two_tower_popularity": 3,
+      "all_three": 1,
+      "not_recalled": 923
+    },
+    "exclusive_combination_rates": {
+      "only_itemcf": 0.35962566844919786,
+      "only_two_tower": 0.004010695187165776,
+      "only_popularity": 0.002005347593582888,
+      "itemcf_two_tower": 0.011363636363636364,
+      "itemcf_popularity": 0.0033422459893048127,
+      "two_tower_popularity": 0.002005347593582888,
+      "all_three": 0.0006684491978609625,
+      "not_recalled": 0.6169786096256684
+    },
+    "two_tower_unique_gt_hits": 9,
+    "two_tower_unique_gt_hit_rate": 0.006016042780748663,
+    "two_tower_unique_rate_among_itemcf_misses": 0.009625668449197862,
+    "only_popularity_gt_hits": 3,
+    "only_popularity_gt_hit_rate": 0.002005347593582888
+  },
+  "test": {
+    "evaluation_interactions": 1438,
+    "exclusive_combination_counts": {
+      "only_itemcf": 340,
+      "only_two_tower": 5,
+      "only_popularity": 11,
+      "itemcf_two_tower": 7,
+      "itemcf_popularity": 3,
+      "two_tower_popularity": 0,
+      "all_three": 0,
+      "not_recalled": 1072
+    },
+    "exclusive_combination_rates": {
+      "only_itemcf": 0.2364394993045897,
+      "only_two_tower": 0.0034770514603616135,
+      "only_popularity": 0.0076495132127955496,
+      "itemcf_two_tower": 0.004867872044506259,
+      "itemcf_popularity": 0.002086230876216968,
+      "two_tower_popularity": 0.0,
+      "all_three": 0.0,
+      "not_recalled": 0.7454798331015299
+    },
+    "two_tower_unique_gt_hits": 5,
+    "two_tower_unique_gt_hit_rate": 0.0034770514603616135,
+    "two_tower_unique_rate_among_itemcf_misses": 0.004595588235294118,
+    "only_popularity_gt_hits": 11,
+    "only_popularity_gt_hit_rate": 0.0076495132127955496
+  }
+}

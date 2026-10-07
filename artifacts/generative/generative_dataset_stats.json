@@ -1,0 +1,58 @@
+{
+  "status": "train_validation_test_completed",
+  "history_source": "train_only",
+  "history_cutoff_protocol": "train.csv only for validation and test, matching scripts/07_build_multistage_recall.py",
+  "train": {
+    "purchase_events": 14807,
+    "eligible_targets": 12470,
+    "eligible_users": 5173,
+    "history_covered_examples": 12207,
+    "final_examples": 12207,
+    "dropped_target_not_in_active_catalog": 2337,
+    "dropped_empty_active_history": 263,
+    "average_history_length": 23.50331776849349,
+    "median_history_length": 30.0,
+    "p90_history_length": 30.0,
+    "history_timestamp_strictly_before_target": true
+  },
+  "validation": {
+    "purchase_events": 2599,
+    "eligible_targets": 1543,
+    "eligible_users": 1181,
+    "history_covered_examples": 1543,
+    "final_examples": 1543,
+    "dropped_target_not_in_active_catalog": 1056,
+    "dropped_empty_active_history": 0,
+    "requested_users": 9719,
+    "users_with_active_history": 9713,
+    "users_without_active_history": 6,
+    "average_history_length": 25.321321939668486,
+    "median_history_length": 30.0,
+    "p90_history_length": 30.0,
+    "history_source": "train.csv only",
+    "history_timestamp_strictly_before_target": true
+  },
+  "test": {
+    "purchase_events": 2580,
+    "eligible_targets": 1495,
+    "eligible_users": 1126,
+    "history_covered_examples": 1493,
+    "final_examples": 1493,
+    "dropped_target_not_in_active_catalog": 1085,
+    "dropped_empty_active_history": 2,
+    "requested_users": 9688,
+    "users_with_active_history": 9681,
+    "users_without_active_history": 7,
+    "average_history_length": 25.331370726164653,
+    "median_history_length": 30.0,
+    "p90_history_length": 30.0,
+    "history_source": "train.csv only",
+    "history_timestamp_strictly_before_target": true
+  },
+  "leakage_checks": {
+    "generator_training_rows_source": "train.csv only",
+    "validation_rows_used_as_training_labels": false,
+    "test_rows_or_labels_read": "only after config/checkpoint freeze and label-free generations saved",
+    "active_catalog_selected_without_validation_or_test_targets": true
+  }
+}

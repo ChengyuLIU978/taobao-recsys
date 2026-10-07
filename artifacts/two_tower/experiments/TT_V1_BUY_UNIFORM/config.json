@@ -1,0 +1,26 @@
+{
+  "seed": 42,
+  "epochs": 3,
+  "epoch_samples": 521287,
+  "batch_size": 1024,
+  "num_negatives": 4,
+  "learning_rate": 0.001,
+  "embedding_dim": 64,
+  "hidden_dim": 128,
+  "output_dim": 64,
+  "temperature": 0.1,
+  "candidate_count": 302016,
+  "evaluation": "warm validation purchase exact retrieval; no history filtering",
+  "experiment_name": "TT_V1_BUY_UNIFORM",
+  "positive_definition": "train-period behavior_type == 'buy'; unique mapped user-item pairs",
+  "negative_strategy": "uniform random; 4 distinct negatives; exclude objective-positive items",
+  "sampler": "uniform replacement",
+  "positive_pair_count": 11844,
+  "positive_user_count": 5141,
+  "behavior_weights": null,
+  "mapping": {
+    "user_mapping": "../../user_mapping.csv",
+    "item_mapping": "../../item_mapping.csv",
+    "train_csv_sha256": "c8a702804ada2e1da7e7e448db71aabc86afa0e1336ac7147bcd40e8c5ad9148"
+  }
+}

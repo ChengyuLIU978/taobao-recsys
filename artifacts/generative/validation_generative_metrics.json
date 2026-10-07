@@ -1,0 +1,149 @@
+{
+  "status": "completed_before_test_evaluation",
+  "selection_population": "strict existing warm validation GT",
+  "population": {
+    "users": 1170,
+    "interactions": 1496,
+    "all_gt_interactions": 2540,
+    "active_target_coverage": 0.5889763779527559
+  },
+  "standalone": {
+    "users": 1170,
+    "interactions": 1496,
+    "metrics": [
+      {
+        "K": 5,
+        "Recall": 0.05972934472934472,
+        "HitRate": 0.07094017094017094,
+        "NDCG": 0.04974466514545994,
+        "hit_interactions": 88,
+        "total_interactions": 1496,
+        "interaction_recall": 0.058823529411764705
+      },
+      {
+        "K": 10,
+        "Recall": 0.06331908831908832,
+        "HitRate": 0.07435897435897436,
+        "NDCG": 0.05089666600217866,
+        "hit_interactions": 93,
+        "total_interactions": 1496,
+        "interaction_recall": 0.06216577540106952
+      },
+      {
+        "K": 20,
+        "Recall": 0.06331908831908832,
+        "HitRate": 0.07435897435897436,
+        "NDCG": 0.05089666600217866,
+        "hit_interactions": 93,
+        "total_interactions": 1496,
+        "interaction_recall": 0.06216577540106952
+      },
+      {
+        "K": 50,
+        "Recall": 0.06545584045584045,
+        "HitRate": 0.07692307692307693,
+        "NDCG": 0.05135994216445862,
+        "hit_interactions": 96,
+        "total_interactions": 1496,
+        "interaction_recall": 0.06417112299465241
+      }
+    ]
+  },
+  "validity": {
+    "attempted_beams": 58500,
+    "valid_final_sids": 58500,
+    "invalid_or_incomplete_paths": 0,
+    "duplicate_items_removed": 0,
+    "valid_generation_rate": 1.0
+  },
+  "segment_metrics": [
+    {
+      "segment": "Head",
+      "target_interactions": 978,
+      "target_users": 804,
+      "recall_at_20": 0.08121890547263681,
+      "recall_at_50": 0.08432835820895522,
+      "interaction_recall_at_20": 0.08384458077709611,
+      "interaction_recall_at_50": 0.0869120654396728,
+      "ndcg_at_20": 0.06529858607340654,
+      "ndcg_at_50": 0.06597275660806767
+    },
+    {
+      "segment": "Torso",
+      "target_interactions": 313,
+      "target_users": 302,
+      "recall_at_20": 0.033112582781456956,
+      "recall_at_50": 0.033112582781456956,
+      "interaction_recall_at_20": 0.03514376996805112,
+      "interaction_recall_at_50": 0.03514376996805112,
+      "ndcg_at_20": 0.025916729502374218,
+      "ndcg_at_50": 0.025916729502374218
+    },
+    {
+      "segment": "Tail",
+      "target_interactions": 205,
+      "target_users": 197,
+      "recall_at_20": 0.0,
+      "recall_at_50": 0.0,
+      "interaction_recall_at_20": 0.0,
+      "interaction_recall_at_50": 0.0,
+      "ndcg_at_20": 0.0,
+      "ndcg_at_50": 0.0
+    }
+  ],
+  "incremental": {
+    "population_users": 1170,
+    "population_interactions": 1496,
+    "itemcf_oracle": {
+      "Recall": 0.37732905982905984,
+      "HitRate": 0.41196581196581195,
+      "hit_interactions": 561,
+      "total_interactions": 1496,
+      "interaction_recall": 0.375
+    },
+    "current_union_oracle": {
+      "Recall": 0.3847161172161172,
+      "HitRate": 0.4205128205128205,
+      "hit_interactions": 573,
+      "total_interactions": 1496,
+      "interaction_recall": 0.3830213903743315
+    },
+    "generative_oracle": {
+      "Recall": 0.06545584045584045,
+      "HitRate": 0.07692307692307693,
+      "hit_interactions": 96,
+      "total_interactions": 1496,
+      "interaction_recall": 0.06417112299465241
+    },
+    "current_union_plus_generative_oracle": {
+      "Recall": 0.3864255189255189,
+      "HitRate": 0.4222222222222222,
+      "hit_interactions": 575,
+      "total_interactions": 1496,
+      "interaction_recall": 0.38435828877005346
+    },
+    "absolute_macro_oracle_delta": 0.0017094017094017033,
+    "absolute_interaction_oracle_delta": 0.0013368983957219305,
+    "generative_hits_by_segment": {
+      "Head": 85,
+      "Torso": 11,
+      "Tail": 0,
+      "Cold": 0
+    },
+    "generative_exclusive_vs_itemcf_by_segment": {
+      "Head": 2,
+      "Torso": 0,
+      "Tail": 0,
+      "Cold": 0
+    },
+    "generative_exclusive_vs_current_union_by_segment": {
+      "Head": 2,
+      "Torso": 0,
+      "Tail": 0,
+      "Cold": 0
+    },
+    "generative_exclusive_vs_itemcf_total": 2,
+    "generative_exclusive_vs_current_union_total": 2
+  },
+  "best_epoch": 10
+}

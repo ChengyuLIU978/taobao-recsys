@@ -1,0 +1,16 @@
+{
+  "all_test_purchase_interactions": 2512,
+  "train_known_target_interactions": 1550,
+  "train_cold_target_interactions": 962,
+  "train_cold_target_unique_items": 956,
+  "closed_catalog_upper_bound": 0.6170382165605095,
+  "ranker_all_gt_interaction_hits_at_50": 387,
+  "ranker_all_gt_interaction_recall_at_50": 0.15406050955414013,
+  "ranker_all_gt_macro_user_recall_at_50": 0.15930728345306933,
+  "candidate_oracle_all_gt_interaction_hits": 413,
+  "candidate_oracle_all_gt_interaction_recall": 0.1644108280254777,
+  "candidate_oracle_all_gt_macro_user_recall": 0.16883651655861223,
+  "fraction_of_closed_catalog_ceiling_reached_by_ranker": 0.24967741935483875,
+  "fraction_of_closed_catalog_ceiling_reached_by_oracle": 0.26645161290322583,
+  "metric_note": "Primary ceiling ratios use interaction-level Recall so numerator and denominator share the same interaction population. Macro per-user Recall is also preserved for compatibility with prior project metrics."
+}

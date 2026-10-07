@@ -1,0 +1,5 @@
+segment,target_interactions,unique_target_items,unique_users,fraction_of_all_test_purchase_interactions
+Head,920,875,766,0.3662420382165605
+Torso,337,332,315,0.13415605095541402
+Tail,293,287,274,0.11664012738853503
+Cold,962,956,791,0.38296178343949044

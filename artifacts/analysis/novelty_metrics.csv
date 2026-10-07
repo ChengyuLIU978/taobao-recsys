@@ -1,0 +1,4 @@
+method,users_with_recommendations,mean_user_top50_novelty,median_user_top50_novelty,novelty_definition
+ItemCF,9681,18.15025249547591,18.24060970061181,per-user mean of -log2(train_interaction_count / total_train_interactions)
+Two-Tower,9631,16.452685386715206,16.458546463651473,per-user mean of -log2(train_interaction_count / total_train_interactions)
+Ranker,9688,17.00227877188199,17.089600230145827,per-user mean of -log2(train_interaction_count / total_train_interactions)

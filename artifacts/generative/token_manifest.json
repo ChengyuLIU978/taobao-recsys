@@ -1,0 +1,55 @@
+{
+  "special_tokens": {
+    "PAD": 0,
+    "BOS": 1,
+    "EOS": 2,
+    "SEP": 3
+  },
+  "behavior_tokens": {
+    "PV": 4,
+    "FAV": 5,
+    "CART": 6,
+    "BUY": 7
+  },
+  "ranges": {
+    "level0": {
+      "start": 8,
+      "end_inclusive": 135
+    },
+    "level1": {
+      "start": 136,
+      "end_inclusive": 263
+    },
+    "level2": {
+      "start": 264,
+      "end_inclusive": 391
+    },
+    "suffix": {
+      "start": 392,
+      "end_inclusive": 402
+    }
+  },
+  "codebook_size": 128,
+  "max_suffix": 10,
+  "vocab_size": 403,
+  "event_width": 6,
+  "event_layout": [
+    "behavior",
+    "level0",
+    "level1",
+    "level2",
+    "suffix",
+    "SEP"
+  ],
+  "max_history_items": 30,
+  "max_flat_history_tokens": 180,
+  "decoder_target_layout": [
+    "BOS",
+    "level0",
+    "level1",
+    "level2",
+    "suffix",
+    "EOS"
+  ],
+  "ranges_are_non_overlapping": true
+}

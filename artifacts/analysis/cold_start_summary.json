@@ -1,0 +1,117 @@
+{
+  "definitions": {
+    "train_catalog": "every item appearing at least once in train.csv",
+    "two_tower_vocabulary": "persisted train-PV item_mapping.csv; narrower than the full train catalog",
+    "itemcf_catalog": "items retained by the exact current ItemCF matrix construction: last 50 unique train items per user",
+    "cold_item": "target absent from the full train catalog",
+    "tail_item": "train-known item in the bottom 50% by deterministic train interaction-count item rank"
+  },
+  "all_gt": {
+    "interactions": 2512,
+    "users": 1756
+  },
+  "strict_existing_warm_gt": {
+    "definition": "user and item both in persisted Two-Tower train-PV mappings",
+    "interactions": 1438,
+    "users": 1116
+  },
+  "catalogs": {
+    "train_users": 9895,
+    "train_items": 317721,
+    "two_tower_users": 9836,
+    "two_tower_items": 302016,
+    "itemcf_matrix_items": 222183
+  },
+  "cold_target_statistics": {
+    "train_cold_interactions": 962,
+    "train_cold_unique_items": 956,
+    "two_tower_vocab_cold_interactions": 1059,
+    "two_tower_vocab_cold_unique_items": 1050,
+    "itemcf_catalog_cold_interactions": 1118,
+    "itemcf_catalog_cold_unique_items": 1111
+  },
+  "buckets": {
+    "A": {
+      "label": "Warm user + Warm item",
+      "interactions": 1550,
+      "unique_users": 1194,
+      "unique_target_items": 1494,
+      "fraction_of_all_test_interactions": 0.6170382165605095,
+      "fraction_of_all_test_purchase_users": 0.6799544419134397,
+      "structurally_retrievable": true,
+      "interpretation": "train-known target under the closed catalog"
+    },
+    "B": {
+      "label": "Cold user + Warm item",
+      "interactions": 0,
+      "unique_users": 0,
+      "unique_target_items": 0,
+      "fraction_of_all_test_interactions": 0.0,
+      "fraction_of_all_test_purchase_users": 0.0,
+      "structurally_retrievable": true,
+      "interpretation": "train-known target under the closed catalog"
+    },
+    "C": {
+      "label": "Warm user + Cold item",
+      "interactions": 962,
+      "unique_users": 791,
+      "unique_target_items": 956,
+      "fraction_of_all_test_interactions": 0.38296178343949044,
+      "fraction_of_all_test_purchase_users": 0.45045558086560367,
+      "structurally_retrievable": false,
+      "interpretation": "structurally unretrievable under the current closed-catalog system"
+    },
+    "D": {
+      "label": "Cold user + Cold item",
+      "interactions": 0,
+      "unique_users": 0,
+      "unique_target_items": 0,
+      "fraction_of_all_test_interactions": 0.0,
+      "fraction_of_all_test_purchase_users": 0.0,
+      "structurally_retrievable": false,
+      "interpretation": "structurally unretrievable under the current closed-catalog system"
+    }
+  },
+  "cold_user_fallback": {
+    "cold_user_count": 0,
+    "cold_user_purchase_interactions": 0,
+    "cold_user_warm_item_interactions": 0,
+    "popularity_metrics_cold_users": {
+      "interactions": 0,
+      "users": 0,
+      "unique_target_items": 0,
+      "hitrate_at_50": null,
+      "hits_at_10": 0,
+      "recall_at_10": null,
+      "macro_user_recall_at_10": null,
+      "ndcg_at_10": null,
+      "hits_at_20": 0,
+      "recall_at_20": null,
+      "macro_user_recall_at_20": null,
+      "ndcg_at_20": null,
+      "hits_at_50": 0,
+      "recall_at_50": null,
+      "macro_user_recall_at_50": null,
+      "ndcg_at_50": null
+    },
+    "popularity_metrics_warm_users": {
+      "interactions": 2512,
+      "users": 1756,
+      "unique_target_items": 2450,
+      "hits_at_10": 2,
+      "recall_at_10": 0.0007961783439490446,
+      "macro_user_recall_at_10": 0.000759301442672741,
+      "ndcg_at_10": 0.00044838040750514975,
+      "hits_at_20": 4,
+      "recall_at_20": 0.0015923566878980893,
+      "macro_user_recall_at_20": 0.0016135155656795746,
+      "ndcg_at_20": 0.0006678654339715371,
+      "hits_at_50": 14,
+      "recall_at_50": 0.005573248407643312,
+      "macro_user_recall_at_50": 0.005358915951171076,
+      "ndcg_at_50": 0.001457157467704302,
+      "hitrate_at_50": 0.007972665148063782
+    },
+    "interpretation": "No train-cold purchase users exist in this test GT; cold-user fallback effectiveness cannot be estimated. The three popularity-only candidate users previously reported are not train-cold users."
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "validation": {
+    "users": 9719,
+    "candidate_pairs": 3304863,
+    "average_candidates_per_user": 340.0414651713139,
+    "median_candidates_per_user": 347.0,
+    "p90_candidates_per_user": 349.0,
+    "p95_candidates_per_user": 349.0,
+    "min_candidates_per_user": 50,
+    "max_candidates_per_user": 350,
+    "theoretical_max_candidates_per_user": 350,
+    "popularity_only_fallback_users": 2,
+    "popularity_only_fallback_fraction": 0.00020578248791027883,
+    "users_missing_itemcf": 7,
+    "users_missing_two_tower": 57,
+    "users_missing_either_personalized_source": 62
+  },
+  "test": {
+    "users": 9688,
+    "candidate_pairs": 3294775,
+    "average_candidates_per_user": 340.08825350949627,
+    "median_candidates_per_user": 347.0,
+    "p90_candidates_per_user": 349.0,
+    "p95_candidates_per_user": 349.0,
+    "min_candidates_per_user": 50,
+    "max_candidates_per_user": 350,
+    "theoretical_max_candidates_per_user": 350,
+    "popularity_only_fallback_users": 3,
+    "popularity_only_fallback_fraction": 0.00030966143682906687,
+    "users_missing_itemcf": 7,
+    "users_missing_two_tower": 57,
+    "users_missing_either_personalized_source": 61
+  },
+  "itemcf_build": {
+    "interactions": 341352,
+    "users": 9895,
+    "items": 222183,
+    "matrix_shape": [
+      9895,
+      222183
+    ],
+    "matrix_nnz": 341352,
+    "target_seed_items": 222093,
+    "cooccurrence_nnz": 14291223
+  },
+  "two_tower_build": {
+    "checkpoint": "artifacts/two_tower/experiments/TT_V1_BUY_UNIFORM/checkpoint_best.pt",
+    "checkpoint_sha256": "e1ed81a8cd2523cb4cc318e31f56ed1835c38f0d95ef40d13d52e4a93b3d27e7",
+    "checkpoint_strict_load": true,
+    "model_seed": 42,
+    "target_users": 9880,
+    "known_users": 9821,
+    "cold_users": 59,
+    "user_embedding_shape": [
+      9836,
+      64
+    ],
+    "item_embedding_shape": [
+      302016,
+      64
+    ]
+  },
+  "validation_checks": {
+    "unique_user_item_pairs": true,
+    "source_flags_valid": true,
+    "source_count_valid": true,
+    "rrf_finite_and_recomputed": true,
+    "positive_one_based_ranks": true,
+    "score_rank_alignment": true,
+    "users": 9719,
+    "candidate_pairs": 3304863,
+    "max_candidates_per_user": 350,
+    "within_quota_ceiling": true,
+    "sources": {
+      "itemcf": {
+        "candidate_pairs": 1879665,
+        "users_with_candidates": 9712,
+        "max_rank": 200
+      },
+      "two_tower": {
+        "candidate_pairs": 966200,
+        "users_with_candidates": 9662,
+        "max_rank": 100
+      },
+      "popularity": {
+        "candidate_pairs": 485950,
+        "users_with_candidates": 9719,
+        "max_rank": 50
+      }
+    }
+  },
+  "test_checks": {
+    "unique_user_item_pairs": true,
+    "source_flags_valid": true,
+    "source_count_valid": true,
+    "rrf_finite_and_recomputed": true,
+    "positive_one_based_ranks": true,
+    "score_rank_alignment": true,
+    "users": 9688,
+    "candidate_pairs": 3294775,
+    "max_candidates_per_user": 350,
+    "within_quota_ceiling": true,
+    "sources": {
+      "itemcf": {
+        "candidate_pairs": 1874112,
+        "users_with_candidates": 9681,
+        "max_rank": 200
+      },
+      "two_tower": {
+        "candidate_pairs": 963100,
+        "users_with_candidates": 9631,
+        "max_rank": 100
+      },
+      "popularity": {
+        "candidate_pairs": 484400,
+        "users_with_candidates": 9688,
+        "max_rank": 50
+      }
+    }
+  }
+}

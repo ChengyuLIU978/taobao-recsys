@@ -1,0 +1,58 @@
+{
+  "validation": {
+    "candidate_pairs_by_source": {
+      "itemcf": 1879665,
+      "two_tower": 966200,
+      "popularity": 485950
+    },
+    "union_candidate_pairs": 3304863,
+    "pairwise": {
+      "itemcf__two_tower": {
+        "candidate_pair_count": 3561,
+        "fraction_of_first": 0.0018944865175443497,
+        "fraction_of_second": 0.0036855723452701304,
+        "jaccard": 0.0012528568372700457
+      },
+      "itemcf__popularity": {
+        "candidate_pair_count": 3208,
+        "fraction_of_first": 0.0017066870958388862,
+        "fraction_of_second": 0.006601502212161745,
+        "jaccard": 0.0013579370531834692
+      },
+      "two_tower__popularity": {
+        "candidate_pair_count": 20336,
+        "fraction_of_first": 0.0210474021941627,
+        "fraction_of_second": 0.0418479267414343,
+        "jaccard": 0.014202962116587768
+      }
+    }
+  },
+  "test": {
+    "candidate_pairs_by_source": {
+      "itemcf": 1874112,
+      "two_tower": 963100,
+      "popularity": 484400
+    },
+    "union_candidate_pairs": 3294775,
+    "pairwise": {
+      "itemcf__two_tower": {
+        "candidate_pair_count": 3551,
+        "fraction_of_first": 0.0018947640269098111,
+        "fraction_of_second": 0.0036870522271830546,
+        "jaccard": 0.001253149194628433
+      },
+      "itemcf__popularity": {
+        "candidate_pair_count": 3203,
+        "fraction_of_first": 0.0017090760851005704,
+        "fraction_of_second": 0.006612303881090008,
+        "jaccard": 0.0013599064920993382
+      },
+      "two_tower__popularity": {
+        "candidate_pair_count": 20231,
+        "fraction_of_first": 0.0210061260512927,
+        "fraction_of_second": 0.04176507018992568,
+        "jaccard": 0.014174623003792557
+      }
+    }
+  }
+}

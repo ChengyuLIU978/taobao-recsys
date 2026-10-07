@@ -1,0 +1,427 @@
+{
+  "rank_sentinel": 999,
+  "score_sentinel": 0.0,
+  "recency_unit": "days",
+  "recency_unseen_sentinel": -1.0,
+  "raw_user_id_is_model_feature": false,
+  "raw_item_id_is_model_feature": false,
+  "category_rule": "latest category observed in train; raw value retained as category_id_raw and a consecutive train-derived code is used as category_id",
+  "features": [
+    {
+      "name": "from_itemcf",
+      "dtype": "int8",
+      "source": "recall candidate artifact",
+      "train_only": false,
+      "description": "candidate came from ItemCF",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "from_two_tower",
+      "dtype": "int8",
+      "source": "recall candidate artifact",
+      "train_only": false,
+      "description": "candidate came from seed42 TT_V1_BUY_UNIFORM",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "from_popularity",
+      "dtype": "int8",
+      "source": "recall candidate artifact",
+      "train_only": false,
+      "description": "candidate came from train-popularity recall",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "itemcf_rank",
+      "dtype": "int32",
+      "source": "recall candidate artifact",
+      "train_only": false,
+      "description": "one-based ItemCF source rank",
+      "missing_value_policy": "fill with fixed rank sentinel 999"
+    },
+    {
+      "name": "two_tower_rank",
+      "dtype": "int32",
+      "source": "recall candidate artifact",
+      "train_only": false,
+      "description": "one-based Two-Tower source rank",
+      "missing_value_policy": "fill with fixed rank sentinel 999"
+    },
+    {
+      "name": "popularity_rank",
+      "dtype": "int32",
+      "source": "recall candidate artifact",
+      "train_only": false,
+      "description": "one-based Popularity source rank",
+      "missing_value_policy": "fill with fixed rank sentinel 999"
+    },
+    {
+      "name": "itemcf_score",
+      "dtype": "float32",
+      "source": "recall candidate artifact",
+      "train_only": false,
+      "description": "raw ItemCF recall score",
+      "missing_value_policy": "fill with score sentinel 0.0"
+    },
+    {
+      "name": "two_tower_score",
+      "dtype": "float32",
+      "source": "recall candidate artifact",
+      "train_only": false,
+      "description": "raw Two-Tower inner-product score",
+      "missing_value_policy": "fill with score sentinel 0.0"
+    },
+    {
+      "name": "popularity_score",
+      "dtype": "float32",
+      "source": "recall candidate artifact",
+      "train_only": false,
+      "description": "train interaction count used by Popularity",
+      "missing_value_policy": "fill with score sentinel 0.0"
+    },
+    {
+      "name": "recall_source_count",
+      "dtype": "int8",
+      "source": "recall candidate artifact",
+      "train_only": false,
+      "description": "number of recall sources returning the pair",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "rrf_score",
+      "dtype": "float32",
+      "source": "recall candidate artifact",
+      "train_only": false,
+      "description": "fixed-constant RRF score retained as a feature only",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "is_itemcf_top10",
+      "dtype": "int8",
+      "source": "recall candidate artifact",
+      "train_only": false,
+      "description": "candidate is in ItemCF Top-10",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "is_itemcf_top50",
+      "dtype": "int8",
+      "source": "recall candidate artifact",
+      "train_only": false,
+      "description": "candidate is in ItemCF Top-50",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "is_tt_top20",
+      "dtype": "int8",
+      "source": "recall candidate artifact",
+      "train_only": false,
+      "description": "candidate is in Two-Tower Top-20",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "is_tt_top50",
+      "dtype": "int8",
+      "source": "recall candidate artifact",
+      "train_only": false,
+      "description": "candidate is in Two-Tower Top-50",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "user_total_interactions",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train interactions for the user",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "log1p_user_total_interactions",
+      "dtype": "float32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "log1p train interactions for the user",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "user_pv_count",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train pv rows for the user",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "user_fav_count",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train fav rows for the user",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "user_cart_count",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train cart rows for the user",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "user_buy_count",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train buy rows for the user",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "user_unique_items",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "unique train items for the user",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "user_unique_categories",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "unique train categories for the user",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "user_buy_ratio",
+      "dtype": "float32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "user train buy count / total interactions",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "user_cart_ratio",
+      "dtype": "float32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "user train cart count / total interactions",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "user_last_train_timestamp",
+      "dtype": "int64",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "latest user timestamp in train",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "user_activity_span_days",
+      "dtype": "float32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "user train max-minus-min timestamp in days",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "item_total_interactions",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train interactions for the item",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "log1p_item_total_interactions",
+      "dtype": "float32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "log1p train interactions for the item",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "item_pv_count",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train pv rows for the item",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "item_fav_count",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train fav rows for the item",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "item_cart_count",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train cart rows for the item",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "item_buy_count",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train buy rows for the item",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "item_unique_users",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "unique train users for the item",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "item_buy_user_count",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "unique train buying users for the item",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "item_buy_ratio",
+      "dtype": "float32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "item train buy count / total interactions",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "item_popularity_rank",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "deterministic train interaction-count rank",
+      "missing_value_policy": "number of train items + 1"
+    },
+    {
+      "name": "item_popularity_percentile",
+      "dtype": "float32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train popularity percentile; most popular is 1",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "category_id",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "consecutive categorical code from latest train category per item",
+      "missing_value_policy": "0 is unknown; train categories are consecutive codes starting at 1"
+    },
+    {
+      "name": "category_popularity",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train interactions in the item's category",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "seen_in_train",
+      "dtype": "int8",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "user-item pair occurred in train",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "user_item_interaction_count",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train count for the user-item pair",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "user_item_pv_count",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train pv count for the user-item pair",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "user_item_fav_count",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train fav count for the user-item pair",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "user_item_cart_count",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train cart count for the user-item pair",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "user_item_buy_count",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train buy count for the user-item pair",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "recency_since_last_user_item_interaction_days",
+      "dtype": "float32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "days from train end to latest train pair interaction",
+      "missing_value_policy": "fill unseen pair with -1.0 days"
+    },
+    {
+      "name": "user_category_interaction_count",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train user-category interaction count",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "user_category_pv_count",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train user-category pv count",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "user_category_cart_count",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train user-category cart count",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "user_category_buy_count",
+      "dtype": "int32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train user-category buy count",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    },
+    {
+      "name": "user_category_affinity",
+      "dtype": "float32",
+      "source": "train.csv aggregate",
+      "train_only": true,
+      "description": "train user-category count / user total count",
+      "missing_value_policy": "0 for an absent train aggregate; no split-specific imputation"
+    }
+  ]
+}

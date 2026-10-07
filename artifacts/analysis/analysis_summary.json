@@ -1,0 +1,713 @@
+{
+  "status": "completed",
+  "analysis_scope": "descriptive and diagnostic only",
+  "cold_start_status": "segmentation and evaluation completed; not solved",
+  "long_tail_status": "segmentation, metrics, oracle, exposure, novelty and bias analysis completed",
+  "segment_metadata": {
+    "total_train_known_items": 317721,
+    "head_items": 63544,
+    "torso_items": 95316,
+    "tail_items": 158861,
+    "sort_rule": "train_interaction_count DESC, item_id ASC",
+    "boundary_rule": "direct row-index split after deterministic sort; Head rows [0,floor(20%)), Torso [floor(20%),floor(50%)), Tail remaining",
+    "popularity_percentile_direction": "0 = most popular, 1 = least popular",
+    "segment_statistics": {
+      "Head": {
+        "items": 63544,
+        "minimum_interaction_count": 3,
+        "median_interaction_count": 4.0,
+        "maximum_interaction_count": 231
+      },
+      "Torso": {
+        "items": 95316,
+        "minimum_interaction_count": 1,
+        "median_interaction_count": 2.0,
+        "maximum_interaction_count": 3
+      },
+      "Tail": {
+        "items": 158861,
+        "minimum_interaction_count": 1,
+        "median_interaction_count": 1.0,
+        "maximum_interaction_count": 1
+      }
+    }
+  },
+  "cold_start": {
+    "definitions": {
+      "train_catalog": "every item appearing at least once in train.csv",
+      "two_tower_vocabulary": "persisted train-PV item_mapping.csv; narrower than the full train catalog",
+      "itemcf_catalog": "items retained by the exact current ItemCF matrix construction: last 50 unique train items per user",
+      "cold_item": "target absent from the full train catalog",
+      "tail_item": "train-known item in the bottom 50% by deterministic train interaction-count item rank"
+    },
+    "all_gt": {
+      "interactions": 2512,
+      "users": 1756
+    },
+    "strict_existing_warm_gt": {
+      "definition": "user and item both in persisted Two-Tower train-PV mappings",
+      "interactions": 1438,
+      "users": 1116
+    },
+    "catalogs": {
+      "train_users": 9895,
+      "train_items": 317721,
+      "two_tower_users": 9836,
+      "two_tower_items": 302016,
+      "itemcf_matrix_items": 222183
+    },
+    "cold_target_statistics": {
+      "train_cold_interactions": 962,
+      "train_cold_unique_items": 956,
+      "two_tower_vocab_cold_interactions": 1059,
+      "two_tower_vocab_cold_unique_items": 1050,
+      "itemcf_catalog_cold_interactions": 1118,
+      "itemcf_catalog_cold_unique_items": 1111
+    },
+    "buckets": {
+      "A": {
+        "label": "Warm user + Warm item",
+        "interactions": 1550,
+        "unique_users": 1194,
+        "unique_target_items": 1494,
+        "fraction_of_all_test_interactions": 0.6170382165605095,
+        "fraction_of_all_test_purchase_users": 0.6799544419134397,
+        "structurally_retrievable": true,
+        "interpretation": "train-known target under the closed catalog"
+      },
+      "B": {
+        "label": "Cold user + Warm item",
+        "interactions": 0,
+        "unique_users": 0,
+        "unique_target_items": 0,
+        "fraction_of_all_test_interactions": 0.0,
+        "fraction_of_all_test_purchase_users": 0.0,
+        "structurally_retrievable": true,
+        "interpretation": "train-known target under the closed catalog"
+      },
+      "C": {
+        "label": "Warm user + Cold item",
+        "interactions": 962,
+        "unique_users": 791,
+        "unique_target_items": 956,
+        "fraction_of_all_test_interactions": 0.38296178343949044,
+        "fraction_of_all_test_purchase_users": 0.45045558086560367,
+        "structurally_retrievable": false,
+        "interpretation": "structurally unretrievable under the current closed-catalog system"
+      },
+      "D": {
+        "label": "Cold user + Cold item",
+        "interactions": 0,
+        "unique_users": 0,
+        "unique_target_items": 0,
+        "fraction_of_all_test_interactions": 0.0,
+        "fraction_of_all_test_purchase_users": 0.0,
+        "structurally_retrievable": false,
+        "interpretation": "structurally unretrievable under the current closed-catalog system"
+      }
+    },
+    "cold_user_fallback": {
+      "cold_user_count": 0,
+      "cold_user_purchase_interactions": 0,
+      "cold_user_warm_item_interactions": 0,
+      "popularity_metrics_cold_users": {
+        "interactions": 0,
+        "users": 0,
+        "unique_target_items": 0,
+        "hitrate_at_50": null,
+        "hits_at_10": 0,
+        "recall_at_10": null,
+        "macro_user_recall_at_10": null,
+        "ndcg_at_10": null,
+        "hits_at_20": 0,
+        "recall_at_20": null,
+        "macro_user_recall_at_20": null,
+        "ndcg_at_20": null,
+        "hits_at_50": 0,
+        "recall_at_50": null,
+        "macro_user_recall_at_50": null,
+        "ndcg_at_50": null
+      },
+      "popularity_metrics_warm_users": {
+        "interactions": 2512,
+        "users": 1756,
+        "unique_target_items": 2450,
+        "hits_at_10": 2,
+        "recall_at_10": 0.0007961783439490446,
+        "macro_user_recall_at_10": 0.000759301442672741,
+        "ndcg_at_10": 0.00044838040750514975,
+        "hits_at_20": 4,
+        "recall_at_20": 0.0015923566878980893,
+        "macro_user_recall_at_20": 0.0016135155656795746,
+        "ndcg_at_20": 0.0006678654339715371,
+        "hits_at_50": 14,
+        "recall_at_50": 0.005573248407643312,
+        "macro_user_recall_at_50": 0.005358915951171076,
+        "ndcg_at_50": 0.001457157467704302,
+        "hitrate_at_50": 0.007972665148063782
+      },
+      "interpretation": "No train-cold purchase users exist in this test GT; cold-user fallback effectiveness cannot be estimated. The three popularity-only candidate users previously reported are not train-cold users."
+    }
+  },
+  "closed_catalog_ceiling": {
+    "all_test_purchase_interactions": 2512,
+    "train_known_target_interactions": 1550,
+    "train_cold_target_interactions": 962,
+    "train_cold_target_unique_items": 956,
+    "closed_catalog_upper_bound": 0.6170382165605095,
+    "ranker_all_gt_interaction_hits_at_50": 387,
+    "ranker_all_gt_interaction_recall_at_50": 0.15406050955414013,
+    "ranker_all_gt_macro_user_recall_at_50": 0.15930728345306933,
+    "candidate_oracle_all_gt_interaction_hits": 413,
+    "candidate_oracle_all_gt_interaction_recall": 0.1644108280254777,
+    "candidate_oracle_all_gt_macro_user_recall": 0.16883651655861223,
+    "fraction_of_closed_catalog_ceiling_reached_by_ranker": 0.24967741935483875,
+    "fraction_of_closed_catalog_ceiling_reached_by_oracle": 0.26645161290322583,
+    "metric_note": "Primary ceiling ratios use interaction-level Recall so numerator and denominator share the same interaction population. Macro per-user Recall is also preserved for compatibility with prior project metrics."
+  },
+  "target_distribution": [
+    {
+      "segment": "Head",
+      "target_interactions": 920,
+      "unique_target_items": 875,
+      "unique_users": 766,
+      "fraction_of_all_test_purchase_interactions": 0.3662420382165605
+    },
+    {
+      "segment": "Torso",
+      "target_interactions": 337,
+      "unique_target_items": 332,
+      "unique_users": 315,
+      "fraction_of_all_test_purchase_interactions": 0.13415605095541402
+    },
+    {
+      "segment": "Tail",
+      "target_interactions": 293,
+      "unique_target_items": 287,
+      "unique_users": 274,
+      "fraction_of_all_test_purchase_interactions": 0.11664012738853503
+    },
+    {
+      "segment": "Cold",
+      "target_interactions": 962,
+      "unique_target_items": 956,
+      "unique_users": 791,
+      "fraction_of_all_test_purchase_interactions": 0.38296178343949044
+    }
+  ],
+  "long_tail_metrics": [
+    {
+      "segment": "Head",
+      "method": "Popularity",
+      "target_interactions": 920,
+      "target_users": 766,
+      "hits_at_10": 2,
+      "hits_at_20": 4,
+      "hits_at_50": 14,
+      "recall_at_10": 0.002173913043478261,
+      "recall_at_20": 0.004347826086956522,
+      "recall_at_50": 0.015217391304347827,
+      "hitrate_at_50": 0.018276762402088774,
+      "ndcg_at_10": 0.001258829095175967,
+      "ndcg_at_20": 0.0018855385670883225,
+      "ndcg_at_50": 0.00392604031953012,
+      "metric_definition": "micro interaction Recall; per-segment target interactions are the denominator"
+    },
+    {
+      "segment": "Head",
+      "method": "ItemCF",
+      "target_interactions": 920,
+      "target_users": 766,
+      "hits_at_10": 53,
+      "hits_at_20": 99,
+      "hits_at_50": 249,
+      "recall_at_10": 0.057608695652173914,
+      "recall_at_20": 0.10760869565217392,
+      "recall_at_50": 0.27065217391304347,
+      "hitrate_at_50": 0.293733681462141,
+      "ndcg_at_10": 0.02741438446896285,
+      "ndcg_at_20": 0.03975314000457683,
+      "ndcg_at_50": 0.07362930521587656,
+      "metric_definition": "micro interaction Recall; per-segment target interactions are the denominator"
+    },
+    {
+      "segment": "Head",
+      "method": "Two-Tower",
+      "target_interactions": 920,
+      "target_users": 766,
+      "hits_at_10": 2,
+      "hits_at_20": 2,
+      "hits_at_50": 6,
+      "recall_at_10": 0.002173913043478261,
+      "recall_at_20": 0.002173913043478261,
+      "recall_at_50": 0.006521739130434782,
+      "hitrate_at_50": 0.007832898172323759,
+      "ndcg_at_10": 0.0008768564802790483,
+      "ndcg_at_20": 0.0008768564802790483,
+      "ndcg_at_50": 0.0019051499951567282,
+      "metric_definition": "micro interaction Recall; per-segment target interactions are the denominator"
+    },
+    {
+      "segment": "Head",
+      "method": "Ranker",
+      "target_interactions": 920,
+      "target_users": 766,
+      "hits_at_10": 192,
+      "hits_at_20": 225,
+      "hits_at_50": 250,
+      "recall_at_10": 0.20869565217391303,
+      "recall_at_20": 0.24456521739130435,
+      "recall_at_50": 0.2717391304347826,
+      "hitrate_at_50": 0.2963446475195822,
+      "ndcg_at_10": 0.13149326318611484,
+      "ndcg_at_20": 0.14123601417725365,
+      "ndcg_at_50": 0.1471051803781428,
+      "metric_definition": "micro interaction Recall; per-segment target interactions are the denominator"
+    },
+    {
+      "segment": "Torso",
+      "method": "Popularity",
+      "target_interactions": 337,
+      "target_users": 315,
+      "hits_at_10": 0,
+      "hits_at_20": 0,
+      "hits_at_50": 0,
+      "recall_at_10": 0.0,
+      "recall_at_20": 0.0,
+      "recall_at_50": 0.0,
+      "hitrate_at_50": 0.0,
+      "ndcg_at_10": 0.0,
+      "ndcg_at_20": 0.0,
+      "ndcg_at_50": 0.0,
+      "metric_definition": "micro interaction Recall; per-segment target interactions are the denominator"
+    },
+    {
+      "segment": "Torso",
+      "method": "ItemCF",
+      "target_interactions": 337,
+      "target_users": 315,
+      "hits_at_10": 46,
+      "hits_at_20": 69,
+      "hits_at_50": 87,
+      "recall_at_10": 0.13649851632047477,
+      "recall_at_20": 0.20474777448071216,
+      "recall_at_50": 0.258160237388724,
+      "hitrate_at_50": 0.26666666666666666,
+      "ndcg_at_10": 0.06657392186670114,
+      "ndcg_at_20": 0.08478433627044361,
+      "ndcg_at_50": 0.0949052298291209,
+      "metric_definition": "micro interaction Recall; per-segment target interactions are the denominator"
+    },
+    {
+      "segment": "Torso",
+      "method": "Two-Tower",
+      "target_interactions": 337,
+      "target_users": 315,
+      "hits_at_10": 0,
+      "hits_at_20": 0,
+      "hits_at_50": 1,
+      "recall_at_10": 0.0,
+      "recall_at_20": 0.0,
+      "recall_at_50": 0.002967359050445104,
+      "hitrate_at_50": 0.0031746031746031746,
+      "ndcg_at_10": 0.0,
+      "ndcg_at_20": 0.0,
+      "ndcg_at_50": 0.0006753842969948038,
+      "metric_definition": "micro interaction Recall; per-segment target interactions are the denominator"
+    },
+    {
+      "segment": "Torso",
+      "method": "Ranker",
+      "target_interactions": 337,
+      "target_users": 315,
+      "hits_at_10": 56,
+      "hits_at_20": 65,
+      "hits_at_50": 83,
+      "recall_at_10": 0.1661721068249258,
+      "recall_at_20": 0.19287833827893175,
+      "recall_at_50": 0.24629080118694363,
+      "hitrate_at_50": 0.25396825396825395,
+      "ndcg_at_10": 0.0976908631901881,
+      "ndcg_at_20": 0.10429347674129053,
+      "ndcg_at_50": 0.11471899943137386,
+      "metric_definition": "micro interaction Recall; per-segment target interactions are the denominator"
+    },
+    {
+      "segment": "Tail",
+      "method": "Popularity",
+      "target_interactions": 293,
+      "target_users": 274,
+      "hits_at_10": 0,
+      "hits_at_20": 0,
+      "hits_at_50": 0,
+      "recall_at_10": 0.0,
+      "recall_at_20": 0.0,
+      "recall_at_50": 0.0,
+      "hitrate_at_50": 0.0,
+      "ndcg_at_10": 0.0,
+      "ndcg_at_20": 0.0,
+      "ndcg_at_50": 0.0,
+      "metric_definition": "micro interaction Recall; per-segment target interactions are the denominator"
+    },
+    {
+      "segment": "Tail",
+      "method": "ItemCF",
+      "target_interactions": 293,
+      "target_users": 274,
+      "hits_at_10": 36,
+      "hits_at_20": 50,
+      "hits_at_50": 57,
+      "recall_at_10": 0.12286689419795221,
+      "recall_at_20": 0.17064846416382254,
+      "recall_at_50": 0.1945392491467577,
+      "hitrate_at_50": 0.20437956204379562,
+      "ndcg_at_10": 0.06596868441849552,
+      "ndcg_at_20": 0.07857953020778521,
+      "ndcg_at_50": 0.08398287523127894,
+      "metric_definition": "micro interaction Recall; per-segment target interactions are the denominator"
+    },
+    {
+      "segment": "Tail",
+      "method": "Two-Tower",
+      "target_interactions": 293,
+      "target_users": 274,
+      "hits_at_10": 0,
+      "hits_at_20": 0,
+      "hits_at_50": 0,
+      "recall_at_10": 0.0,
+      "recall_at_20": 0.0,
+      "recall_at_50": 0.0,
+      "hitrate_at_50": 0.0,
+      "ndcg_at_10": 0.0,
+      "ndcg_at_20": 0.0,
+      "ndcg_at_50": 0.0,
+      "metric_definition": "micro interaction Recall; per-segment target interactions are the denominator"
+    },
+    {
+      "segment": "Tail",
+      "method": "Ranker",
+      "target_interactions": 293,
+      "target_users": 274,
+      "hits_at_10": 35,
+      "hits_at_20": 46,
+      "hits_at_50": 54,
+      "recall_at_10": 0.11945392491467577,
+      "recall_at_20": 0.15699658703071673,
+      "recall_at_50": 0.18430034129692832,
+      "hitrate_at_50": 0.19343065693430658,
+      "ndcg_at_10": 0.07825776729489857,
+      "ndcg_at_20": 0.08798930146766197,
+      "ndcg_at_50": 0.09345221057911532,
+      "metric_definition": "micro interaction Recall; per-segment target interactions are the denominator"
+    }
+  ],
+  "segment_oracle_metrics": [
+    {
+      "segment": "Head",
+      "target_interactions": 920,
+      "hit_interactions": 267,
+      "oracle_recall": 0.2902173913043478,
+      "oracle_hitrate": 0.31723237597911225,
+      "macro_user_oracle_recall": 0.29228832525177173,
+      "ranker_recall_at_50": 0.2717391304347826,
+      "segment_oracle_gap": 0.018478260869565222
+    },
+    {
+      "segment": "Torso",
+      "target_interactions": 337,
+      "hit_interactions": 88,
+      "oracle_recall": 0.26112759643916916,
+      "oracle_hitrate": 0.2698412698412698,
+      "macro_user_oracle_recall": 0.25767195767195766,
+      "ranker_recall_at_50": 0.24629080118694363,
+      "segment_oracle_gap": 0.014836795252225532
+    },
+    {
+      "segment": "Tail",
+      "target_interactions": 293,
+      "hit_interactions": 58,
+      "oracle_recall": 0.19795221843003413,
+      "oracle_hitrate": 0.20802919708029197,
+      "macro_user_oracle_recall": 0.2062043795620438,
+      "ranker_recall_at_50": 0.18430034129692832,
+      "segment_oracle_gap": 0.01365187713310581
+    }
+  ],
+  "exposure_metrics": [
+    {
+      "method": "ItemCF",
+      "recommendation_count": 478947,
+      "mapped_recommendation_count": 478947,
+      "unmapped_recommendation_count": 0,
+      "head_count": 182281,
+      "torso_count": 125660,
+      "tail_count": 171006,
+      "head_share": 0.38058699605593105,
+      "torso_share": 0.2623672347879828,
+      "tail_share": 0.35704576915608616,
+      "unique_items": 220680,
+      "catalog_coverage": 0.6945716524875598,
+      "head_coverage": 0.9028704519702883,
+      "torso_coverage": 0.707394351420538,
+      "tail_coverage": 0.603559086245208,
+      "mean_popularity_percentile": 0.38897496461868286,
+      "median_popularity_percentile": 0.3242320418357849,
+      "gini_coefficient_full_train_catalog": 0.5318494020647486,
+      "popularity_percentile_direction": "0 = most popular, 1 = least popular"
+    },
+    {
+      "method": "Two-Tower",
+      "recommendation_count": 481550,
+      "mapped_recommendation_count": 481550,
+      "unmapped_recommendation_count": 0,
+      "head_count": 409255,
+      "torso_count": 70561,
+      "tail_count": 1734,
+      "head_share": 0.849870210777697,
+      "torso_share": 0.1465289170387291,
+      "tail_share": 0.003600872183573876,
+      "unique_items": 6164,
+      "catalog_coverage": 0.01940066914053525,
+      "head_coverage": 0.07697028830416719,
+      "torso_coverage": 0.013019849762893953,
+      "tail_coverage": 0.00020143395798843014,
+      "mean_popularity_percentile": 0.09022655338048935,
+      "median_popularity_percentile": 0.042685382068157196,
+      "gini_coefficient_full_train_catalog": 0.9965802527254122,
+      "popularity_percentile_direction": "0 = most popular, 1 = least popular"
+    },
+    {
+      "method": "Ranker",
+      "recommendation_count": 484400,
+      "mapped_recommendation_count": 484400,
+      "unmapped_recommendation_count": 0,
+      "head_count": 284394,
+      "torso_count": 96668,
+      "tail_count": 103338,
+      "head_share": 0.5871056977704376,
+      "torso_share": 0.1995623451692816,
+      "tail_share": 0.21333195706028077,
+      "unique_items": 197998,
+      "catalog_coverage": 0.6231819741219498,
+      "head_coverage": 0.8854651894750094,
+      "torso_coverage": 0.6428721305971715,
+      "tail_coverage": 0.5064553288724105,
+      "mean_popularity_percentile": 0.2531251609325409,
+      "median_popularity_percentile": 0.12261267751455307,
+      "gini_coefficient_full_train_catalog": 0.6953976804447028,
+      "popularity_percentile_direction": "0 = most popular, 1 = least popular"
+    }
+  ],
+  "novelty_metrics": [
+    {
+      "method": "ItemCF",
+      "users_with_recommendations": 9681,
+      "mean_user_top50_novelty": 18.15025249547591,
+      "median_user_top50_novelty": 18.24060970061181,
+      "novelty_definition": "per-user mean of -log2(train_interaction_count / total_train_interactions)"
+    },
+    {
+      "method": "Two-Tower",
+      "users_with_recommendations": 9631,
+      "mean_user_top50_novelty": 16.452685386715206,
+      "median_user_top50_novelty": 16.458546463651473,
+      "novelty_definition": "per-user mean of -log2(train_interaction_count / total_train_interactions)"
+    },
+    {
+      "method": "Ranker",
+      "users_with_recommendations": 9688,
+      "mean_user_top50_novelty": 17.00227877188199,
+      "median_user_top50_novelty": 17.089600230145827,
+      "novelty_definition": "per-user mean of -log2(train_interaction_count / total_train_interactions)"
+    }
+  ],
+  "popularity_bias_amplification": [
+    {
+      "method": "ItemCF",
+      "segment": "Head",
+      "train_known_test_target_demand_share": 0.5935483870967742,
+      "recommendation_exposure_share": 0.38058699605593105,
+      "exposure_minus_demand": -0.2129613910408431
+    },
+    {
+      "method": "ItemCF",
+      "segment": "Torso",
+      "train_known_test_target_demand_share": 0.21741935483870967,
+      "recommendation_exposure_share": 0.2623672347879828,
+      "exposure_minus_demand": 0.04494787994927313
+    },
+    {
+      "method": "ItemCF",
+      "segment": "Tail",
+      "train_known_test_target_demand_share": 0.18903225806451612,
+      "recommendation_exposure_share": 0.35704576915608616,
+      "exposure_minus_demand": 0.16801351109157003
+    },
+    {
+      "method": "Two-Tower",
+      "segment": "Head",
+      "train_known_test_target_demand_share": 0.5935483870967742,
+      "recommendation_exposure_share": 0.849870210777697,
+      "exposure_minus_demand": 0.2563218236809228
+    },
+    {
+      "method": "Two-Tower",
+      "segment": "Torso",
+      "train_known_test_target_demand_share": 0.21741935483870967,
+      "recommendation_exposure_share": 0.1465289170387291,
+      "exposure_minus_demand": -0.07089043779998055
+    },
+    {
+      "method": "Two-Tower",
+      "segment": "Tail",
+      "train_known_test_target_demand_share": 0.18903225806451612,
+      "recommendation_exposure_share": 0.003600872183573876,
+      "exposure_minus_demand": -0.18543138588094224
+    },
+    {
+      "method": "Ranker",
+      "segment": "Head",
+      "train_known_test_target_demand_share": 0.5935483870967742,
+      "recommendation_exposure_share": 0.5871056977704376,
+      "exposure_minus_demand": -0.006442689326336515
+    },
+    {
+      "method": "Ranker",
+      "segment": "Torso",
+      "train_known_test_target_demand_share": 0.21741935483870967,
+      "recommendation_exposure_share": 0.1995623451692816,
+      "exposure_minus_demand": -0.017857009669428076
+    },
+    {
+      "method": "Ranker",
+      "segment": "Tail",
+      "train_known_test_target_demand_share": 0.18903225806451612,
+      "recommendation_exposure_share": 0.21333195706028077,
+      "exposure_minus_demand": 0.024299698995764646
+    }
+  ],
+  "two_tower_segment_contribution": [
+    {
+      "segment": "Head",
+      "target_interactions": 920,
+      "two_tower_full_quota_hits": 11,
+      "itemcf_full_quota_hits": 251,
+      "two_tower_exclusive_over_itemcf_hits": 5,
+      "two_tower_exclusive_rate_over_segment_targets": 0.005434782608695652,
+      "source_quotas": "Two-Tower Top-100 versus ItemCF Top-200"
+    },
+    {
+      "segment": "Torso",
+      "target_interactions": 337,
+      "two_tower_full_quota_hits": 1,
+      "itemcf_full_quota_hits": 88,
+      "two_tower_exclusive_over_itemcf_hits": 0,
+      "two_tower_exclusive_rate_over_segment_targets": 0.0,
+      "source_quotas": "Two-Tower Top-100 versus ItemCF Top-200"
+    },
+    {
+      "segment": "Tail",
+      "target_interactions": 293,
+      "two_tower_full_quota_hits": 0,
+      "itemcf_full_quota_hits": 58,
+      "two_tower_exclusive_over_itemcf_hits": 0,
+      "two_tower_exclusive_rate_over_segment_targets": 0.0,
+      "source_quotas": "Two-Tower Top-100 versus ItemCF Top-200"
+    },
+    {
+      "segment": "Cold",
+      "target_interactions": 962,
+      "two_tower_full_quota_hits": 0,
+      "itemcf_full_quota_hits": 0,
+      "two_tower_exclusive_over_itemcf_hits": 0,
+      "two_tower_exclusive_rate_over_segment_targets": 0.0,
+      "source_quotas": "Two-Tower Top-100 versus ItemCF Top-200"
+    },
+    {
+      "segment": "Overall",
+      "target_interactions": 2512,
+      "two_tower_full_quota_hits": 12,
+      "itemcf_full_quota_hits": 397,
+      "two_tower_exclusive_over_itemcf_hits": 5,
+      "two_tower_exclusive_rate_over_segment_targets": 0.0019904458598726115,
+      "source_quotas": "Two-Tower Top-100 versus ItemCF Top-200"
+    }
+  ],
+  "user_exposure_distribution_summary": {
+    "ItemCF": {
+      "head": {
+        "mean": 0.37769085612808634,
+        "median": 0.36,
+        "p10": 0.16,
+        "p90": 0.62
+      },
+      "torso": {
+        "mean": 0.26238839171365075,
+        "median": 0.26,
+        "p10": 0.16,
+        "p90": 0.36
+      },
+      "tail": {
+        "mean": 0.35992075215826286,
+        "median": 0.36,
+        "p10": 0.18,
+        "p90": 0.54
+      }
+    },
+    "Two-Tower": {
+      "head": {
+        "mean": 0.8498702107776971,
+        "median": 0.86,
+        "p10": 0.78,
+        "p90": 0.92
+      },
+      "torso": {
+        "mean": 0.14652891703872914,
+        "median": 0.14,
+        "p10": 0.08,
+        "p90": 0.2
+      },
+      "tail": {
+        "mean": 0.0036008721835738768,
+        "median": 0.0,
+        "p10": 0.0,
+        "p90": 0.02
+      }
+    },
+    "Ranker": {
+      "head": {
+        "mean": 0.5871056977704375,
+        "median": 0.58,
+        "p10": 0.4,
+        "p90": 0.78
+      },
+      "torso": {
+        "mean": 0.1995623451692816,
+        "median": 0.2,
+        "p10": 0.1,
+        "p90": 0.3
+      },
+      "tail": {
+        "mean": 0.21333195706028077,
+        "median": 0.2,
+        "p10": 0.1,
+        "p90": 0.34
+      }
+    }
+  },
+  "gini_status": "completed without third-party dependencies",
+  "validation_checks": {
+    "cold_buckets_mutually_exclusive": true,
+    "cold_buckets_collectively_exhaustive": true,
+    "popularity_segments_non_overlapping": true,
+    "all_train_items_have_exactly_one_segment": true,
+    "cold_items_are_not_tail": true,
+    "target_distribution_sums_to_test_gt": true,
+    "exposure_partitions_valid": true,
+    "all_popularity_statistics_are_train_only": true,
+    "no_test_driven_training_or_model_selection": true,
+    "existing_model_and_pipeline_artifacts_unchanged": true
+  },
+  "protected_artifacts_unchanged": true,
+  "elapsed_seconds": 6.625383700000384
+}

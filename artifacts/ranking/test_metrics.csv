@@ -1,0 +1,19 @@
+Method,K,Recall,HitRate,NDCG,Protocol
+Popularity,10,0.0017921146953405018,0.0017921146953405018,0.0008640350241082355,warm purchase; exact union reranking; no historical-item filtering
+Popularity,20,0.0031362007168458782,0.0035842293906810036,0.0012093895998026584,warm purchase; exact union reranking; no historical-item filtering
+Popularity,50,0.00966995221027479,0.012544802867383513,0.0025533909506991457,warm purchase; exact union reranking; no historical-item filtering
+Two-Tower,10,0.0013440860215053765,0.0017921146953405018,0.0004925032174957822,warm purchase; exact union reranking; no historical-item filtering
+Two-Tower,20,0.0013440860215053765,0.0017921146953405018,0.0004925032174957822,warm purchase; exact union reranking; no historical-item filtering
+Two-Tower,50,0.005376344086021506,0.0062724014336917565,0.0013123055246449635,warm purchase; exact union reranking; no historical-item filtering
+ItemCF,10,0.0802568697729988,0.09498207885304659,0.03874102012089301,warm purchase; exact union reranking; no historical-item filtering
+ItemCF,20,0.12429808841099166,0.1478494623655914,0.05080486887026816,warm purchase; exact union reranking; no historical-item filtering
+ItemCF,50,0.24139784946236556,0.2732974910394265,0.07543273831305296,warm purchase; exact union reranking; no historical-item filtering
+RRF,10,0.031137992831541218,0.03942652329749104,0.01325706182634716,warm purchase; exact union reranking; no historical-item filtering
+RRF,20,0.05473416965352449,0.06451612903225806,0.0192036355250146,warm purchase; exact union reranking; no historical-item filtering
+RRF,50,0.1191905615292712,0.14068100358422939,0.03280524822053215,warm purchase; exact union reranking; no historical-item filtering
+ItemCF-first,10,0.0802568697729988,0.09498207885304659,0.03874102012089301,warm purchase; exact union reranking; no historical-item filtering
+ItemCF-first,20,0.12429808841099166,0.1478494623655914,0.05080486887026816,warm purchase; exact union reranking; no historical-item filtering
+ItemCF-first,50,0.24139784946236556,0.2732974910394265,0.07543273831305296,warm purchase; exact union reranking; no historical-item filtering
+Ranker,10,0.16677120669056153,0.1917562724014337,0.10709911072123392,warm purchase; exact union reranking; no historical-item filtering
+Ranker,20,0.2023148148148148,0.23118279569892472,0.11653625713299849,warm purchase; exact union reranking; no historical-item filtering
+Ranker,50,0.23879181600955796,0.27060931899641577,0.12418875675545177,warm purchase; exact union reranking; no historical-item filtering

@@ -1,0 +1,71 @@
+{
+  "stage": "multi-stage recall candidate union",
+  "sources": {
+    "itemcf": {
+      "quota": 200,
+      "max_history": 50,
+      "neighbors_per_seed": 200,
+      "similarity": "binary user-item cosine-style co-occurrence",
+      "history_data": "train.csv only; all behaviors; last 50 unique items per user"
+    },
+    "two_tower": {
+      "quota": 100,
+      "experiment": "TT_V1_BUY_UNIFORM",
+      "seed": 42,
+      "checkpoint": "artifacts/two_tower/experiments/TT_V1_BUY_UNIFORM/checkpoint_best.pt",
+      "exact_retrieval": {
+        "user_batch_size": 64,
+        "item_chunk_size": 50000,
+        "candidate_items": 302016
+      }
+    },
+    "popularity": {
+      "quota": 50,
+      "score": "train.csv all-behavior interaction count"
+    }
+  },
+  "rrf": {
+    "constant": 60,
+    "formula": "sum(1 / (60 + source_rank)) over present sources only"
+  },
+  "rank_convention": "one-based; missing ranks/scores are null",
+  "history_filtering": false,
+  "history_filtering_note": "Historical-item filtering is intentionally unchanged to preserve protocol comparability.",
+  "candidate_user_sources": {
+    "validation": "unique user_id from validation.csv",
+    "test": "unique user_id from test.csv"
+  },
+  "label_usage": {
+    "candidate_generation_reads_validation_labels": false,
+    "candidate_generation_reads_test_labels": false,
+    "ground_truth_loaded_after_both_candidate_files_saved": true,
+    "test_labels_used_for_evaluation_only": true
+  },
+  "evaluation": {
+    "primary": "warm purchase GT: user and target item both in persisted Two-Tower train-PV vocabulary",
+    "secondary": "all purchase GT oracle with cold-target limitations reported",
+    "fusion_methods": [
+      "RRF",
+      "ItemCF-first"
+    ]
+  },
+  "data": {
+    "train": "data/processed/dev/train.csv",
+    "train_sha256": "c8a702804ada2e1da7e7e448db71aabc86afa0e1336ac7147bcd40e8c5ad9148",
+    "validation_users": 9719,
+    "test_users": 9688
+  },
+  "mapping": {
+    "user_mapping": "../../user_mapping.csv",
+    "item_mapping": "../../item_mapping.csv",
+    "train_csv_sha256": "c8a702804ada2e1da7e7e448db71aabc86afa0e1336ac7147bcd40e8c5ad9148"
+  },
+  "runtime": {
+    "python": "3.13.9",
+    "numpy": "2.5.2",
+    "pandas": "3.0.5",
+    "scipy": "1.18.1",
+    "torch": "2.13.0+cpu",
+    "pyarrow": "25.0.1"
+  }
+}

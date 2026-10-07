@@ -1,0 +1,7 @@
+{
+  "mapping_method": "filter behavior_type == 'pv'; select user_id,item_id; drop_duplicates keeping first occurrence; pandas unique order",
+  "train_csv_sha256": "c8a702804ada2e1da7e7e448db71aabc86afa0e1336ac7147bcd40e8c5ad9148",
+  "num_users": 9836,
+  "num_items": 302016,
+  "checkpoint": "two_tower_best.pt"
+}

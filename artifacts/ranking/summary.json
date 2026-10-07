@@ -1,0 +1,211 @@
+{
+  "status": "completed",
+  "training_split_for_ranker": "validation",
+  "final_evaluation_split": "test",
+  "training": {
+    "validation_candidate_rows": 3304863,
+    "validation_positive_candidate_rows": 659,
+    "validation_candidate_users": 9719,
+    "training_queries_with_at_least_one_positive": 549,
+    "training_rows": 188875,
+    "training_positive_rows": 659,
+    "group_count": 549,
+    "group_sum": 188875,
+    "min_group_size": 152,
+    "max_group_size": 350,
+    "all_training_queries_have_positive": true
+  },
+  "validation_training_fit_diagnostic": {
+    "role": "training-fit diagnostic only; not a generalization estimate",
+    "metrics": [
+      {
+        "K": 10,
+        "Recall": 0.3840621415621416,
+        "HitRate": 0.4205128205128205,
+        "NDCG": 0.38680468658283035
+      },
+      {
+        "K": 20,
+        "Recall": 0.3846384171384172,
+        "HitRate": 0.4205128205128205,
+        "NDCG": 0.3869830084846722
+      },
+      {
+        "K": 50,
+        "Recall": 0.3846384171384172,
+        "HitRate": 0.4205128205128205,
+        "NDCG": 0.3869830084846722
+      }
+    ]
+  },
+  "test_evaluation": {
+    "warm_users": 1116,
+    "warm_interactions": 1438,
+    "all_gt_users": 1756,
+    "all_gt_interactions": 2512,
+    "candidate_oracle_warm": {
+      "Recall": 0.2555480884109916,
+      "HitRate": 0.289426523297491,
+      "hit_interactions": 366,
+      "total_interactions": 1438,
+      "interaction_recall": 0.2545201668984701
+    },
+    "candidate_oracle_all_gt": {
+      "Recall": 0.16883651655861223,
+      "HitRate": 0.2072892938496583,
+      "hit_interactions": 413,
+      "total_interactions": 2512,
+      "interaction_recall": 0.1644108280254777
+    },
+    "ranker_warm_metrics": {
+      "10": {
+        "Recall": 0.16677120669056153,
+        "HitRate": 0.1917562724014337,
+        "NDCG": 0.10709911072123392
+      },
+      "20": {
+        "Recall": 0.2023148148148148,
+        "HitRate": 0.23118279569892472,
+        "NDCG": 0.11653625713299849
+      },
+      "50": {
+        "Recall": 0.23879181600955796,
+        "HitRate": 0.27060931899641577,
+        "NDCG": 0.12418875675545177
+      }
+    },
+    "ranker_all_gt_metrics": {
+      "10": {
+        "Recall": 0.11701784358390281,
+        "HitRate": 0.14350797266514806,
+        "NDCG": 0.07597025115477113
+      },
+      "20": {
+        "Recall": 0.13781321184510248,
+        "HitRate": 0.17084282460136674,
+        "NDCG": 0.08175359843881846
+      },
+      "50": {
+        "Recall": 0.15930728345306933,
+        "HitRate": 0.19533029612756264,
+        "NDCG": 0.08638127925544166
+      }
+    },
+    "oracle_gap_at_50": 0.016756272401433625,
+    "ranker_vs_itemcf_recall_at_50_absolute_delta": -0.0026060334528076046,
+    "ranker_vs_itemcf_recall_at_50_relative_delta": -0.010795595149715245,
+    "cold_target_fraction_absent_from_train": 0.38296178343949044
+  },
+  "feature_importance": {
+    "top_15": [
+      {
+        "feature": "seen_in_train",
+        "importance": 60747.28103637695,
+        "importance_fraction": 0.5809407735422893
+      },
+      {
+        "feature": "category_id",
+        "importance": 14140.557920575142,
+        "importance_fraction": 0.13522953647553757
+      },
+      {
+        "feature": "user_item_interaction_count",
+        "importance": 4546.067976355553,
+        "importance_fraction": 0.04347513504642836
+      },
+      {
+        "feature": "recency_since_last_user_item_interaction_days",
+        "importance": 3590.1039208471775,
+        "importance_fraction": 0.03433302220761509
+      },
+      {
+        "feature": "category_popularity",
+        "importance": 1976.3149068057537,
+        "importance_fraction": 0.01889997200097513
+      },
+      {
+        "feature": "user_item_cart_count",
+        "importance": 1837.7429119050503,
+        "importance_fraction": 0.0175747748804537
+      },
+      {
+        "feature": "user_category_interaction_count",
+        "importance": 1092.0103956758976,
+        "importance_fraction": 0.01044315651922408
+      },
+      {
+        "feature": "user_last_train_timestamp",
+        "importance": 1039.3160268962383,
+        "importance_fraction": 0.009939227671086062
+      },
+      {
+        "feature": "user_category_affinity",
+        "importance": 1030.1128185987473,
+        "importance_fraction": 0.009851215189602098
+      },
+      {
+        "feature": "itemcf_score",
+        "importance": 1023.2656606137753,
+        "importance_fraction": 0.00978573418060066
+      },
+      {
+        "feature": "itemcf_rank",
+        "importance": 965.2727604806423,
+        "importance_fraction": 0.00923113421022292
+      },
+      {
+        "feature": "item_popularity_rank",
+        "importance": 918.3356427550316,
+        "importance_fraction": 0.008782263330503493
+      },
+      {
+        "feature": "item_buy_user_count",
+        "importance": 818.6975890994072,
+        "importance_fraction": 0.007829400799416969
+      },
+      {
+        "feature": "rrf_score",
+        "importance": 814.074837744236,
+        "importance_fraction": 0.00778519232288353
+      },
+      {
+        "feature": "item_popularity_percentile",
+        "importance": 755.5967866182327,
+        "importance_fraction": 0.007225952737558839
+      }
+    ],
+    "two_tower_feature_importance_fraction": 0.00033159729314758806,
+    "causal_warning": "Gain importance is descriptive; no TT-isolation ablation was run, so it does not prove causal contribution."
+  },
+  "leakage_checks": {
+    "test_1_max_aggregate_timestamp_le_train_end": true,
+    "test_2_test_ground_truth_not_parsed_until_after_training_and_prediction": true,
+    "test_2_no_test_label_column_in_training_dataframe": true,
+    "test_2_model_and_scores_complete_before_test_label_load": true,
+    "test_3_validation_labels_only_added_after_feature_construction": true,
+    "test_3_all_aggregate_features_come_from_train_csv": true,
+    "test_4_group_sum_equals_training_rows": true,
+    "test_5_validation_same_user_candidate_unique": true,
+    "test_5_test_same_user_candidate_unique": true
+  },
+  "baseline_reproduction_checks": {
+    "ItemCF_K10": true,
+    "ItemCF_K20": true,
+    "ItemCF_K50": true,
+    "RRF_K10": true,
+    "RRF_K20": true,
+    "RRF_K50": true,
+    "ItemCF-first_K10": true,
+    "ItemCF-first_K20": true,
+    "ItemCF-first_K50": true,
+    "Popularity_K50": true,
+    "Two-Tower_K50": true
+  },
+  "saved_model_reload_matches": true,
+  "protected_input_hashes_unchanged": true,
+  "bottleneck_conclusions": [
+    "Retrieval remains the main bottleneck.",
+    "Catalog coverage / cold-item retrieval is a major bottleneck."
+  ],
+  "elapsed_seconds": 30.610797999999704
+}

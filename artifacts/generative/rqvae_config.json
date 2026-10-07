@@ -1,0 +1,49 @@
+{
+  "input_dim": 64,
+  "hidden_dim": 128,
+  "latent_dim": 64,
+  "num_codebooks": 3,
+  "codebook_size": 128,
+  "beta": 0.25,
+  "batch_size": 1024,
+  "learning_rate": 0.001,
+  "epochs": 15,
+  "early_stopping_patience": 3,
+  "validation_fraction": 0.1,
+  "checkpoint_metric": "validation_reconstruction_loss",
+  "checkpoint_tie_break": "mean_codebook_utilization",
+  "codebook_init": "MiniBatchKMeans on deterministic RQ-VAE train-only sample",
+  "kmeans_max_samples": 100000,
+  "kmeans_batch_size": 4096,
+  "kmeans_max_iter": 50,
+  "seed": 42,
+  "catalog_mode": "full_v1_vocab",
+  "catalog_size": 302016,
+  "train_items": 271731,
+  "validation_items": 30285,
+  "split_source": "stable uint64 item_id hash; test behavior/labels unused",
+  "device": "cpu",
+  "initialization_diagnostics": {
+    "sample_count": 100000,
+    "levels": [
+      {
+        "level": 0,
+        "active_codes": 128,
+        "most_used_share": 0.0171,
+        "inertia": 483.5654296875
+      },
+      {
+        "level": 1,
+        "active_codes": 128,
+        "most_used_share": 0.01474,
+        "inertia": 337.9315490722656
+      },
+      {
+        "level": 2,
+        "active_codes": 128,
+        "most_used_share": 0.01337,
+        "inertia": 250.46356201171875
+      }
+    ]
+  }
+}

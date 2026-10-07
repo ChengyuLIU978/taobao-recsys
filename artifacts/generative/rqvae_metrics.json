@@ -1,0 +1,49 @@
+{
+  "status": "completed",
+  "best_epoch": 15,
+  "validation": {
+    "total_loss": 0.007246674211803115,
+    "reconstruction_loss": 0.001888496965337966,
+    "codebook_loss": 0.00428654176410763,
+    "commitment_loss": 0.00428654176410763,
+    "codebooks": [
+      {
+        "level": 0,
+        "active_codes": 128,
+        "utilization": 1.0,
+        "perplexity": 108.7561794625547,
+        "most_used_code_share": 0.020703318474492322
+      },
+      {
+        "level": 1,
+        "active_codes": 128,
+        "utilization": 1.0,
+        "perplexity": 114.90559244023473,
+        "most_used_code_share": 0.014990919597160311
+      },
+      {
+        "level": 2,
+        "active_codes": 128,
+        "utilization": 1.0,
+        "perplexity": 113.18564094895609,
+        "most_used_code_share": 0.013769192669638435
+      }
+    ],
+    "mean_utilization": 1.0
+  },
+  "checkpoint_selection": "minimum validation reconstruction loss; mean utilization tie-break",
+  "codebook_collapse": false,
+  "checkpoint_sha256": "cea6678bfc2b67067d117fd5945c64c3ed69c526ed285a303200e5fb2ed08aff",
+  "raw_tuple_collision": {
+    "items": 302016,
+    "unique_raw_tuples": 248774,
+    "collision_excess_items": 53242,
+    "collision_rate": 0.17628867344776436,
+    "collision_groups": 41615,
+    "items_in_collision_groups": 94857,
+    "max_collision_group_size": 11,
+    "mean_collision_group_size": 2.279394449116905
+  },
+  "suffix_max": 10,
+  "final_sid_collision_count": 0
+}

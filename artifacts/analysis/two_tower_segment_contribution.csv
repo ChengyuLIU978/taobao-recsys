@@ -1,0 +1,6 @@
+segment,target_interactions,two_tower_full_quota_hits,itemcf_full_quota_hits,two_tower_exclusive_over_itemcf_hits,two_tower_exclusive_rate_over_segment_targets,source_quotas
+Head,920,11,251,5,0.005434782608695652,Two-Tower Top-100 versus ItemCF Top-200
+Torso,337,1,88,0,0.0,Two-Tower Top-100 versus ItemCF Top-200
+Tail,293,0,58,0,0.0,Two-Tower Top-100 versus ItemCF Top-200
+Cold,962,0,0,0,0.0,Two-Tower Top-100 versus ItemCF Top-200
+Overall,2512,12,397,5,0.0019904458598726115,Two-Tower Top-100 versus ItemCF Top-200

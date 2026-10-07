@@ -1,0 +1,178 @@
+{
+  "split": "test",
+  "protocol": "warm purchase exact evaluation; no historical-item filtering",
+  "ground_truth": {
+    "all_users": 1756,
+    "all_interactions": 2512,
+    "warm_users": 1116,
+    "warm_interactions": 1438,
+    "warm_user_coverage": 0.6355353075170843,
+    "warm_interaction_coverage": 0.572452229299363,
+    "unretrievable_cold_target_interactions": 962,
+    "unretrievable_cold_target_fraction": 0.38296178343949044,
+    "targets_outside_two_tower_vocabulary": 1059,
+    "targets_outside_two_tower_vocabulary_fraction": 0.4215764331210191
+  },
+  "source_performance": {
+    "itemcf": {
+      "candidate_quota": 200,
+      "ranked_metrics": [
+        {
+          "K": 50,
+          "Recall": 0.24139784946236556,
+          "HitRate": 0.2732974910394265,
+          "NDCG": 0.07543273831305296
+        },
+        {
+          "K": 100,
+          "Recall": 0.24139784946236556,
+          "HitRate": 0.2732974910394265,
+          "NDCG": 0.07543273831305296
+        },
+        {
+          "K": 200,
+          "Recall": 0.2440860215053763,
+          "HitRate": 0.27598566308243727,
+          "NDCG": 0.07584297068336235
+        }
+      ],
+      "full_quota_oracle": {
+        "Recall": 0.2440860215053763,
+        "HitRate": 0.27598566308243727,
+        "hit_interactions": 350,
+        "total_interactions": 1438,
+        "interaction_recall": 0.24339360222531292
+      },
+      "user_coverage": 1.0,
+      "users_with_candidates": 1116,
+      "unique_candidate_items": 134336,
+      "catalog_coverage_vs_train_items": 0.42281120857607773
+    },
+    "two_tower": {
+      "candidate_quota": 100,
+      "ranked_metrics": [
+        {
+          "K": 50,
+          "Recall": 0.005376344086021506,
+          "HitRate": 0.0062724014336917565,
+          "NDCG": 0.0013123055246449635
+        },
+        {
+          "K": 100,
+          "Recall": 0.009259259259259259,
+          "HitRate": 0.010752688172043012,
+          "NDCG": 0.001970063464523226
+        }
+      ],
+      "full_quota_oracle": {
+        "Recall": 0.009259259259259259,
+        "HitRate": 0.010752688172043012,
+        "hit_interactions": 12,
+        "total_interactions": 1438,
+        "interaction_recall": 0.008344923504867872
+      },
+      "user_coverage": 1.0,
+      "users_with_candidates": 1116,
+      "unique_candidate_items": 5459,
+      "catalog_coverage_vs_train_items": 0.01718174121320278
+    },
+    "popularity": {
+      "candidate_quota": 50,
+      "ranked_metrics": [
+        {
+          "K": 50,
+          "Recall": 0.00966995221027479,
+          "HitRate": 0.012544802867383513,
+          "NDCG": 0.0025533909506991457
+        }
+      ],
+      "full_quota_oracle": {
+        "Recall": 0.00966995221027479,
+        "HitRate": 0.012544802867383513,
+        "hit_interactions": 14,
+        "total_interactions": 1438,
+        "interaction_recall": 0.009735744089012517
+      },
+      "user_coverage": 1.0,
+      "users_with_candidates": 1116,
+      "unique_candidate_items": 50,
+      "catalog_coverage_vs_train_items": 0.0001573707749881185
+    }
+  },
+  "union_oracle_warm": {
+    "Recall": 0.2555480884109916,
+    "HitRate": 0.289426523297491,
+    "hit_interactions": 366,
+    "total_interactions": 1438,
+    "interaction_recall": 0.2545201668984701
+  },
+  "union_oracle_all_gt": {
+    "Recall": 0.16883651655861223,
+    "HitRate": 0.2072892938496583,
+    "hit_interactions": 413,
+    "total_interactions": 2512,
+    "interaction_recall": 0.1644108280254777
+  },
+  "fusion_ranking": {
+    "itemcf": [
+      {
+        "K": 10,
+        "Recall": 0.0802568697729988,
+        "HitRate": 0.09498207885304659,
+        "NDCG": 0.03874102012089301
+      },
+      {
+        "K": 20,
+        "Recall": 0.12429808841099166,
+        "HitRate": 0.1478494623655914,
+        "NDCG": 0.05080486887026816
+      },
+      {
+        "K": 50,
+        "Recall": 0.24139784946236556,
+        "HitRate": 0.2732974910394265,
+        "NDCG": 0.07543273831305296
+      }
+    ],
+    "rrf": [
+      {
+        "K": 10,
+        "Recall": 0.031137992831541218,
+        "HitRate": 0.03942652329749104,
+        "NDCG": 0.01325706182634716
+      },
+      {
+        "K": 20,
+        "Recall": 0.05473416965352449,
+        "HitRate": 0.06451612903225806,
+        "NDCG": 0.0192036355250146
+      },
+      {
+        "K": 50,
+        "Recall": 0.1191905615292712,
+        "HitRate": 0.14068100358422939,
+        "NDCG": 0.03280524822053215
+      }
+    ],
+    "itemcf_first": [
+      {
+        "K": 10,
+        "Recall": 0.0802568697729988,
+        "HitRate": 0.09498207885304659,
+        "NDCG": 0.03874102012089301
+      },
+      {
+        "K": 20,
+        "Recall": 0.12429808841099166,
+        "HitRate": 0.1478494623655914,
+        "NDCG": 0.05080486887026816
+      },
+      {
+        "K": 50,
+        "Recall": 0.24139784946236556,
+        "HitRate": 0.2732974910394265,
+        "NDCG": 0.07543273831305296
+      }
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "seed": 42,
+  "epochs": 3,
+  "epoch_samples": 521287,
+  "batch_size": 1024,
+  "num_negatives": 4,
+  "learning_rate": 0.001,
+  "embedding_dim": 64,
+  "hidden_dim": 128,
+  "output_dim": 64,
+  "temperature": 0.1,
+  "candidate_count": 302016,
+  "evaluation": "warm validation purchase exact retrieval; no history filtering",
+  "experiment_name": "TT_V0_PV_UNIFORM",
+  "positive_definition": "train-period behavior_type == 'pv'; unique user-item pairs",
+  "negative_strategy": "original V0 uniform random sampler excluding train-PV positives",
+  "checkpoint": "../../two_tower_best.pt",
+  "original_train_loss": [
+    0.698493,
+    0.690275,
+    0.679218
+  ],
+  "original_validation_loss": [
+    0.692557,
+    0.682466,
+    0.66064
+  ],
+  "mapping": {
+    "user_mapping": "../../user_mapping.csv",
+    "item_mapping": "../../item_mapping.csv",
+    "train_csv_sha256": "c8a702804ada2e1da7e7e448db71aabc86afa0e1336ac7147bcd40e8c5ad9148"
+  }
+}

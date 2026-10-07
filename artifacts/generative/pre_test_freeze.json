@@ -1,0 +1,13 @@
+{
+  "status": "configuration_and_validation_frozen_before_test",
+  "config_sha256": "ec56032022316cb8ea30f50e75a3fe9a83abda2d52f8f6346663178d9884158f",
+  "generator_checkpoint_sha256": "39088230240c474da8680c8dcfd58206f887fc92bee45568359d5095b222d518",
+  "semantic_ids_sha256": "8703c317310d9f40d1da3c59130c63311db8136adb9328dba82cef3b9d6376e1",
+  "validation_metrics_sha256": "3bba724067cf1433b521c0dfa1a4a1a317ab931560bc9380c42abd65a89173c8",
+  "beam_size": 50,
+  "active_catalog_size": 302016,
+  "best_epoch": 10,
+  "test_evaluated": true,
+  "test_evaluation_status": "completed_once",
+  "test_metrics_sha256": "b0b7b732c75358fec1e293396d9ada06d90108cd527e68cce3ad3905ac49e017"
+}

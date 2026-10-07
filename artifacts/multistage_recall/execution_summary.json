@@ -1,0 +1,49 @@
+{
+  "completed": true,
+  "elapsed_seconds": 43.706659200000104,
+  "candidate_files_roundtrip_readable": true,
+  "historical_artifacts_unchanged": true,
+  "protected_artifact_sha256": {
+    "artifacts/two_tower/two_tower_best.pt": "d3cd9c94c0033318c94436f0575a49ad8048f48b4fff40251601482e12e7e78a",
+    "artifacts/two_tower/user_mapping.csv": "3dc94ae353485290cc60344fd410fc25ee150159d9ba8705203cd81b9e3c7820",
+    "artifacts/two_tower/item_mapping.csv": "dde0fa8f453a4f46e8f69e12811d786db19db1ed72da55fb73870ff1cce7fc8a",
+    "artifacts/two_tower/mapping_metadata.json": "119a4ef7de5937bad24b1669d6a6db74dddad4ef0d991209f84dfbf1c86a3c18",
+    "artifacts/two_tower/experiments/TT_V1_BUY_UNIFORM/checkpoint_best.pt": "e1ed81a8cd2523cb4cc318e31f56ed1835c38f0d95ef40d13d52e4a93b3d27e7",
+    "artifacts/two_tower/experiments/TT_V1_BUY_UNIFORM/config.json": "dd9b15ff53f0badea223f0c2ccffcdc3030ef3ab9cecad112f8505c37be11e40",
+    "artifacts/two_tower/experiments/TT_V1_BUY_UNIFORM/training_history.csv": "74f0279eee5eedf4095f3c1cf4ac0eb94d50eedeac79c6423d9f60cdb2a969af",
+    "artifacts/two_tower/experiments/TT_V1_BUY_UNIFORM/metrics.csv": "4441b572bc08d82a01b9d8711960a1ec223aa99a0327156cef761abf022fa18e",
+    "artifacts/two_tower/experiments/TT_V2_MULTI_UNIFORM/checkpoint_best.pt": "bec07cefe376616b2c5b0e3be081494156b4d021ef3d857111e600b2a1589aed",
+    "artifacts/two_tower/experiments/TT_V2_MULTI_UNIFORM/config.json": "a1e7040787ec316ed628406a72ed9045986673011f83ed4164b56c66323c3ce5",
+    "artifacts/two_tower/experiments/TT_V2_MULTI_UNIFORM/training_history.csv": "1f3d38385ae5bb5d7833f6bcd6e13e12e8bf0368356620ffe8af3a68762cb86d",
+    "artifacts/two_tower/experiments/TT_V2_MULTI_UNIFORM/metrics.csv": "e5d75d0b103b10a4e7f62bab445a87a0c5c6cfadbe94a8ccec51df6d086ff77f",
+    "artifacts/two_tower/experiments/TT_V1_BUY_UNIFORM_SEED2027/best.pt": "e8a2ad40ffc08ee9c21d4d27aa9acfead30e13b77dd794310ddaee92441d5938",
+    "artifacts/two_tower/experiments/TT_V1_BUY_UNIFORM_SEED2027/config.json": "ed85c80abe0cd3416849271a7fe7f8d48f4cd169f2f968923a114c9b477fe28c",
+    "artifacts/two_tower/experiments/TT_V1_BUY_UNIFORM_SEED2027/history.csv": "f2d9d52ee4f1440ea6217beef5daa8acd79ffa2c20d566a0b6e8f6b25623b440",
+    "artifacts/two_tower/experiments/TT_V1_BUY_UNIFORM_SEED2027/metrics.csv": "3e1e7adc291c08c88488d28b4ff3406fbb313906006d5b78e5f6568c5abcf623"
+  },
+  "validation_baseline_reproduction": {
+    "popularity": {
+      "published_reference": 0.007123,
+      "actual": 0.007122507122507122,
+      "absolute_delta": -4.928774928782131e-07,
+      "absolute_tolerance": 1e-06
+    },
+    "itemcf": {
+      "published_reference": 0.371696,
+      "actual": 0.37169580419580417,
+      "absolute_delta": -1.9580419585718545e-07,
+      "absolute_tolerance": 1e-06
+    },
+    "two_tower": {
+      "published_reference": 0.011966,
+      "actual": 0.011965811965811967,
+      "absolute_delta": -1.8803418803253757e-07,
+      "absolute_tolerance": 1e-06
+    }
+  },
+  "no_test_leakage": {
+    "candidate_user_ids_from_test_csv": true,
+    "test_ground_truth_loaded_after_candidate_artifact_saved": true,
+    "test_labels_used_for_rules_or_parameters": false
+  }
+}

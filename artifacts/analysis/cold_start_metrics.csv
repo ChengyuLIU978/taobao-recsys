@@ -1,0 +1,17 @@
+bucket,bucket_label,interactions,users,unique_target_items,fraction,fraction_of_all_test_purchase_users,method,recall_at_10,recall_at_20,recall_at_50,hitrate_at_50,ndcg_at_10,ndcg_at_20,ndcg_at_50,structurally_retrievable,interpretation
+A,Warm user + Warm item,1550,1194,1494,0.6170382165605095,0.6799544419134397,Popularity,0.0012903225806451613,0.0025806451612903226,0.00903225806451613,0.011725293132328308,0.0008075905250458885,0.0011303842490617813,0.002386586516733875,True,train-known target under the closed catalog
+A,Warm user + Warm item,1550,1194,1494,0.6170382165605095,0.6799544419134397,ItemCF,0.08709677419354839,0.1406451612903226,0.2535483870967742,0.2897822445561139,0.045120728191109655,0.0591062823457755,0.08285393166249021,True,train-known target under the closed catalog
+A,Warm user + Warm item,1550,1194,1494,0.6170382165605095,0.6799544419134397,Two-Tower,0.0012903225806451613,0.0012903225806451613,0.004516129032258065,0.005862646566164154,0.00046032964047344467,0.00046032964047344467,0.001226577023034991,True,train-known target under the closed catalog
+A,Warm user + Warm item,1550,1194,1494,0.6170382165605095,0.6799544419134397,Ranker,0.18258064516129033,0.2167741935483871,0.2496774193548387,0.28726968174204354,0.11740935440475098,0.12692017998143817,0.13415638331111632,True,train-known target under the closed catalog
+B,Cold user + Warm item,0,0,0,0.0,0.0,Popularity,,,,,,,,True,train-known target under the closed catalog
+B,Cold user + Warm item,0,0,0,0.0,0.0,ItemCF,,,,,,,,True,train-known target under the closed catalog
+B,Cold user + Warm item,0,0,0,0.0,0.0,Two-Tower,,,,,,,,True,train-known target under the closed catalog
+B,Cold user + Warm item,0,0,0,0.0,0.0,Ranker,,,,,,,,True,train-known target under the closed catalog
+C,Warm user + Cold item,962,791,956,0.38296178343949044,0.45045558086560367,Popularity,0.0,0.0,0.0,0.0,0.0,0.0,0.0,False,structurally unretrievable under the current closed-catalog system
+C,Warm user + Cold item,962,791,956,0.38296178343949044,0.45045558086560367,ItemCF,0.0,0.0,0.0,0.0,0.0,0.0,0.0,False,structurally unretrievable under the current closed-catalog system
+C,Warm user + Cold item,962,791,956,0.38296178343949044,0.45045558086560367,Two-Tower,0.0,0.0,0.0,0.0,0.0,0.0,0.0,False,structurally unretrievable under the current closed-catalog system
+C,Warm user + Cold item,962,791,956,0.38296178343949044,0.45045558086560367,Ranker,0.0,0.0,0.0,0.0,0.0,0.0,0.0,False,structurally unretrievable under the current closed-catalog system
+D,Cold user + Cold item,0,0,0,0.0,0.0,Popularity,,,,,,,,False,structurally unretrievable under the current closed-catalog system
+D,Cold user + Cold item,0,0,0,0.0,0.0,ItemCF,,,,,,,,False,structurally unretrievable under the current closed-catalog system
+D,Cold user + Cold item,0,0,0,0.0,0.0,Two-Tower,,,,,,,,False,structurally unretrievable under the current closed-catalog system
+D,Cold user + Cold item,0,0,0,0.0,0.0,Ranker,,,,,,,,False,structurally unretrievable under the current closed-catalog system

@@ -1,0 +1,31 @@
+{
+  "seed": 42,
+  "epochs": 3,
+  "epoch_samples": 521287,
+  "batch_size": 1024,
+  "num_negatives": 4,
+  "learning_rate": 0.001,
+  "embedding_dim": 64,
+  "hidden_dim": 128,
+  "output_dim": 64,
+  "temperature": 0.1,
+  "candidate_count": 302016,
+  "evaluation": "warm validation purchase exact retrieval; no history filtering",
+  "experiment_name": "TT_V2_MULTI_UNIFORM",
+  "positive_definition": "all mapped train behaviors; one user-item pair weighted by strongest observed behavior using sqrt future-purchase lift vs PV",
+  "negative_strategy": "uniform random; 4 distinct negatives; exclude objective-positive items",
+  "sampler": "weighted replacement",
+  "positive_pair_count": 541958,
+  "positive_user_count": 9836,
+  "behavior_weights": {
+    "pv": 1.0,
+    "fav": 1.9698755838842927,
+    "cart": 3.2857418670557617,
+    "buy": 2.403914383574742
+  },
+  "mapping": {
+    "user_mapping": "../../user_mapping.csv",
+    "item_mapping": "../../item_mapping.csv",
+    "train_csv_sha256": "c8a702804ada2e1da7e7e448db71aabc86afa0e1336ac7147bcd40e8c5ad9148"
+  }
+}

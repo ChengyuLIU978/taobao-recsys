@@ -1,0 +1,3 @@
+split,current_union_hits,generative_hits,gen_exclusive_vs_itemcf,gen_exclusive_vs_current_union,current_union_oracle_recall,union_plus_gen_oracle_recall,absolute_oracle_delta,exclusive_head,exclusive_torso,exclusive_tail
+validation,573,96,2,2,0.3847161172161172,0.3864255189255189,0.0017094017094017033,2,0,0
+test,366,64,0,0,0.25554808841099164,0.25554808841099164,0.0,0,0,0

@@ -1,0 +1,128 @@
+{
+  "status": "completed",
+  "active_catalog_items": 302016,
+  "catalog_mode": "full_v1_vocab",
+  "raw_tuple": {
+    "items": 302016,
+    "unique_raw_tuples": 248774,
+    "collision_excess_items": 53242,
+    "collision_rate": 0.17628867344776436,
+    "collision_groups": 41615,
+    "items_in_collision_groups": 94857,
+    "max_collision_group_size": 11,
+    "mean_collision_group_size": 2.279394449116905
+  },
+  "suffix_max": 10,
+  "final_sid_unique_count": 302016,
+  "final_sid_collision_count": 0,
+  "item_to_sid_to_item_roundtrip": true,
+  "segment_items": {
+    "Tail": 146568,
+    "Torso": 91963,
+    "Head": 63485
+  },
+  "segment_codebook_metrics": [
+    {
+      "segment": "Head",
+      "level": 0,
+      "active_codes": 128,
+      "utilization": 1.0,
+      "perplexity": 118.34110784154014,
+      "most_used_code_share": 0.017767976687406473
+    },
+    {
+      "segment": "Head",
+      "level": 1,
+      "active_codes": 128,
+      "utilization": 1.0,
+      "perplexity": 120.71493784195245,
+      "most_used_code_share": 0.013704024572733717
+    },
+    {
+      "segment": "Head",
+      "level": 2,
+      "active_codes": 128,
+      "utilization": 1.0,
+      "perplexity": 120.89528454409319,
+      "most_used_code_share": 0.013010947467905805
+    },
+    {
+      "segment": "Torso",
+      "level": 0,
+      "active_codes": 128,
+      "utilization": 1.0,
+      "perplexity": 106.63717378111679,
+      "most_used_code_share": 0.01885540924067288
+    },
+    {
+      "segment": "Torso",
+      "level": 1,
+      "active_codes": 128,
+      "utilization": 1.0,
+      "perplexity": 114.18098316406977,
+      "most_used_code_share": 0.01507127866642019
+    },
+    {
+      "segment": "Torso",
+      "level": 2,
+      "active_codes": 128,
+      "utilization": 1.0,
+      "perplexity": 111.8157734755007,
+      "most_used_code_share": 0.014734186575035613
+    },
+    {
+      "segment": "Tail",
+      "level": 0,
+      "active_codes": 128,
+      "utilization": 1.0,
+      "perplexity": 100.2269804881689,
+      "most_used_code_share": 0.019008241908192784
+    },
+    {
+      "segment": "Tail",
+      "level": 1,
+      "active_codes": 128,
+      "utilization": 1.0,
+      "perplexity": 112.43020190266486,
+      "most_used_code_share": 0.015480868948201517
+    },
+    {
+      "segment": "Tail",
+      "level": 2,
+      "active_codes": 128,
+      "utilization": 1.0,
+      "perplexity": 108.97248743558383,
+      "most_used_code_share": 0.014464275967469025
+    }
+  ],
+  "prefix_similarity_diagnostic": [
+    {
+      "exact_shared_prefix_length": 0,
+      "pairs": 5000,
+      "mean_cosine": 0.6907894015312195,
+      "median_cosine": 0.7538925409317017
+    },
+    {
+      "exact_shared_prefix_length": 1,
+      "pairs": 128,
+      "mean_cosine": 0.7053254842758179,
+      "median_cosine": 0.7835631370544434
+    },
+    {
+      "exact_shared_prefix_length": 2,
+      "pairs": 5000,
+      "mean_cosine": 0.7886892557144165,
+      "median_cosine": 0.8415654897689819
+    },
+    {
+      "exact_shared_prefix_length": 3,
+      "pairs": 5000,
+      "mean_cosine": 0.9114418029785156,
+      "median_cosine": 0.9270118474960327
+    }
+  ],
+  "semantic_ids_sha256": "8703c317310d9f40d1da3c59130c63311db8136adb9328dba82cef3b9d6376e1",
+  "lookup_sha256": "f9d39c11d1dcbf1e7b4d2ffde8bd85c1fd168b0a4de587dd2af37b45f6f462d3",
+  "cold_items_injected": false,
+  "interpretation": "Collaborative-prefix diagnostic only; this does not establish content semantics."
+}

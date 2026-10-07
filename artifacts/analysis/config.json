@@ -1,0 +1,87 @@
+{
+  "stage": "Cold Start + Long Tail Segmentation Analysis",
+  "analysis_only": true,
+  "model_training_performed": false,
+  "test_driven_model_selection_performed": false,
+  "sources": {
+    "train_only_popularity": "data/processed/dev/train.csv",
+    "test_ground_truth": "data/processed/dev/test_ground_truth.csv",
+    "fixed_candidates": "artifacts/multistage_recall/test_candidates.parquet",
+    "fixed_ranker_top50": "artifacts/ranking/test_recommendations.parquet"
+  },
+  "itemcf_catalog_definition": "items retained by the exact current ItemCF matrix construction: last 50 unique train items per user",
+  "popularity_segment_metadata": {
+    "total_train_known_items": 317721,
+    "head_items": 63544,
+    "torso_items": 95316,
+    "tail_items": 158861,
+    "sort_rule": "train_interaction_count DESC, item_id ASC",
+    "boundary_rule": "direct row-index split after deterministic sort; Head rows [0,floor(20%)), Torso [floor(20%),floor(50%)), Tail remaining",
+    "popularity_percentile_direction": "0 = most popular, 1 = least popular",
+    "segment_statistics": {
+      "Head": {
+        "items": 63544,
+        "minimum_interaction_count": 3,
+        "median_interaction_count": 4.0,
+        "maximum_interaction_count": 231
+      },
+      "Torso": {
+        "items": 95316,
+        "minimum_interaction_count": 1,
+        "median_interaction_count": 2.0,
+        "maximum_interaction_count": 3
+      },
+      "Tail": {
+        "items": 158861,
+        "minimum_interaction_count": 1,
+        "median_interaction_count": 1.0,
+        "maximum_interaction_count": 1
+      }
+    }
+  },
+  "metric_definitions": {
+    "recall": "micro interaction recall: target hits divided by target interactions in that exact bucket/segment",
+    "hitrate": "fraction of bucket/segment users with at least one hit",
+    "ndcg": "mean per-user binary-relevance NDCG using only targets in the exact bucket/segment",
+    "candidate_oracle": "exact user-item membership anywhere in the fixed union candidate set",
+    "exposure_population": "all 9,688 users present in test.csv",
+    "popularity_percentile": "0 = most popular, 1 = least popular"
+  },
+  "protected_input_hashes": {
+    "data/processed/dev/train.csv": "c8a702804ada2e1da7e7e448db71aabc86afa0e1336ac7147bcd40e8c5ad9148",
+    "data/processed/dev/test.csv": "fbc79fab7d213f43e645126c349b05764f5aa414a11280761db669e8d86c14bf",
+    "data/processed/dev/test_ground_truth.csv": "93bcbb7c7ff24878ea004b32e6f1a80c2e73b394afc3df5515a8d489ac6eb1d7",
+    "artifacts/two_tower/user_mapping.csv": "3dc94ae353485290cc60344fd410fc25ee150159d9ba8705203cd81b9e3c7820",
+    "artifacts/two_tower/item_mapping.csv": "dde0fa8f453a4f46e8f69e12811d786db19db1ed72da55fb73870ff1cce7fc8a",
+    "artifacts/multistage_recall/candidate_statistics.json": "be64fb21c34d09cd61fbe966e948833da3dab545e4d2655e9e5078e22ddba576",
+    "artifacts/multistage_recall/config.json": "88915cb0cf8ca5b1d4fd793b3088b3c29ca8ca9e793840013ba3dcd27f6bbd46",
+    "artifacts/multistage_recall/execution_summary.json": "ac11f441f7e762f84e1e80bc050830ceca1bba4b2c270766dacde24f84b6329e",
+    "artifacts/multistage_recall/sample_candidates.csv": "0dac1fbd718f3d1e34e0dccdc05a07fb3d137e460f3cbf633d48145006af0623",
+    "artifacts/multistage_recall/source_contribution.json": "f4feea8ff27cd965e857d42ff142296896aca8807204038e6663b0f7ff584069",
+    "artifacts/multistage_recall/source_overlap.json": "68a3f055a86ab80d6c014987babd9a5032755bccd4c7546fc90b31ecde8f0fae",
+    "artifacts/multistage_recall/test_candidates.parquet": "0870febd3ce30e108d270a06bea9788ab0685ccbd3e5a563dce50efbfde22a7f",
+    "artifacts/multistage_recall/test_metrics.json": "e384e685f9e3c412fa7c722ae975ddc92d025e3ae87ad8b0c19e15c9eafd8b83",
+    "artifacts/multistage_recall/validation_candidates.parquet": "74b8c122526d50a0dd4c32a4be52eb50b0ab8ebfe2fbb19e84cd46386ae8b7ea",
+    "artifacts/multistage_recall/validation_metrics.json": "aeb48213ffd01a1557d906ef8149c8d698b762d8f14adef3db534156a3e1ccc1",
+    "artifacts/ranking/ablation_metrics.csv": "313f6609e5dfcf0c1ec5083613c2f02a385317d6178c972c49b041707f036632",
+    "artifacts/ranking/config.json": "738cd2fffd9ec231d64712de5ea46f40addc6d43f5aaf592a274d4c7093fdcc5",
+    "artifacts/ranking/feature_importance.csv": "26b5e7b7312175665e90a0af7fe271bcaffb52b727e38c036048490eb4c61b27",
+    "artifacts/ranking/feature_manifest.json": "b71e0fae1038e12e13a740ff6dda3c4520191b86c22cb5d7715f4c6563443624",
+    "artifacts/ranking/ranker.pkl": "4a78f5eebc0e4d9f3fa1f40e0636f8acadc7f1bc3179032c85a7fc7acdf9ceae",
+    "artifacts/ranking/ranker.txt": "c0cbfa1125cfb748f7eecc448b2b2e2c836b5ef7aefdfd9f41a571f91d4b1c6b",
+    "artifacts/ranking/ranker_recall_only.pkl": "92dbdb0994b2594d6b186f936318f8bb195406dd5cf2c82c61834db6e49cdaec",
+    "artifacts/ranking/ranker_recall_only.txt": "6a51ea4f74da4291aa2713ce82d03fa4198c1b8542ddea70376e5826573eb027",
+    "artifacts/ranking/sanity_sample.csv": "258b18cc9b2aa12bfe209676a2f4d7be02fc9ea24fae2f8d54ab45a089281a25",
+    "artifacts/ranking/summary.json": "ddd60c60954f53c3c53f92509b04ebbb3941c08236d41b1a1b620405d0abe0a4",
+    "artifacts/ranking/test_metrics.csv": "7791ce6102bdc87ac8b546d611294dd5d72fa9778e9151991c00c5c0b06150f9",
+    "artifacts/ranking/test_ranking_dataset.parquet": "6c41f40d8b734b02d022e331d421cf8379cb88498ab56e2663540333454add2b",
+    "artifacts/ranking/test_recommendations.parquet": "c4f05793956b44661520a443628644757d9a775946d1bcd4e49ca1c2379a3613",
+    "artifacts/ranking/validation_ranking_dataset.parquet": "cbd0ad7999b7631efd0ae0f7c3970384d5d40030abae0dcbe4f52898dd22f25d"
+  },
+  "runtime": {
+    "python": "3.13.9",
+    "numpy": "2.5.2",
+    "pandas": "3.0.5",
+    "pyarrow": "25.0.1"
+  }
+}
