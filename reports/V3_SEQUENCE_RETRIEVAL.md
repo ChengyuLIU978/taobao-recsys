@@ -2,7 +2,7 @@
 
 ## Scope and protocol
 
-V3 is a **post-freeze controlled retrieval extension** evaluated entirely inside the historical `data/processed/dev/train.csv` period. The original validation and protected test labels were not read for V3 training, checkpoint selection, or evaluation. Historical V0/V1/V2, ranking, cold/long-tail, and generative conclusions remain unchanged.
+V3 is a controlled retrieval follow-up evaluated entirely inside the historical `data/processed/dev/train.csv` period. The original validation and held-out test labels were not used for V3 training, checkpoint selection, or evaluation. Historical V0/V1/V2, ranking, cold/long-tail, and generative conclusions remain unchanged.
 
 The fixed Asia/Shanghai calendar split was determined before observing retrieval metrics:
 
@@ -28,7 +28,7 @@ Every training history satisfies `history_timestamp < target_timestamp`. Events 
 
 ## Item-specific representation coverage audit
 
-The frozen 248,244-item catalog contains 9,318 unique purchase-target items (`3.753565%`) and 101,095 unique non-padding history items (`40.724046%`) across all 10,254 strict-history examples. The two sets overlap on 7,991 items. Their union contains 102,422 items (`41.258600%`), leaving 145,822 items (`58.741400%`) outside both sets.
+The V3_TRAIN 248,244-item catalog contains 9,318 unique purchase-target items (`3.753565%`) and 101,095 unique non-padding history items (`40.724046%`) across all 10,254 strict-history examples. The two sets overlap on 7,991 items. Their union contains 102,422 items (`41.258600%`), leaving 145,822 items (`58.741400%`) outside both sets.
 
 In-batch softmax trains against batch purchase targets rather than the entire catalog: its negative columns are other purchase targets in the batch, not arbitrary catalog items. V3B partially broadens item-specific supervision because the history and candidate towers share the item embedding table. Nevertheless, the 145,822 items absent from both purchase targets and retained history windows receive no item-specific data gradient, even though they remain in full-catalog retrieval. This limits the strength of the V3 neural retriever and is one plausible contributor to the remaining ItemCF gap.
 
@@ -58,10 +58,10 @@ No historical-item filtering was applied. Retrieval used chunked exact inner pro
 
 On EVAL, sequence versus ID deltas were Recall@50 `+0.013756`, HitRate@50 `+0.015550`, NDCG@50 `+0.004959`, dominant Top-1 share `+0.000000`, and Top-50 catalog coverage `-0.000943`. V3B therefore improved relevance metrics under the controlled comparison, but did not improve both preregistered concentration diagnostics. Its Recall@50 remained `0.267632` below internal ItemCF.
 
-## Interpretation and freeze
+## Interpretation
 
-V3A versus V3B remains the appropriate controlled comparison because the temporal data, purchase examples, objective, batch order, optimizer, logQ correction, training budget, candidate catalog, and evaluation protocol are aligned. The primary architectural difference is explicit recent-history representation, and the result supports its practical value under this internal protocol. However, shared history-side item-embedding gradients are an additional representation pathway in V3B, so the comparison is not a perfectly isolated single-parameter causal intervention. It also does **not** justify attributing a comparison against historical V1 solely to sequence modeling, and it is not a new protected-test result.
+V3A versus V3B remains the appropriate controlled comparison because the temporal data, purchase examples, objective, batch order, optimizer, logQ correction, training budget, candidate catalog, and evaluation protocol are aligned. The primary architectural difference is explicit recent-history representation, and the result supports its practical value under this internal protocol. However, shared history-side item-embedding gradients are an additional representation pathway in V3B, so the comparison is not a perfectly isolated single-parameter causal intervention. It also does not justify attributing a comparison against historical V1 solely to sequence modeling, and it should be interpreted separately from the main held-out test results.
 
-The outcome is **mixed**: sequence representation repaired part of the ID-only weakness, but concentration did not improve and neural retrieval remained far behind local item-item collaborative retrieval. After the single pre-frozen V3_EVAL run, the experiment is final. No V4, post-eval tuning, date reselection, or protected-test evaluation is permitted.
+The outcome is **mixed**: sequence representation repaired part of the ID-only weakness, but concentration did not improve and neural retrieval remained far behind local item-item collaborative retrieval. Further experiments should use a new temporal split rather than selecting changes against these results.
 
-**V3 RESULT MIXED — PROJECT FINAL FREEZE**
+Overall, the V3 experiment provides evidence that explicit behavioral history improves neural retrieval under this protocol, while also showing that representation coverage and item-level supervision remain major limitations.

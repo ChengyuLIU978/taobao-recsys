@@ -213,9 +213,9 @@ Validation 两个 exclusive targets 都是 Head。Test 相对 ItemCF=0、相对 
 
 不应继续根据当前 test 调参以获得更高分。
 
-## Post-Freeze Retrieval Extension
+## Internal Sequence-Aware Retrieval Extension
 
-The original system results above remain frozen. V3 is a separate **internal temporal evaluation** conducted entirely inside historical `train.csv`; it did not read original validation or protected-test labels, did not retrain LambdaRank or GenRec, and did not enter the historical candidate union.
+The original system results above use the held-out test period. V3 is a separate **internal temporal evaluation** conducted entirely inside historical `train.csv`; it did not use the original validation or test labels, did not retrain LambdaRank or GenRec, and did not enter the main candidate union.
 
 The fixed split used 2017-11-25 through 2017-11-29 for V3_TRAIN, 2017-11-30 for V3_SELECT, and 2017-12-01 for one V3_EVAL. Only V3_TRAIN constructed the stable 9,791-user/248,244-item mappings, purchase-frequency logQ distribution, popularity baseline, ItemCF similarity matrix, and Head/Torso/Tail definitions. The common warm EVAL population contained 836 users and 1,092 eligible purchase interactions; 882 purchase interactions had cold targets and were excluded from warm metrics.
 
@@ -228,11 +228,11 @@ V3A used an ID-only user tower. V3B used the last 50 mapped behavior events, sha
 | V3A ID + InBatch + logQ | 0.001396 | 0.002791 | 0.003589 | 0.001418 | 0.002392 | 0.142525 |
 | V3B Sequence + InBatch + logQ | 0.008971 | 0.016547 | 0.019139 | 0.006376 | 0.002392 | 0.141582 |
 
-V3B improved Recall@50 over V3A by `+0.013756`, HitRate@50 by `+0.015550`, and NDCG@50 by `+0.004959`. This supports explicit recent history under the controlled internal protocol. However, dominant Top-1 share was unchanged, coverage fell by `0.000943`, and V3B remained `0.267632` Recall@50 below internal ItemCF. The frozen outcome is therefore **mixed**: sequence representation fixes part of the ID-only weakness, while local item-item collaborative retrieval remains much stronger. It must not be presented as a new protected-test improvement or compared causally with historical V1, because V1 and V3 differ in objective, negatives, training samples, and temporal protocol.
+V3B improved Recall@50 over V3A by `+0.013756`, HitRate@50 by `+0.015550`, and NDCG@50 by `+0.004959`. This supports explicit recent history under the controlled internal protocol. However, dominant Top-1 share was unchanged, coverage fell by `0.000943`, and V3B remained `0.267632` Recall@50 below internal ItemCF. The outcome is therefore **mixed**: sequence representation fixes part of the ID-only weakness, while local item-item collaborative retrieval remains much stronger. V3 is not directly comparable with historical V1 because the experiments differ in objective, negatives, training samples, and temporal protocol.
 
-The pre-eval artifact fixed split hashes, mapping hashes, configs, selected epochs (V3A=9, V3B=10), source hash, and interpretation rules before a single V3_EVAL. After that evaluation the runner refuses to repeat. No V4 or post-eval tuning is allowed: **V3 RESULT MIXED — PROJECT FINAL FREEZE**.
+The experiment manifest records split hashes, mapping hashes, configurations, selected epochs (V3A=9, V3B=10), source hash, and interpretation rules. Reported metrics are retained as the final results for this protocol; further experiments should use a new temporal split.
 
-## Interview Talking Points
+## Engineering Takeaways
 
 - 数据与评估比模型名字更重要：user-level sampling、temporal split、label-access contract。
 - 需要同时看 ranking metric 与 candidate oracle，才能定位系统瓶颈。
@@ -241,7 +241,7 @@ The pre-eval artifact fixed split hashes, mapping hashes, configs, selected epoc
 - 失败实验可以形成清晰的诊断链：hypothesis → evidence → decision → trade-off。
 - 生成合法 Semantic ID 只是工程正确性；互补 recall 才是系统价值。
 
-## Interview Story 1 — Mapping Recovery
+## Case Study 1 — Mapping Recovery
 
 **Situation:** 已有 V0 checkpoint，但训练时没有单独持久化 user/item mapping。  
 **Problem:** embedding row 与真实 ID 无法可靠对应；直接猜 mapping 会让 retrieval 结果全部失真。  
@@ -250,7 +250,7 @@ The pre-eval artifact fixed split hashes, mapping hashes, configs, selected epoc
 **Result:** 成功恢复 V0 embedding、导出矩阵并运行 exact retrieval，后续所有 controlled experiments 共用清晰 mapping contract。  
 **Trade-off:** 这是确定性恢复，但比训练时原生保存 mapping 更脆弱；因此后续 checkpoint 必须绑定 mapping reference 和 config。
 
-## Interview Story 2 — Objective Mismatch
+## Case Study 2 — Objective Mismatch
 
 **Situation:** PV-only Two-Tower 的 sampled training/validation loss 正常，但 purchase Recall 很差。  
 **Problem:** 优化高频浏览点击不等于优化未来购买，loss 又只在 sampled negatives 上计算。  
@@ -259,7 +259,7 @@ The pre-eval artifact fixed split hashes, mapping hashes, configs, selected epoc
 **Result:** seed42 Recall@50=`0.011966`，约为 V0 `0.003846` 的 3.11×；seed2027=`0.008405`，方向复现但有 29.76% relative drop。  
 **Trade-off:** purchase positives 更稀疏，variance 更高；结论限于方向支持，不能声称严格稳定。
 
-## Interview Story 3 — Candidate Oracle
+## Case Study 3 — Candidate Oracle
 
 **Situation:** LambdaRank 显著提升了 Recall@10 和 NDCG，但考虑继续增加更复杂 ranking 模型。  
 **Problem:** 不清楚损失来自排序错误还是候选根本缺失。  
@@ -268,7 +268,7 @@ The pre-eval artifact fixed split hashes, mapping hashes, configs, selected epoc
 **Result:** gap 只有 `0.016756`；Head/Torso/Tail 的 segment gap 也较小，真正上限来自 retrieval coverage。  
 **Trade-off:** 复杂 ranker 仍可能改善 early ordering，但无法找回 absent target；资源应先投入互补召回。
 
-## Interview Story 4 — RRF Failure
+## Case Study 4 — RRF Failure
 
 **Situation:** 三路 recall overlap 低，经典 RRF 看似适合做无监督融合。  
 **Problem:** RRF validation Recall@50 从 ItemCF `0.371696` 降到 `0.179821`。  
@@ -277,7 +277,7 @@ The pre-eval artifact fixed split hashes, mapping hashes, configs, selected epoc
 **Result:** Ranker 提升 test early recall 与 NDCG，同时诚实保留 ItemCF R@50 略高的事实。  
 **Trade-off:** supervised fusion 需要标签与 leakage-safe feature pipeline；无监督 RRF 更简单但假设不成立。
 
-## Interview Story 5 — GenRec Failure
+## Case Study 5 — GenRec Failure
 
 **Situation:** 希望用 collaborative Semantic IDs 增加传统 union misses，尤其 Tail。  
 **Problem:** 需要区分 tokenizer、generation 和 system value 三个层次。  

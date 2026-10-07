@@ -34,6 +34,13 @@ artifacts/analysis/user_exposure_distribution.csv
 *.tmp
 artifacts/**/.staging*/
 
+# Internal project-management and career-preparation notes
+CURRENT_PROJECT_STATUS.md
+EXPERIMENT_FREEZE.md
+PROJECT_ISSUES.md
+reports/INTERVIEW_CHEATSHEET.md
+reports/RESUME_BULLETS.md
+
 # OS files
 .DS_Store
 Thumbs.db

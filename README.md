@@ -1,8 +1,8 @@
 # Taobao Multi-Stage Recommender System with Generative Retrieval Extension
 
-An end-to-end recommendation project built on the 100,150,807-interaction Taobao UserBehavior dataset. It implements a leakage-audited temporal data pipeline, Popularity/ItemCF/Two-Tower recall, multi-stage candidate union, 52-feature LightGBM LambdaRank, protected test evaluation, cold-start and long-tail diagnostics, plus an experimental collaborative Semantic-ID generative retriever.
+An end-to-end recommendation project built on the 100,150,807-interaction Taobao UserBehavior dataset. It implements a leakage-audited temporal data pipeline, Popularity/ItemCF/Two-Tower recall, multi-stage candidate union, 52-feature LightGBM LambdaRank, held-out test evaluation, cold-start and long-tail diagnostics, plus an experimental collaborative Semantic-ID generative retriever.
 
-The production-like main system is **Popularity + ItemCF + Two-Tower → candidate union → LambdaRank**. The generative branch is a completed research extension, not a production winner: it produced a small validation oracle gain but **zero incremental target hits on the protected test period**.
+The production-like main system is **Popularity + ItemCF + Two-Tower → candidate union → LambdaRank**. The generative branch is a completed research extension, not a production winner: it produced a small validation oracle gain but **zero incremental target hits on the held-out test period**.
 
 ## 30-second summary
 
@@ -16,7 +16,7 @@ The production-like main system is **Popularity + ItemCF + Two-Tower → candida
 
 ### Main System
 
-The frozen recommendation pipeline is:
+The reported recommendation pipeline is:
 
 ```text
 Popularity + ItemCF + Two-Tower
@@ -97,7 +97,7 @@ flowchart TD
 
 ## Key Test Results
 
-All values below use the same protected **test-warm purchase** population.
+All values below use the same held-out **test-warm purchase** population.
 
 | Method | Recall@10 | Recall@20 | Recall@50 | NDCG@50 |
 |---|---:|---:|---:|---:|
@@ -128,9 +128,9 @@ The initial model optimized page-view positives but was evaluated on purchases, 
 
 Purchase-aligned training improved directionally over PV-only, but Two-Tower remained much weaker than ItemCF. The preregistered alternate seed replicated the improvement direction; it did not establish strict stability. Seed 2027 was about **29.76% lower** than seed 42.
 
-## Post-Freeze Sequence-Aware Retrieval Extension
+## Internal Sequence-Aware Retrieval Extension
 
-After the original validation/test protocol was frozen, V3 was conducted entirely inside the historical training period. Original validation and protected test labels were not used for V3 training, checkpoint selection, or evaluation. V3 is an **internal temporal evaluation**, not a replacement protected-test result.
+After the main validation/test experiment was completed, V3 was conducted entirely inside the historical training period. Original validation and held-out test labels were not used for V3 training, checkpoint selection, or evaluation. V3 is an **internal temporal evaluation** and is not directly comparable with the main test results.
 
 The experiment addressed two weaknesses of the historical Two-Tower: the ID-only user tower had no explicit recent-behavior representation, and uniform-negative pointwise BCE was a weak retrieval objective. The fixed internal split used 2017-11-25 through 2017-11-29 for training, 2017-11-30 for checkpoint selection, and 2017-12-01 for one held-forward evaluation. Mappings and the 248,244-item catalog came only from the internal training days.
 
@@ -158,7 +158,7 @@ A final read-only coverage audit found 9,318 purchase-target items (`3.7536%` of
 | V3A ID + InBatch + logQ | 0.001396 | 0.002791 | 0.003589 | 0.001418 | 0.002392 | 0.142525 |
 | V3B Sequence + InBatch + logQ | 0.008971 | 0.016547 | 0.019139 | 0.006376 | 0.002392 | 0.141582 |
 
-V3B improved Recall@50 over the controlled ID baseline by `+0.013756`, supporting the value of explicit recent history under this internal protocol. However, dominant Top-1 share was unchanged, Top-50 coverage was `0.000943` lower, and V3B still trailed internal ItemCF by `0.267632` Recall@50. The preregistered result is therefore **mixed**. The project is frozen after this single internal evaluation; V3 was not inserted into the historical union and no protected test was rerun. Full details are in [`reports/V3_SEQUENCE_RETRIEVAL.md`](reports/V3_SEQUENCE_RETRIEVAL.md).
+V3B improved Recall@50 over the controlled ID baseline by `+0.013756`, supporting the value of explicit recent history under this internal protocol. However, dominant Top-1 share was unchanged, Top-50 coverage was `0.000943` lower, and V3B still trailed internal ItemCF by `0.267632` Recall@50. The result is therefore **mixed**. V3 was not inserted into the main candidate union, and the original held-out test results remain unchanged. Full details are in [`reports/V3_SEQUENCE_RETRIEVAL.md`](reports/V3_SEQUENCE_RETRIEVAL.md).
 
 ## Candidate Union and Fusion
 
@@ -183,7 +183,7 @@ The ranker is LightGBM LambdaRank with 52 features in five groups:
 - user-item features: interaction counts, behavior counts and recency;
 - user-category features: preference and affinity signals.
 
-All aggregates come from train. Raw `user_id` and `item_id` are not numeric model features. The ranker is fit with validation candidate labels and evaluated once on the protected test period.
+All aggregates come from train. Raw `user_id` and `item_id` are not numeric model features. The ranker is fit with validation candidate labels and evaluated on the held-out test period.
 
 ### Candidate oracle
 
@@ -221,14 +221,14 @@ Each retained event is represented by a behavior token (`<PV>`, `<FAV>`, `<CART>
 
 A prefix trie restricts beam search to SIDs in the active catalog. Validation and test both achieved 100% valid generation, zero invalid paths and zero duplicate items. This is an engineering guarantee, not a relevance guarantee: **valid output does not imply good or complementary recommendations**.
 
-### Frozen metrics
+### Reported metrics
 
 | Split | Recall@20 | Recall@50 | Union oracle before | Union + Gen | Incremental hits |
 |---|---:|---:|---:|---:|---:|
 | Validation | 0.063319 | 0.065456 | 0.384716 | 0.386426 | 2 |
 | Test | 0.042458 | 0.042458 | 0.255548 | 0.255548 | 0 |
 
-Test incremental hits versus ItemCF=`0`, versus current union=`0`, and Tail=`0`. Test exposure was Head=`78.08%`, Torso=`19.32%`, Tail=`2.60%`, with Gini=`0.988493`. Validation showed a small positive signal that did not replicate on the protected test period. Current GenRec is therefore retained as an experimental baseline rather than a production recall source.
+Test incremental hits versus ItemCF=`0`, versus current union=`0`, and Tail=`0`. Test exposure was Head=`78.08%`, Torso=`19.32%`, Tail=`2.60%`, with Gini=`0.988493`. Validation showed a small positive signal that did not replicate on the held-out test period. Current GenRec is therefore retained as an experimental baseline rather than a production recall source.
 
 ## Key Findings
 
@@ -242,7 +242,7 @@ Test incremental hits versus ItemCF=`0`, versus current union=`0`, and Tail=`0`.
 8. Two-Tower exposure was extremely Head-heavy and provided no Tail-exclusive hits.
 9. Healthy Semantic-ID quantization did not guarantee complementary generative recall.
 10. Trie constraints guaranteed valid items, but validity did not guarantee diversity or business value.
-11. A validation improvement must survive the protected test period before entering the main pipeline.
+11. A validation improvement should transfer to the held-out test period before entering the main pipeline.
 12. Collaborative Semantic IDs remain closed-catalog and cannot solve true cold-item recommendation.
 
 ## What Did Not Work
@@ -271,25 +271,20 @@ RQ-VAE health metrics and constrained-generation validity were strong, but the t
 
 ```text
 taobao-recsys/
-├── configs/                         # frozen generative configuration
-├── data/                            # local raw/interim/processed data (Git-ignored)
-├── notebooks/                       # data, baselines, V0 and controlled experiments
-├── scripts/                         # reproducible recall/rank/analysis/generative stages
-├── generative/                      # RQ-VAE, sequence, Transformer, trie and metrics
-├── tests/                           # 45 regression/unit tests
-├── artifacts/                       # frozen outputs; large binaries are Git-ignored
-│   ├── two_tower/
-│   ├── multistage_recall/
-│   ├── ranking/
-│   ├── analysis/
-│   ├── generative/
-│   ├── v3_sequence_retrieval/        # frozen internal temporal extension
-│   └── final/
-├── reports/                         # final/V3 reports, resume bullets, interview cheatsheet
-├── CURRENT_PROJECT_STATUS.md
-├── PROJECT_ISSUES.md
-├── EXPERIMENT_FREEZE.md
-└── requirements.txt
+├── README.md
+├── requirements.txt
+├── notebooks/                       # data, baselines and controlled experiments
+├── scripts/                         # reproducible recall, ranking and analysis stages
+├── generative/                      # RQ-VAE, sequences, Transformer, trie and metrics
+├── tests/                           # 45 regression and unit tests
+├── configs/                         # experiment configuration
+├── artifacts/
+│   └── ARTIFACT_MANIFEST.md
+├── docs/
+│   └── EXPERIMENT_NOTES.md
+└── reports/
+    ├── FINAL_PROJECT_REPORT.md
+    └── V3_SEQUENCE_RETRIEVAL.md
 ```
 
 ## Quick Start
@@ -306,18 +301,17 @@ python -m pip install -r requirements.txt
 
 Register the environment as a notebook kernel with `python -m ipykernel install --user --name taobao-recsys` if needed. `faiss-cpu` is optional and was **not used** in reported results.
 
-### Inspect the frozen project safely
+### Inspect the project
 
 ```powershell
 python -m unittest discover -s tests -p "test_*.py" -v
-python scripts/run_generative_pipeline.py
 ```
 
-The generative runner detects `artifacts/generative/final_summary.json` and refuses to retrain or repeat protected test evaluation. Read [CURRENT_PROJECT_STATUS.md](CURRENT_PROJECT_STATUS.md), [PROJECT_ISSUES.md](PROJECT_ISSUES.md), [EXPERIMENT_FREEZE.md](EXPERIMENT_FREEZE.md) and the [final technical report](reports/FINAL_PROJECT_REPORT.md) for frozen evidence.
+Read the [experiment notes](docs/EXPERIMENT_NOTES.md), [final technical report](reports/FINAL_PROJECT_REPORT.md), [V3 sequence-retrieval report](reports/V3_SEQUENCE_RETRIEVAL.md), and [artifact manifest](artifacts/ARTIFACT_MANIFEST.md) for methodology, results, and failure analysis.
 
 ### Expensive reproduction entry points
 
-These commands are documented for reproducibility, but they build or overwrite stage outputs and **must not be run against this frozen workspace**. Reproduce them only in a fresh copy with separately named artifact directories and a new evaluation protocol.
+These commands document the main reproduction entry points. Use a fresh copy or separate artifact directory so reproduced outputs do not overwrite the reported results.
 
 ```powershell
 python scripts/07_build_multistage_recall.py
@@ -326,7 +320,7 @@ python scripts/09_analyze_cold_start_long_tail.py
 python scripts/run_generative_pipeline.py
 ```
 
-Do not delete freeze files to force another run. The current test period has already been consumed for the final traditional, cold/long-tail and generative diagnoses.
+The reported test metrics correspond to the final evaluation configuration. Further model development should use a new temporal validation period rather than tuning against these results.
 
 ## Reproducibility and Artifact Policy
 
@@ -334,24 +328,21 @@ Do not delete freeze files to force another run. The current test period has alr
 - Raw data, checkpoints, NumPy arrays and Parquet datasets remain local and are excluded from Git by default.
 - Important local outputs and their reproduction stages are listed in [artifacts/ARTIFACT_MANIFEST.md](artifacts/ARTIFACT_MANIFEST.md).
 - The authoritative machine-readable project summary is [artifacts/final/project_summary.json](artifacts/final/project_summary.json).
-- No current metric should be used for further model selection on the existing test period.
+- Further model selection should use a new temporal period rather than the reported test results.
 
 ## Historical Research Directions
 
-The project is in final freeze; these are possible directions for a separate future project, not planned work in this workspace:
+These are possible directions for a separate future experiment:
 
 1. Use a genuinely new temporal or rolling protocol for any new model selection.
 2. Require incremental-oracle gains before integrating a new warm retriever.
 3. Add a metadata/content encoder for true cold-item retrieval.
-4. Study Tail-aware objectives without reusing the consumed protected test or V3_EVAL as feedback.
+4. Study Tail-aware objectives with a new temporal validation period.
 5. Benchmark FAISS/ANN engineering against the exact retrieval baseline.
 
 ## Documentation
 
-- [Current project status](CURRENT_PROJECT_STATUS.md)
-- [Issue and failure log](PROJECT_ISSUES.md)
-- [Experiment freeze policy](EXPERIMENT_FREEZE.md)
+- [Experiment notes and failure analysis](docs/EXPERIMENT_NOTES.md)
 - [Final project report](reports/FINAL_PROJECT_REPORT.md)
 - [V3 sequence retrieval report](reports/V3_SEQUENCE_RETRIEVAL.md)
-- [Resume bullets](reports/RESUME_BULLETS.md)
-- [Interview cheatsheet](reports/INTERVIEW_CHEATSHEET.md)
+- [Artifact manifest](artifacts/ARTIFACT_MANIFEST.md)
