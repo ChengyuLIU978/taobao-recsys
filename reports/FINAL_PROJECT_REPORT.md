@@ -213,6 +213,25 @@ Validation 两个 exclusive targets 都是 Head。Test 相对 ItemCF=0、相对 
 
 不应继续根据当前 test 调参以获得更高分。
 
+## Post-Freeze Retrieval Extension
+
+The original system results above remain frozen. V3 is a separate **internal temporal evaluation** conducted entirely inside historical `train.csv`; it did not read original validation or protected-test labels, did not retrain LambdaRank or GenRec, and did not enter the historical candidate union.
+
+The fixed split used 2017-11-25 through 2017-11-29 for V3_TRAIN, 2017-11-30 for V3_SELECT, and 2017-12-01 for one V3_EVAL. Only V3_TRAIN constructed the stable 9,791-user/248,244-item mappings, purchase-frequency logQ distribution, popularity baseline, ItemCF similarity matrix, and Head/Torso/Tail definitions. The common warm EVAL population contained 836 users and 1,092 eligible purchase interactions; 882 purchase interactions had cold targets and were excluded from warm metrics.
+
+V3A used an ID-only user tower. V3B used the last 50 mapped behavior events, shared item and behavior embeddings, a padding-aware masked mean, and a user MLP. Both models used the same 10,254 strict-history purchase examples, seed, batch order, optimizer, 10-epoch budget, in-batch softmax, duplicate-target/same-user masking, logQ correction, and chunked exact full-catalog evaluation. Therefore, only V3A versus V3B supports a controlled user-representation comparison.
+
+| Internal EVAL model | R@20 | R@50 | HR@50 | NDCG@50 | Dominant Top-1 | Top-50 coverage |
+|---|---:|---:|---:|---:|---:|---:|
+| Popularity | 0.002990 | 0.006579 | 0.008373 | 0.001784 | 1.000000 | 0.000201 |
+| Internal ItemCF | 0.166071 | 0.284179 | 0.319378 | 0.090782 | 0.002392 | 0.147927 |
+| V3A ID + InBatch + logQ | 0.001396 | 0.002791 | 0.003589 | 0.001418 | 0.002392 | 0.142525 |
+| V3B Sequence + InBatch + logQ | 0.008971 | 0.016547 | 0.019139 | 0.006376 | 0.002392 | 0.141582 |
+
+V3B improved Recall@50 over V3A by `+0.013756`, HitRate@50 by `+0.015550`, and NDCG@50 by `+0.004959`. This supports explicit recent history under the controlled internal protocol. However, dominant Top-1 share was unchanged, coverage fell by `0.000943`, and V3B remained `0.267632` Recall@50 below internal ItemCF. The frozen outcome is therefore **mixed**: sequence representation fixes part of the ID-only weakness, while local item-item collaborative retrieval remains much stronger. It must not be presented as a new protected-test improvement or compared causally with historical V1, because V1 and V3 differ in objective, negatives, training samples, and temporal protocol.
+
+The pre-eval artifact fixed split hashes, mapping hashes, configs, selected epochs (V3A=9, V3B=10), source hash, and interpretation rules before a single V3_EVAL. After that evaluation the runner refuses to repeat. No V4 or post-eval tuning is allowed: **V3 RESULT MIXED — PROJECT FINAL FREEZE**.
+
 ## Interview Talking Points
 
 - 数据与评估比模型名字更重要：user-level sampling、temporal split、label-access contract。

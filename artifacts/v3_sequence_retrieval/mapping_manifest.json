@@ -1,0 +1,9 @@
+{
+  "construction_source": "V3_TRAIN only",
+  "construction_rule": "pandas stable unique() in V3_TRAIN first-occurrence order; all behavior types",
+  "num_users": 9791,
+  "num_items": 248244,
+  "user_mapping_sha256": "e89bfdaaca06252c0e2e892febbd73f52b856417693e7537b3ea93398bbec8d9",
+  "item_mapping_sha256": "53c8735aeca7a063e8058df3ce18a77ee2b25a14c6f4dab7537d373b2e6f890a",
+  "selection_or_eval_rows_used": false
+}

@@ -1,0 +1,41 @@
+{
+  "experiment": "V3A_ID_INBATCH_LOGQ",
+  "split": "V3_EVAL",
+  "role": "one-time held-forward internal evaluation",
+  "population": {
+    "protocol": "COMMON WARM POPULATION; purchase user/item pairs; no historical-item filtering",
+    "raw_purchase_events": 2054,
+    "total_purchase_interactions": 1994,
+    "eligible_interactions": 1092,
+    "eligible_users": 836,
+    "cold_target_interactions": 882,
+    "eligible_coverage": 0.5476429287863591,
+    "query_history_source_rows": 616033,
+    "query_history_strictly_before_target_day": true
+  },
+  "best_epoch": 9,
+  "metrics": {
+    "users": 836,
+    "interactions": 1092,
+    "metrics": [
+      {
+        "K": 20,
+        "Recall": 0.0013955342902711324,
+        "HitRate": 0.0023923444976076554,
+        "NDCG": 0.0011166652716151568,
+        "hit_interactions": 2,
+        "total_interactions": 1092,
+        "interaction_recall": 0.0018315018315018315
+      },
+      {
+        "K": 50,
+        "Recall": 0.0027910685805422647,
+        "HitRate": 0.0035885167464114833,
+        "NDCG": 0.0014176055547441089,
+        "hit_interactions": 4,
+        "total_interactions": 1092,
+        "interaction_recall": 0.003663003663003663
+      }
+    ]
+  }
+}

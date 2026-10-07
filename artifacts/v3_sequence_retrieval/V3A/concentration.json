@@ -1,0 +1,22 @@
+{
+  "selection": {
+    "unique_top1_items": 945,
+    "dominant_top1_item": 728204,
+    "dominant_top1_share": 0.003115264797507788,
+    "top50_union_item_count": 39619,
+    "top50_catalog_coverage": 0.15959700939398333,
+    "head_exposure_share": 0.20188992731048805,
+    "torso_exposure_share": 0.30016614745586706,
+    "tail_exposure_share": 0.49794392523364484
+  },
+  "evaluation": {
+    "unique_top1_items": 830,
+    "dominant_top1_item": 2490013,
+    "dominant_top1_share": 0.0023923444976076554,
+    "top50_union_item_count": 35381,
+    "top50_catalog_coverage": 0.14252509627624435,
+    "head_exposure_share": 0.1994736842105263,
+    "torso_exposure_share": 0.29648325358851674,
+    "tail_exposure_share": 0.504043062200957
+  }
+}

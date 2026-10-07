@@ -244,6 +244,32 @@ Embedding table 的行数和维度没有变化，所以 `state_dict` 可以正�
 **47. 生产系统里应该如何避免 mapping recovery 问题？**  
 把 vocabulary/mapping 视为模型 artifact 的一部分：训练时原子化保存 immutable mapping、schema version、source-data hash、mapping hash、unknown-ID policy 和 model config；部署时先校验 hash 与 cardinality，再 strict-load checkpoint。模型 registry 应把 checkpoint 与 mapping 作为同一版本单元，禁止单独替换其中一个。
 
+### Post-Freeze V3 Sequence Retrieval
+
+**48. 为什么第一版 Two-Tower 比 ItemCF 差很多？**
+
+它同时有几个不利因素：user tower 只有静态 ID，无显式近期行为；最初用 PV positive 与 purchase evaluation 存在 objective mismatch；uniform random negatives + pointwise BCE 的 full-catalog 区分压力弱。短时间窗口中，ItemCF 的局部共现 inductive bias 直接而强。V3 修复了部分 neural design，但内部 EVAL R@50=`0.016547` 仍远低于 ItemCF `0.284179`。
+
+**49. ID-only user tower 有什么问题？**
+
+同一个 user 在所有 cutoff 下基本使用同一个 learned identity vector，它不能显式区分“昨天浏览了什么”与“今天加购了什么”。V3B 用最近 50 个 mapped events 的 shared item + behavior embeddings，masked mean 后得到 cutoff-aware user vector。它能动态更新意图，但 mean pooling 不保留顺序或时间间隔。
+
+**50. 为什么从 random-negative BCE 改为 in-batch softmax？**
+
+Pointwise BCE 每次只让 positive 与少量随机 item 比较；in-batch softmax 把 batch 中其他 target 都作为 candidate，直接优化 query 内相对排序。本实验还屏蔽 same-target 和 same-user 的明显 false negatives，保留 diagonal positive。这是更合理的 retrieval baseline，但仍不等于 exact full-catalog Recall objective。
+
+**51. 什么是 logQ correction，为什么需要？**
+
+Batch target 不是均匀从 catalog 抽样，而是跟随 purchase popularity distribution `q(item)`。对 candidate column 使用 `corrected_logit = raw_logit - log(q + eps)`，是对这种 empirical sampling bias 的校正。`q` 只由 V3_TRAIN purchase frequency 估计。它不能被宣称为已经解决 popularity bias，因为最终 exposure/concentration 仍需要单独测量。
+
+**52. 为什么 V3 不能直接和旧 protected-test 指标当成同一次实验比较？**
+
+V3 的 train/select/eval 全部位于历史 `train.csv` 内，catalog、population 和时间窗口都不同；它还同时改了 negative objective、样本构造和 user representation。原 validation/test 对 V3 完全禁止访问，所以 V3 是 post-freeze internal evidence，不是 new protected-test score。
+
+**53. 怎么证明 V3 的改善来自 user representation，而不只是 objective？**
+
+不用历史 V1 作这个因果对比，而比较 V3A 和 V3B。二者使用完全相同的 purchase examples、batch order、in-batch + logQ objective、optimizer、epoch budget、catalog 和 evaluation population，只改变 ID-only 与 explicit history representation。内部 EVAL 上 R@50 从 `0.002791` 到 `0.016547`，delta=`+0.013756`，因此可以将这个 controlled delta 归因于 representation。但 coverage 从 `0.142525` 降到 `0.141582`，且仍远弱于 ItemCF，所以总结果是 MIXED。
+
 ## 结束语
 
 如果面试官只记住一个结论：这个项目不是“某个模型拿到一个分数”，而是一套从 leakage control、retrieval、ranking、oracle diagnosis 到负结果管理的完整推荐系统实验方法。

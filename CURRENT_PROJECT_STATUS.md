@@ -2,8 +2,10 @@
 
 > 状态日期：2026-10-08  
 > 项目目录：`taobao-recsys`  
-> 当前阶段：**PROJECT FROZEN — interview/recruiting-ready baseline**  
-> 下一里程碑：**先建立新的 temporal validation fold；未经新验证协议，不继续根据当前 test 优化 GenRec 或 Ranker**  
+> 当前阶段：**PROJECT FINAL FREEZE — V3 post-freeze extension completed**
+>
+> 下一里程碑：**无后续模型开发；只进行展示、审计或非实验性维护**
+>
 > 本文档依据：Notebook 中已执行 cell 与保存输出、已有数据文件、checkpoint、导出 embedding、mapping 元数据和实验结果文件。README、注释和文件名只作为辅助，不作为完成依据。
 
 ---
@@ -12,7 +14,9 @@
 
 项目已完成传统 Recall → Rank、Cold/Long-tail 诊断，以及一条完整的 TIGER-style collaborative Semantic-ID 生成式召回实验链路。完整 302,016-item V1 catalog 经 RQ-VAE 得到三层 codes，三层 utilization 均为 100%，suffix 后 final SID collision=0；Transformer + trie-constrained beam search 的 valid generation rate=100%。GenRec validation Recall@20=`0.063319`，为固定 union 新增 2 个 Head targets，oracle `0.384716→0.386426`；但一次性 test Recall@20/@50 均为 `0.042458`，相对 ItemCF 和 current union 的新增 target 都是 0，Tail 增量也是 0。因此该实验达到工程成功与非零单路召回，但当前证据不支持把它加入正式第四路 recall。它仍是 closed-catalog collaborative 方法，不能解决 `962/2512=38.30%` 的 truly train-cold targets。
 
-最终项目封装已完成：README、技术报告、双语简历 bullet、44 问面试速查表、依赖与 Python 版本、Git 忽略规则、artifact manifest、机器可读 summary 和实验冻结声明均已落盘并验证。最终回归测试为 `28/28`，用时 `3.403s`；关键 JSON 可解析，README 内部链接与文档化命令语法检查全部通过。当前项目停止基于既有 TEST 的模型开发，可作为 GitHub/简历/面试展示基线。
+原系统封版后，项目在历史 `train.csv` 内完成了最后一次 V3 Sequence-Aware Two-Tower controlled extension：V3A/V3B 共用数据、in-batch + logQ objective、batch order 和内部时间评估，只改变 user representation。单次内部 EVAL 上，V3B Recall@50=`0.016547`，高于 V3A `0.002791`，但 coverage 略低且仍显著弱于内部 ItemCF `0.284179`，因此结论为 **MIXED**。该数字不是新 protected-test 结果；原 validation/test 没有被 V3 访问。
+
+最终项目封装已完成：README、技术报告、双语简历 bullet、53 问面试速查表、V3 专项报告、依赖与 Python 版本、Git 忽略规则、artifact manifest、机器可读 summary 和实验冻结声明均已落盘。最终回归测试为 `45/45`。项目现在停止所有模型开发，可作为 GitHub/简历/面试展示基线。
 
 ### Final packaging status
 
@@ -21,13 +25,14 @@
 | `README.md` | DONE |
 | `reports/FINAL_PROJECT_REPORT.md` | DONE |
 | `reports/RESUME_BULLETS.md` | DONE |
-| `reports/INTERVIEW_CHEATSHEET.md` | DONE — 44 questions |
+| `reports/INTERVIEW_CHEATSHEET.md` | DONE — 53 questions |
+| `reports/V3_SEQUENCE_RETRIEVAL.md` | DONE — frozen internal evaluation |
 | `requirements.txt` / `.python-version` | DONE — Python 3.13.9 |
 | `.gitignore` | DONE — raw data and large binaries excluded |
 | `artifacts/ARTIFACT_MANIFEST.md` | DONE |
 | `artifacts/final/project_summary.json` | DONE / JSON validated |
 | `EXPERIMENT_FREEZE.md` | DONE |
-| Regression tests | DONE — 28/28 passed |
+| Regression tests | DONE — 45/45 passed |
 
 ---
 
@@ -59,6 +64,7 @@
 | Long Tail | 已完整完成分层评估 | 已以 train-only item-count percentile 建立 Head/Torso/Tail，完成 target distribution、segment metrics/oracle、exposure/coverage、novelty、Gini、user-level exposure 和 bias amplification。 |
 | Multi-stage Recall | 已完整完成并运行验证 | 已生成 validation/test 三路 candidate union；完成去重、source provenance、RRF、ItemCF-first、oracle、overlap、exclusive contribution、fallback 和 cold-target 统计。 |
 | Controlled experiments | 已完整完成并运行验证 | 已建立共享 mapping、固定训练预算、统一 full-catalog purchase evaluation 的实验框架，并跑完 Buy-only、Multi-behavior 及一次 seed2027 Buy-only 复验。 |
+| V3 Sequence-Aware Retrieval | 已完整完成并运行验证 | 在原 `train.csv` 内建立 train/select/eval 时间折叠；完成 ID 与 last-50 behavior-aware user tower 的控制对比、in-batch softmax + logQ、内部 ItemCF 和一次冻结 EVAL。V3B R@50=`0.016547`，结论 MIXED。 |
 | RQ-VAE | 已完整完成并运行验证 | 完整 302,016-item V1 embedding catalog；best epoch=15；validation reconstruction=0.00188850；三层 codebook utilization 均为 100%。 |
 | Semantic IDs | 已完整完成并运行验证 | 生成 `(c0,c1,c2,suffix)`；raw tuple collision excess rate=17.6289%，deterministic suffix 后 302,016 个 final SID 全部唯一且 round-trip 成功。 |
 | Generative Transformer | 已完整完成并运行验证 | 12,207 个严格因果 train purchase examples；behavior-aware history；best epoch=10，由 validation Recall@20/NDCG@20 选择。 |
@@ -98,7 +104,7 @@
 | `scripts/13_train_generative_retriever.py` | 构建严格因果 behavior-aware purchase sequences，训练小型 encoder-decoder Transformer，仅用 validation 选 checkpoint | 已运行；best epoch=10，test 在 selection 阶段未读取。 |
 | `scripts/14_evaluate_generative_recall.py` | 冻结后执行 test label-free generation、一次性 test evaluation、incremental oracle/exposure/failure analysis | 已完成；test 配置没有用于回头调参。 |
 | `scripts/run_generative_pipeline.py` | 生成式全流程入口；检测到 completed summary 后拒绝重训或重复 test evaluation | 已运行完成态保护检查。 |
-| `tests/test_rqvae.py` / `test_semantic_ids.py` / `test_generative_retrieval.py` | STE、codebook gradient、SID 唯一性、trie、Transformer、beam、leakage 与 checkpoint reload | 新增 11 项；连同传统主线回归共 28/28 通过。 |
+| `tests/test_rqvae.py` / `test_semantic_ids.py` / `test_generative_retrieval.py` | STE、codebook gradient、SID 唯一性、trie、Transformer、beam、leakage 与 checkpoint reload | Generative 阶段新增 11 项，当时历史封装为 28/28；加上 V3 后当前总计 45/45。 |
 
 ### 3.3 文档
 
@@ -226,7 +232,7 @@ V1/V2 及 seed2027 replication checkpoint 均保存对应 config、mapping refer
 | `validation_generated_recommendations.parquet` / `test_generated_recommendations.parquet` | beam=50 合法 Semantic-ID 推荐，含 beam score、raw SID、segment 与 evaluation-only `is_gt`。 |
 | `incremental_recall_analysis.csv` / `segment_incremental_recall.csv` | validation/test 相对 ItemCF 与 current union 的增量命中和 Head/Torso/Tail oracle。 |
 | `failure_analysis.csv` | 固定 seed 的 ItemCF-miss 案例，包括 GenRec hit/miss、history、Top-10 与 SID prefix。 |
-| `generative_summary.json` / `final_summary.json` / `pre_test_freeze.json` | 完整机器可读结论、artifact paths、test-once gate 与 28/28 测试状态。 |
+| `generative_summary.json` / `final_summary.json` / `pre_test_freeze.json` | 完整机器可读结论、artifact paths、test-once gate 与当时历史 28/28 测试状态；当前项目总回归为 45/45。 |
 
 ---
 
@@ -783,6 +789,12 @@ Buy-only seed42 与 seed2027 的 Recall@50 分别为 0.011966 和 0.008405，两
 
 ## 17. 当前最后一个成功运行的步骤
 
+当前最后一个成功运行的阶段是 **V3 Sequence-Aware Two-Tower post-freeze internal temporal evaluation**。固定时间协议为 V3_TRAIN=`2017-11-25..29`、SELECT=`2017-11-30`、EVAL=`2017-12-01`；只读取原 `train.csv`，未访问原 validation/test。V3A 选中 epoch 9，V3B 选中 epoch 10。单次内部 EVAL 上 V3A/V3B/Internal ItemCF Recall@50=`0.002791/0.016547/0.284179`，最终判定 `V3 RESULT MIXED — PROJECT FINAL FREEZE`。
+
+最终回归：新增 V3 测试 17 项，原有测试 28 项，合计 `45/45` 通过。旧 V0/V1/V2 checkpoint、Ranker 和 GenRec final summary 的 SHA-256 在 V3 前后一致。
+
+### 17.1 V3 之前的历史最后步骤
+
 当前最后一个成功运行的阶段是 **TIGER-style Collaborative Semantic-ID Generative Retrieval** 全闭环：
 
 ```text
@@ -803,7 +815,7 @@ OK
 
 `scripts/run_generative_pipeline.py` 已以完成态执行保护检查，确认存在 completed `final_summary.json` 时不会重训或重复 test evaluation。传统 Two-Tower、multi-stage recall、ranking 与 cold/long-tail artifacts 的保护哈希保持不变。
 
-### 17.1 Generative 阶段前的历史最后步骤
+### 17.2 Generative 阶段前的历史最后步骤
 
 当前最后一个成功运行的阶段曾是 **Cold Start + Long Tail Segmentation Analysis**：
 
@@ -836,7 +848,7 @@ OK
 - Two-Tower Tail hits：0，Tail exclusive hits：0；
 - test GT 中 train-cold user：0，因此当前数据不能评估真正的 cold-user fallback 效果。
 
-### 17.2 Cold/long-tail 分析前的历史快照
+### 17.3 Cold/long-tail 分析前的历史快照
 
 当前最后完整完成的功能步骤是：
 
@@ -846,7 +858,11 @@ OK
 
 ---
 
-## 18. 接下来最合理的开发顺序
+## 18. 封版后状态
+
+V3 是本项目最后一次模型开发。现在不再训练 V4、不重切时间、不重跑 V3_EVAL，不用原 protected test 检验 V3，也不把 V3 强制加入历史 candidate union。后续只允许展示、审计、文档修正和不改变实验结论的维护。
+
+### 18.1 V3 执行前的历史开发计划
 
 1. **先建立新的 temporal validation/ranker-selection fold**：当前 validation 已用于训练传统 ranker，也用于 GenRec checkpoint selection；当前 test 已做一次最终诊断。没有新时间折叠前，不应继续调整生成式架构、beam、codebook 或 fusion。
 2. **把当前 GenRec 保留为实验 baseline，而不是正式第四路 source**：validation 的 2 个 Head 增量未在 test 复现，Tail 增量为 0；不应据此重训旧 Ranker。
@@ -939,8 +955,10 @@ CURRENT PROJECT STATUS — taobao-recsys (2026-10-08)
 - 一次性 Test GenRec Recall@20/@50=0.042458/0.042458；相对 ItemCF/union 新增均为0，Tail hit与exclusive hit均为0。
 - Test GenRec exposure Head/Torso/Tail=78.08%/19.32%/2.60%，coverage=4.45%，Gini=0.988493；仍严重偏 Head。
 - 决定：工程闭环与非零单路召回成功，但不作为正式第四路 recall，不重训旧 Ranker，不根据 test 调参。
-- 所有生成式、cold/long-tail、recall、ranking tests 共28/28通过；旧模型和旧 artifacts 未被覆盖。
-- 下一步必须先建立新的 temporal validation fold；若要解决 truly cold item，需要 content/metadata representation。
+- 最后一次 V3 扩展只用原 train.csv：V3_TRAIN=2017-11-25..29，SELECT=11-30，EVAL=12-01，原 validation/test 未访问。
+- V3 内部 EVAL：V3A/V3B/Internal ItemCF R@50=0.002791/0.016547/0.284179；sequence 有帮助，但 coverage 略降且仍远弱于 ItemCF，结果 MIXED。
+- 所有 V3 新测试与既有测试共45/45通过；旧模型和旧 artifacts 未被覆盖。
+- PROJECT FINAL FREEZE：不再训练 V4、不重跑 V3_EVAL、不访问原 protected test。
 ```
 
 ### 20.1 Generative 阶段前的历史简版状态

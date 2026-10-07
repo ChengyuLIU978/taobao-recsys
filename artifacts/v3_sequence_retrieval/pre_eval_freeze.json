@@ -1,0 +1,163 @@
+{
+  "created_at_utc": "2026-10-07T16:47:27.609536+00:00",
+  "evaluation_not_yet_read": true,
+  "evaluation_completed": true,
+  "scope": "post-freeze internal temporal evaluation; original validation/test prohibited",
+  "split_hashes": {
+    "train": "2d36ceaf13a49e9e830a2e8966015fff68a3a54229830bd069c5c2a37a291a85",
+    "select": "b1e654febeaaa6826b87f300ec67986a6ab7599805caa1f9401342bfe8d7fbbf",
+    "eval": "8cfe6c734cb70e1fd73033c200c242f865e992f30f209e1af6c19caef0859dc8"
+  },
+  "mapping_hashes": {
+    "user_mapping_sha256": "e89bfdaaca06252c0e2e892febbd73f52b856417693e7537b3ea93398bbec8d9",
+    "item_mapping_sha256": "53c8735aeca7a063e8058df3ce18a77ee2b25a14c6f4dab7537d373b2e6f890a"
+  },
+  "training_config": {
+    "experiment": "V3_SHARED_CONFIG",
+    "evaluation_scope": "INTERNAL TEMPORAL EVALUATION inside historical train.csv; not protected-test",
+    "user_representation": "last-50 behavior-aware shared-item embeddings with masked mean pooling",
+    "shared_history_candidate_item_embedding": true,
+    "num_users": 9791,
+    "num_items": 248244,
+    "embedding_dim": 64,
+    "hidden_dim": 128,
+    "output_dim": 64,
+    "behavior_embedding_dim": 64,
+    "temperature": 0.1,
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 1e-06,
+    "batch_size": 512,
+    "epochs": 10,
+    "seed": 42,
+    "history_length": 50,
+    "objective": "in-batch softmax / InfoNCE with duplicate-target and same-user false-negative masking",
+    "logq_correction": true,
+    "logq_source": "V3_TRAIN purchase target frequency",
+    "selection_rule": "maximum internal V3_SELECT Recall@50; NDCG@50 tie-break",
+    "retrieval": "chunked exact inner product over full V3_TRAIN item catalog",
+    "historical_item_filtering": false,
+    "mapping_hashes": {
+      "user_mapping_sha256": "e89bfdaaca06252c0e2e892febbd73f52b856417693e7537b3ea93398bbec8d9",
+      "item_mapping_sha256": "53c8735aeca7a063e8058df3ce18a77ee2b25a14c6f4dab7537d373b2e6f890a"
+    }
+  },
+  "selected_checkpoints": {
+    "V3A": {
+      "path": "artifacts/v3_sequence_retrieval/V3A/best.pt",
+      "sha256": "e3f052c68ed31066ebe75b09fc37865c59c20327c1dedc2a0ae1e4faed9c0e8c",
+      "best_epoch": 9
+    },
+    "V3B": {
+      "path": "artifacts/v3_sequence_retrieval/V3B/best.pt",
+      "sha256": "752041a1a6059c4887a8d3c414356a9a1f0865799bebe7df72a623e1d27e2ae1",
+      "best_epoch": 10
+    }
+  },
+  "selection_metrics": {
+    "V3A": {
+      "experiment": "V3A_ID_INBATCH_LOGQ",
+      "split": "V3_SELECT",
+      "role": "checkpoint selection only",
+      "population": {
+        "protocol": "COMMON WARM POPULATION; purchase user/item pairs; no historical-item filtering",
+        "raw_purchase_events": 2128,
+        "total_purchase_interactions": 2087,
+        "eligible_interactions": 1247,
+        "eligible_users": 963,
+        "cold_target_interactions": 819,
+        "eligible_coverage": 0.5975083852419741,
+        "query_history_source_rows": 512517,
+        "query_history_strictly_before_target_day": true
+      },
+      "best_epoch": 9,
+      "selection_rule": "maximum internal V3_SELECT Recall@50; NDCG@50 tie-break",
+      "metrics": {
+        "users": 963,
+        "interactions": 1247,
+        "metrics": [
+          {
+            "K": 20,
+            "Recall": 0.0011682242990654205,
+            "HitRate": 0.0020768431983385254,
+            "NDCG": 0.0013010827650754488,
+            "hit_interactions": 2,
+            "total_interactions": 1247,
+            "interaction_recall": 0.0016038492381716118
+          },
+          {
+            "K": 50,
+            "Recall": 0.002336448598130841,
+            "HitRate": 0.003115264797507788,
+            "NDCG": 0.0015515015232498344,
+            "hit_interactions": 4,
+            "total_interactions": 1247,
+            "interaction_recall": 0.0032076984763432237
+          }
+        ]
+      },
+      "strict_checkpoint_reload": true
+    },
+    "V3B": {
+      "experiment": "V3B_SEQUENCE_INBATCH_LOGQ",
+      "split": "V3_SELECT",
+      "role": "checkpoint selection only",
+      "population": {
+        "protocol": "COMMON WARM POPULATION; purchase user/item pairs; no historical-item filtering",
+        "raw_purchase_events": 2128,
+        "total_purchase_interactions": 2087,
+        "eligible_interactions": 1247,
+        "eligible_users": 963,
+        "cold_target_interactions": 819,
+        "eligible_coverage": 0.5975083852419741,
+        "query_history_source_rows": 512517,
+        "query_history_strictly_before_target_day": true
+      },
+      "best_epoch": 10,
+      "selection_rule": "maximum internal V3_SELECT Recall@50; NDCG@50 tie-break",
+      "metrics": {
+        "users": 963,
+        "interactions": 1247,
+        "metrics": [
+          {
+            "K": 20,
+            "Recall": 0.01272066458982347,
+            "HitRate": 0.014537902388369679,
+            "NDCG": 0.0062315189984432804,
+            "hit_interactions": 14,
+            "total_interactions": 1247,
+            "interaction_recall": 0.011226944667201283
+          },
+          {
+            "K": 50,
+            "Recall": 0.013888888888888888,
+            "HitRate": 0.016614745586708203,
+            "NDCG": 0.006498744009286971,
+            "hit_interactions": 16,
+            "total_interactions": 1247,
+            "interaction_recall": 0.012830793905372895
+          }
+        ]
+      },
+      "strict_checkpoint_reload": true
+    }
+  },
+  "source_code_sha256": "6ce5f9afe3aa5a4b5adf84e1b298ee586717f5d130ebaf6d89f1adb52337b761",
+  "interpretation_rules": {
+    "positive": "If V3B Eval Recall@50 > V3A and concentration is healthier, explicit behavioral history helps under the controlled internal protocol.",
+    "partial": "If V3B > V3A but remains below ItemCF, sequence representation fixes part of the weakness but neural retrieval still trails local item-item retrieval.",
+    "neutral": "If V3B approximately equals V3A, user representation alone does not explain the weak Two-Tower.",
+    "negative": "If V3B < V3A, simple mean pooling does not improve retrieval under this setting.",
+    "no_post_eval_tuning": true
+  },
+  "protected_artifact_hashes_before": {
+    "artifacts/two_tower/two_tower_best.pt": "d3cd9c94c0033318c94436f0575a49ad8048f48b4fff40251601482e12e7e78a",
+    "artifacts/two_tower/experiments/TT_V1_BUY_UNIFORM/checkpoint_best.pt": "e1ed81a8cd2523cb4cc318e31f56ed1835c38f0d95ef40d13d52e4a93b3d27e7",
+    "artifacts/two_tower/experiments/TT_V1_BUY_UNIFORM_SEED2027/best.pt": "e8a2ad40ffc08ee9c21d4d27aa9acfead30e13b77dd794310ddaee92441d5938",
+    "artifacts/two_tower/experiments/TT_V2_MULTI_UNIFORM/checkpoint_best.pt": "bec07cefe376616b2c5b0e3be081494156b4d021ef3d857111e600b2a1589aed",
+    "artifacts/ranking/ranker.pkl": "4a78f5eebc0e4d9f3fa1f40e0636f8acadc7f1bc3179032c85a7fc7acdf9ceae",
+    "artifacts/generative/final_summary.json": "ccb7cbf013867142a58f9806ad9ebcdfe523d6e6b1523efa0ec95a94ebf5f38e"
+  },
+  "evaluation_completed_at_utc": "2026-10-07T16:47:31.624638+00:00",
+  "protected_artifacts_unchanged": true
+}

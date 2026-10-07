@@ -128,6 +128,36 @@ The initial model optimized page-view positives but was evaluated on purchases, 
 
 Purchase-aligned training improved directionally over PV-only, but Two-Tower remained much weaker than ItemCF. The preregistered alternate seed replicated the improvement direction; it did not establish strict stability. Seed 2027 was about **29.76% lower** than seed 42.
 
+## Post-Freeze Sequence-Aware Retrieval Extension
+
+After the original validation/test protocol was frozen, V3 was conducted entirely inside the historical training period. Original validation and protected test labels were not used for V3 training, checkpoint selection, or evaluation. V3 is an **internal temporal evaluation**, not a replacement protected-test result.
+
+The experiment addressed two weaknesses of the historical Two-Tower: the ID-only user tower had no explicit recent-behavior representation, and uniform-negative pointwise BCE was a weak retrieval objective. The fixed internal split used 2017-11-25 through 2017-11-29 for training, 2017-11-30 for checkpoint selection, and 2017-12-01 for one held-forward evaluation. Mappings and the 248,244-item catalog came only from the internal training days.
+
+```mermaid
+flowchart BT
+    H[History: item and behavior, up to 50] --> E[Shared item embedding plus behavior embedding]
+    E --> P[Masked mean pooling]
+    P --> U[User MLP]
+    U --> UV[Normalized user vector]
+    I[Candidate item] --> S[Shared item embedding]
+    S --> M[Item MLP]
+    M --> IV[Normalized item vector]
+    UV --> L[In-batch softmax with logQ correction]
+    IV --> L
+```
+
+V3A and V3B used the same 10,254 strict-history purchase examples, batch order, optimizer, dimensions, in-batch softmax objective, logQ correction, false-negative masking, and exact full-catalog evaluation. Only the user representation changed: V3A used a user-ID embedding; V3B used behavior-aware masked mean pooling over the last 50 events. No historical-item filtering was applied.
+
+| Internal EVAL model | Recall@20 | Recall@50 | HitRate@50 | NDCG@50 | Dominant Top-1 | Top-50 coverage |
+|---|---:|---:|---:|---:|---:|---:|
+| Popularity | 0.002990 | 0.006579 | 0.008373 | 0.001784 | 1.000000 | 0.000201 |
+| Internal ItemCF | 0.166071 | **0.284179** | **0.319378** | **0.090782** | 0.002392 | **0.147927** |
+| V3A ID + InBatch + logQ | 0.001396 | 0.002791 | 0.003589 | 0.001418 | 0.002392 | 0.142525 |
+| V3B Sequence + InBatch + logQ | 0.008971 | 0.016547 | 0.019139 | 0.006376 | 0.002392 | 0.141582 |
+
+V3B improved Recall@50 over the controlled ID baseline by `+0.013756`, supporting the value of explicit recent history under this internal protocol. However, dominant Top-1 share was unchanged, Top-50 coverage was `0.000943` lower, and V3B still trailed internal ItemCF by `0.267632` Recall@50. The preregistered result is therefore **mixed**. The project is frozen after this single internal evaluation; V3 was not inserted into the historical union and no protected test was rerun. Full details are in [`reports/V3_SEQUENCE_RETRIEVAL.md`](reports/V3_SEQUENCE_RETRIEVAL.md).
+
 ## Candidate Union and Fusion
 
 The fixed union takes ItemCF Top-200, Two-Tower Top-100 and Popularity Top-50, deduplicated to at most 350 items per user. Each row preserves source provenance, source-specific rank and score, `recall_source_count`, and an RRF score.
@@ -244,15 +274,16 @@ taobao-recsys/
 ├── notebooks/                       # data, baselines, V0 and controlled experiments
 ├── scripts/                         # reproducible recall/rank/analysis/generative stages
 ├── generative/                      # RQ-VAE, sequence, Transformer, trie and metrics
-├── tests/                           # 28 regression/unit tests
+├── tests/                           # 45 regression/unit tests
 ├── artifacts/                       # frozen outputs; large binaries are Git-ignored
 │   ├── two_tower/
 │   ├── multistage_recall/
 │   ├── ranking/
 │   ├── analysis/
 │   ├── generative/
+│   ├── v3_sequence_retrieval/        # frozen internal temporal extension
 │   └── final/
-├── reports/                         # final report, resume bullets, interview cheatsheet
+├── reports/                         # final/V3 reports, resume bullets, interview cheatsheet
 ├── CURRENT_PROJECT_STATUS.md
 ├── PROJECT_ISSUES.md
 ├── EXPERIMENT_FREEZE.md
@@ -303,14 +334,15 @@ Do not delete freeze files to force another run. The current test period has alr
 - The authoritative machine-readable project summary is [artifacts/final/project_summary.json](artifacts/final/project_summary.json).
 - No current metric should be used for further model selection on the existing test period.
 
-## Future Work, in Priority Order
+## Historical Research Directions
 
-1. Establish a new temporal validation fold or rolling evaluation protocol.
-2. Improve warm complementary retrieval and require incremental oracle gains before ranker integration.
+The project is in final freeze; these are possible directions for a separate future project, not planned work in this workspace:
+
+1. Use a genuinely new temporal or rolling protocol for any new model selection.
+2. Require incremental-oracle gains before integrating a new warm retriever.
 3. Add a metadata/content encoder for true cold-item retrieval.
-4. Study Tail-aware generative objectives on the new validation protocol.
-5. Improve negative sampling and exposure/popularity debiasing.
-6. Benchmark FAISS/ANN engineering against the exact retrieval baseline.
+4. Study Tail-aware objectives without reusing the consumed protected test or V3_EVAL as feedback.
+5. Benchmark FAISS/ANN engineering against the exact retrieval baseline.
 
 ## Documentation
 
@@ -318,5 +350,6 @@ Do not delete freeze files to force another run. The current test period has alr
 - [Issue and failure log](PROJECT_ISSUES.md)
 - [Experiment freeze policy](EXPERIMENT_FREEZE.md)
 - [Final project report](reports/FINAL_PROJECT_REPORT.md)
+- [V3 sequence retrieval report](reports/V3_SEQUENCE_RETRIEVAL.md)
 - [Resume bullets](reports/RESUME_BULLETS.md)
 - [Interview cheatsheet](reports/INTERVIEW_CHEATSHEET.md)

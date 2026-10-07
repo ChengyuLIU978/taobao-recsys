@@ -1,0 +1,13 @@
+{
+  "raw_v3_train_purchase_events": 10625,
+  "mapped_target_purchase_events": 10625,
+  "non_empty_strict_history_examples": 10254,
+  "unique_users": 4485,
+  "unique_target_items": 9318,
+  "dropped_empty_history": 371,
+  "history_length": 50,
+  "mean_history_length": 29.779890774331967,
+  "median_history_length": 30.0,
+  "max_history_timestamp_strictly_before_target": true,
+  "same_examples_for_v3a_and_v3b": true
+}

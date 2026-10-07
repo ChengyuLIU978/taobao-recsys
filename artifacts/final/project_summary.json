@@ -1,7 +1,7 @@
 {
   "project": {
     "name": "Taobao Multi-Stage Recommender System with Generative Retrieval Extension",
-    "status": "PROJECT FROZEN — interview/recruiting-ready baseline",
+    "status": "PROJECT FINAL FREEZE — V3 internal extension completed",
     "freeze_date": "2026-10-08",
     "main_system": "Popularity + ItemCF + Two-Tower -> Candidate Union -> LightGBM LambdaRank",
     "experimental_extension": "TIGER-style collaborative Semantic-ID generative retrieval",
@@ -169,9 +169,33 @@
     },
     "conclusion": "Validation showed a small positive signal that did not replicate on the protected test period. Retained as an experimental baseline, not a formal recall source."
   },
+  "v3_sequence_retrieval": {
+    "status": "completed_final_freeze",
+    "scope": "post-freeze internal temporal evaluation; not a protected-test result",
+    "original_validation_or_test_accessed": false,
+    "dates": {
+      "train": ["2017-11-25", "2017-11-26", "2017-11-27", "2017-11-28", "2017-11-29"],
+      "select": "2017-11-30",
+      "eval": "2017-12-01"
+    },
+    "catalog": {"users": 9791, "items": 248244},
+    "train_examples": 10254,
+    "selected_epochs": {"v3a_id": 9, "v3b_sequence": 10},
+    "eval_common_warm": {"users": 836, "eligible_interactions": 1092, "cold_target_interactions": 882},
+    "eval": {
+      "popularity": {"recall_at_20": 0.0029904306220095694, "recall_at_50": 0.006578947368421052, "hitrate_at_50": 0.008373205741626795, "ndcg_at_50": 0.0017836803570096264, "dominant_top1": 1.0, "top50_coverage": 0.00020141473711348512},
+      "internal_itemcf": {"recall_at_20": 0.16607142857142856, "recall_at_50": 0.2841791979949875, "hitrate_at_50": 0.319377990430622, "ndcg_at_50": 0.09078230584019152, "dominant_top1": 0.0023923444976076554, "top50_coverage": 0.14792703952562802},
+      "v3a_id_inbatch_logq": {"recall_at_20": 0.0013955342902711324, "recall_at_50": 0.0027910685805422647, "hitrate_at_50": 0.0035885167464114833, "ndcg_at_50": 0.0014176055547441089, "dominant_top1": 0.0023923444976076554, "top50_coverage": 0.14252509627624435},
+      "v3b_sequence_inbatch_logq": {"recall_at_20": 0.008971291866028708, "recall_at_50": 0.016547049441786282, "hitrate_at_50": 0.019138755980861243, "ndcg_at_50": 0.00637642270452675, "dominant_top1": 0.0023923444976076554, "top50_coverage": 0.14158247530655324}
+    },
+    "sequence_vs_id_deltas": {"recall_at_50": 0.013755980861244018, "hitrate_at_50": 0.01555023923444976, "ndcg_at_50": 0.004958817149782641, "dominant_top1": 0.0, "top50_coverage": -0.0009426209696911103},
+    "sequence_vs_itemcf_recall_at_50_gap": -0.26763214855320117,
+    "result": "MIXED",
+    "conclusion": "Explicit history improved relevance versus the controlled ID baseline, but concentration did not improve and neural retrieval remained far behind internal ItemCF."
+  },
   "tests": {
     "framework": "unittest",
-    "passed": 28,
+    "passed": 45,
     "failed": 0,
     "command": "python -m unittest discover -s tests -p test_*.py -v"
   },
@@ -189,6 +213,7 @@
     "PROJECT_ISSUES.md",
     "EXPERIMENT_FREEZE.md",
     "reports/FINAL_PROJECT_REPORT.md",
+    "reports/V3_SEQUENCE_RETRIEVAL.md",
     "artifacts/ARTIFACT_MANIFEST.md"
   ]
 }

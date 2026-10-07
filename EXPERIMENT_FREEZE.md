@@ -1,6 +1,7 @@
 # Experiment Freeze
 
-**Freeze status:** `PROJECT FROZEN — interview/recruiting-ready baseline`  
+**Freeze status:** `PROJECT FINAL FREEZE — V3 internal extension completed`
+
 **Effective date:** 2026-10-08
 
 ## Scope
@@ -12,6 +13,8 @@ The current test period has been used for the final one-time diagnosis of:
 3. the collaborative Semantic-ID generative retrieval extension.
 
 These results are final historical evidence. Existing checkpoints, configs, histories, metrics, recommendations and summaries must not be overwritten or silently recomputed.
+
+After the original system freeze, one final controlled extension was run entirely inside historical `train.csv`: V3 Sequence-Aware Two-Tower. It used a fixed internal train/select/eval temporal fold and did not access original validation or protected-test labels. Its single internal evaluation is complete with result `MIXED`; `artifacts/v3_sequence_retrieval/pre_eval_freeze.json` and `final_summary.json` are now frozen. No V4, alternate split, additional seed, post-eval tuning, or protected-test V3 evaluation is allowed.
 
 ## Prohibited use of the current test period
 
@@ -26,9 +29,9 @@ Do not use the current test results to select or tune:
 
 Do not delete `artifacts/generative/final_summary.json` or `pre_test_freeze.json` to force another generative test evaluation.
 
-## Required protocol for future modeling
+## Historical research directions, not authorized follow-up work
 
-Any future optimization must first establish a **new temporal validation fold** or a rolling temporal evaluation design. Model selection must occur on that new validation evidence. The currently frozen test period may be referenced only as historical context, not as a feedback signal.
+The project is now in final freeze and has no authorized follow-up model development. If these ideas are ever explored in a separate future project, optimization must first establish a **new temporal validation fold** or rolling temporal evaluation design. The currently frozen test period and V3_EVAL may be referenced only as historical context, not as feedback signals.
 
 Priority order:
 
@@ -41,4 +44,4 @@ Priority order:
 
 ## Safe activities after freeze
 
-Documentation, artifact inventory, hash verification, read-only inspection and regression tests are allowed. Training, parameter search, candidate-policy changes and repeated test evaluation are not.
+Documentation, artifact inventory, hash verification, read-only inspection and regression tests are allowed. Training, parameter search, candidate-policy changes, repeated protected-test evaluation, and repeated V3_EVAL are not.

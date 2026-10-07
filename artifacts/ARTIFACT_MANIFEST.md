@@ -28,6 +28,9 @@ All reported experiment outputs are frozen as of 2026-10-08. Sizes below are the
 | `artifacts/generative/validation_generated_recommendations.parquet` | GenRec validation | Constrained validation recommendations | 0.861 MiB | `scripts/13_train_generative_retriever.py` | Yes |
 | `artifacts/generative/test_generated_recommendations.parquet` | GenRec test | One-time frozen constrained test recommendations | 6.233 MiB | `scripts/14_evaluate_generative_recall.py` | Yes |
 | `artifacts/generative/final_summary.json` | GenRec summary | Full final metrics, paths and test-once status | 0.024 MiB | `scripts/14_evaluate_generative_recall.py` | Yes |
+| `artifacts/v3_sequence_retrieval/final_summary.json` | V3 internal retrieval | Frozen internal temporal comparison and final interpretation | 0.006 MiB | `scripts/15_train_sequence_two_tower.py` | Yes |
+| `artifacts/v3_sequence_retrieval/V3A/best.pt` | V3A internal retrieval | Select-chosen ID-only in-batch/logQ checkpoint | 63.129 MiB | `scripts/15_train_sequence_two_tower.py` | Yes |
+| `artifacts/v3_sequence_retrieval/V3B/best.pt` | V3B internal retrieval | Select-chosen sequence-aware in-batch/logQ checkpoint | 60.740 MiB | `scripts/15_train_sequence_two_tower.py` | Yes |
 | `artifacts/final/project_summary.json` | Final packaging | Cross-stage machine-readable project summary | generated below | Documentation packaging from frozen metrics | Yes |
 
 ## Supporting artifact groups
@@ -37,6 +40,7 @@ All reported experiment outputs are frozen as of 2026-10-08. Sizes below are the
 - `artifacts/ranking/{config,feature_manifest,summary,test_metrics,feature_importance,ablation_metrics}`: ranker contract and frozen evaluation.
 - `artifacts/analysis/*`: cold quadrants, closed-catalog ceiling, segment metrics, exposure, novelty and bias amplification.
 - `artifacts/generative/{embedding_manifest,rqvae_metrics,semantic_id_stats,generator_config,generator_history,validation_generative_metrics,test_generative_metrics,pre_test_freeze}`: generative audit trail.
+- `artifacts/v3_sequence_retrieval/{temporal_split,mapping_manifest,train_example_stats,comparison_select,comparison_eval,pre_eval_freeze,final_summary}` and `V3A/V3B/{config,history,select_metrics,eval_metrics,concentration}`: post-freeze internal retrieval audit trail. V3 checkpoints remain local because `*.pt` is ignored.
 
 ## Reproduction warning
 

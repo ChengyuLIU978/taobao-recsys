@@ -1,0 +1,30 @@
+{
+  "experiment": "V3B_SEQUENCE_INBATCH_LOGQ",
+  "evaluation_scope": "INTERNAL TEMPORAL EVALUATION inside historical train.csv; not protected-test",
+  "user_representation": "last-50 behavior-aware shared-item embeddings with masked mean pooling",
+  "shared_history_candidate_item_embedding": true,
+  "num_users": 9791,
+  "num_items": 248244,
+  "embedding_dim": 64,
+  "hidden_dim": 128,
+  "output_dim": 64,
+  "behavior_embedding_dim": 64,
+  "temperature": 0.1,
+  "optimizer": "AdamW",
+  "learning_rate": 0.001,
+  "weight_decay": 1e-06,
+  "batch_size": 512,
+  "epochs": 10,
+  "seed": 42,
+  "history_length": 50,
+  "objective": "in-batch softmax / InfoNCE with duplicate-target and same-user false-negative masking",
+  "logq_correction": true,
+  "logq_source": "V3_TRAIN purchase target frequency",
+  "selection_rule": "maximum internal V3_SELECT Recall@50; NDCG@50 tie-break",
+  "retrieval": "chunked exact inner product over full V3_TRAIN item catalog",
+  "historical_item_filtering": false,
+  "mapping_hashes": {
+    "user_mapping_sha256": "e89bfdaaca06252c0e2e892febbd73f52b856417693e7537b3ea93398bbec8d9",
+    "item_mapping_sha256": "53c8735aeca7a063e8058df3ce18a77ee2b25a14c6f4dab7537d373b2e6f890a"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "split": "V3_SELECT",
+  "population": {
+    "protocol": "COMMON WARM POPULATION; purchase user/item pairs; no historical-item filtering",
+    "raw_purchase_events": 2128,
+    "total_purchase_interactions": 2087,
+    "eligible_interactions": 1247,
+    "eligible_users": 963,
+    "cold_target_interactions": 819,
+    "eligible_coverage": 0.5975083852419741,
+    "query_history_source_rows": 512517,
+    "query_history_strictly_before_target_day": true
+  },
+  "metrics": {
+    "users": 963,
+    "interactions": 1247,
+    "metrics": [
+      {
+        "K": 20,
+        "Recall": 0.19664243682935273,
+        "HitRate": 0.22741433021806853,
+        "NDCG": 0.08029451043092165,
+        "hit_interactions": 240,
+        "total_interactions": 1247,
+        "interaction_recall": 0.19246190858059342
+      },
+      {
+        "K": 50,
+        "Recall": 0.3673589477327795,
+        "HitRate": 0.40498442367601245,
+        "NDCG": 0.1168737964732019,
+        "hit_interactions": 463,
+        "total_interactions": 1247,
+        "interaction_recall": 0.37129109863672816
+      }
+    ]
+  },
+  "concentration": {
+    "unique_top1_items": 955,
+    "dominant_top1_item": 3629340,
+    "dominant_top1_share": 0.0020920502092050207,
+    "top50_union_item_count": 41331,
+    "top50_catalog_coverage": 0.16649344999274907,
+    "head_exposure_share": 0.37453279511330384,
+    "torso_exposure_share": 0.2660558296490891,
+    "tail_exposure_share": 0.3594113752376071
+  }
+}

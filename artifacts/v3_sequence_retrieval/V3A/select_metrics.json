@@ -1,0 +1,43 @@
+{
+  "experiment": "V3A_ID_INBATCH_LOGQ",
+  "split": "V3_SELECT",
+  "role": "checkpoint selection only",
+  "population": {
+    "protocol": "COMMON WARM POPULATION; purchase user/item pairs; no historical-item filtering",
+    "raw_purchase_events": 2128,
+    "total_purchase_interactions": 2087,
+    "eligible_interactions": 1247,
+    "eligible_users": 963,
+    "cold_target_interactions": 819,
+    "eligible_coverage": 0.5975083852419741,
+    "query_history_source_rows": 512517,
+    "query_history_strictly_before_target_day": true
+  },
+  "best_epoch": 9,
+  "selection_rule": "maximum internal V3_SELECT Recall@50; NDCG@50 tie-break",
+  "metrics": {
+    "users": 963,
+    "interactions": 1247,
+    "metrics": [
+      {
+        "K": 20,
+        "Recall": 0.0011682242990654205,
+        "HitRate": 0.0020768431983385254,
+        "NDCG": 0.0013010827650754488,
+        "hit_interactions": 2,
+        "total_interactions": 1247,
+        "interaction_recall": 0.0016038492381716118
+      },
+      {
+        "K": 50,
+        "Recall": 0.002336448598130841,
+        "HitRate": 0.003115264797507788,
+        "NDCG": 0.0015515015232498344,
+        "hit_interactions": 4,
+        "total_interactions": 1247,
+        "interaction_recall": 0.0032076984763432237
+      }
+    ]
+  },
+  "strict_checkpoint_reload": true
+}

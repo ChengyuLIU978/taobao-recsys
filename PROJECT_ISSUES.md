@@ -348,3 +348,35 @@
   - 12,207 个 final train examples 全部满足严格 `<`；对应 leakage test 通过。
 - **Trade-off**
   - 同秒中真实存在但不可观测的先后信号被保守丢弃，换取清晰可审计的因果边界。
+
+## ISSUE-029 — ID-only user tower does not model recent behavior explicitly
+
+- **Problem**
+  - 历史 Two-Tower 的 user representation 仅由 user ID 决定，无法显式表达用户在当前 cutoff 前的近期行为。
+- **Evidence / How we found it**
+  - 历史 ID-only Two-Tower 在 protected test 上明显弱于 ItemCF；V3 内部 EVAL 的现代 objective ID baseline Recall@50 仍仅为 `0.002791`。
+- **Root cause / hypothesis**
+  - user-ID embedding 只能在训练过程中累积静态身份信号，不能根据 query cutoff 前的 PV/FAV/CART/BUY 序列动态更新意图。
+- **Fix / Decision**
+  - 建立 behavior-aware last-50 history tower：共享 item embedding + behavior embedding，masked mean pooling + MLP；与 ID baseline 保持训练样本、objective、batch order 和评估完全一致。
+- **Result**
+  - 内部 EVAL 上 V3B Recall@50=`0.016547`，相对 V3A 提升 `+0.013756`；HitRate@50 提升 `+0.015550`，NDCG@50 提升 `+0.004959`。
+- **Trade-off**
+  - 要在请求时构建并编码最近历史；简单 mean pooling 丢失顺序和事件间隔信息，且不解决 cold-item 问题。
+
+## ISSUE-030 — V3 Sequence-Aware internal temporal experiment
+
+- **Problem**
+  - 需要在不继续使用原 validation/test 的前提下，隔离现代 retrieval objective 与 user representation 的影响。
+- **Evidence / How we found it**
+  - 固定 internal fold：V3_TRAIN=`2017-11-25..29`，SELECT=`2017-11-30`，EVAL=`2017-12-01`；两个模型共用 10,254 个 strict-history examples 和 248,244-item train-only catalog。
+  - EVAL：V3A R@50=`0.002791`，V3B=`0.016547`，Internal ItemCF=`0.284179`。
+  - V3A/V3B dominant Top-1 均为 `0.002392`；Top-50 coverage 分别为 `0.142525/0.141582`。
+- **Root cause / hypothesis**
+  - 显式历史能修复部分 ID-only 信息瓶颈，但短窗口局部 item-item 共现仍是更强 inductive bias；mean pooling 也不保证更健康的 catalog exposure。
+- **Fix / Decision**
+  - 在单次 pre-eval freeze 后执行内部 EVAL，按预注册规则将结果归类为 MIXED；不调参、不重切日期、不运行原 protected test。
+- **Result**
+  - Explicit history 提高了相关性指标，但 concentration 没有同时改善，且 V3B 与 ItemCF 的 R@50 gap 仍为 `-0.267632`。
+- **Trade-off**
+  - 该结果只支持内部 temporal protocol 下的 V3A/V3B 因果方向对比，不是新 protected-test 结果，也不能与历史 V1 直接归因。

@@ -1,0 +1,74 @@
+{
+  "selection": {
+    "metrics": {
+      "users": 963,
+      "interactions": 1247,
+      "metrics": [
+        {
+          "K": 20,
+          "Recall": 0.004672897196261682,
+          "HitRate": 0.005192107995846314,
+          "NDCG": 0.001798392322635711,
+          "hit_interactions": 5,
+          "total_interactions": 1247,
+          "interaction_recall": 0.00400962309542903
+        },
+        {
+          "K": 50,
+          "Recall": 0.008653513326410522,
+          "HitRate": 0.010384215991692628,
+          "NDCG": 0.0026559123024910264,
+          "hit_interactions": 10,
+          "total_interactions": 1247,
+          "interaction_recall": 0.00801924619085806
+        }
+      ]
+    },
+    "concentration": {
+      "unique_top1_items": 1,
+      "dominant_top1_item": 3845720,
+      "dominant_top1_share": 1.0,
+      "top50_union_item_count": 50,
+      "top50_catalog_coverage": 0.00020141473711348512,
+      "head_exposure_share": 1.0,
+      "torso_exposure_share": 0.0,
+      "tail_exposure_share": 0.0
+    }
+  },
+  "evaluation": {
+    "metrics": {
+      "users": 836,
+      "interactions": 1092,
+      "metrics": [
+        {
+          "K": 20,
+          "Recall": 0.0029904306220095694,
+          "HitRate": 0.0035885167464114833,
+          "NDCG": 0.0010105894477912753,
+          "hit_interactions": 3,
+          "total_interactions": 1092,
+          "interaction_recall": 0.0027472527472527475
+        },
+        {
+          "K": 50,
+          "Recall": 0.006578947368421052,
+          "HitRate": 0.008373205741626795,
+          "NDCG": 0.0017836803570096264,
+          "hit_interactions": 7,
+          "total_interactions": 1092,
+          "interaction_recall": 0.00641025641025641
+        }
+      ]
+    },
+    "concentration": {
+      "unique_top1_items": 1,
+      "dominant_top1_item": 3845720,
+      "dominant_top1_share": 1.0,
+      "top50_union_item_count": 50,
+      "top50_catalog_coverage": 0.00020141473711348512,
+      "head_exposure_share": 1.0,
+      "torso_exposure_share": 0.0,
+      "tail_exposure_share": 0.0
+    }
+  }
+}

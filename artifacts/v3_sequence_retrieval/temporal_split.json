@@ -1,0 +1,106 @@
+{
+  "timezone": "Asia/Shanghai",
+  "rule": "all dates except last two -> V3_TRAIN; penultimate date -> V3_SELECT; last date -> V3_EVAL",
+  "original_train_path": "data/processed/dev/train.csv",
+  "original_train_sha256": "c8a702804ada2e1da7e7e448db71aabc86afa0e1336ac7147bcd40e8c5ad9148",
+  "original_min_timestamp": 1511539200,
+  "original_max_timestamp": 1512143999,
+  "date_statistics": [
+    {
+      "date": "2017-11-25",
+      "rows": 102634,
+      "users": 7062,
+      "items": 70117,
+      "pv": 92090,
+      "fav": 2925,
+      "cart": 5678,
+      "buy": 1941
+    },
+    {
+      "date": "2017-11-26",
+      "rows": 107102,
+      "users": 7198,
+      "items": 73167,
+      "pv": 96101,
+      "fav": 3078,
+      "cart": 5814,
+      "buy": 2109
+    },
+    {
+      "date": "2017-11-27",
+      "rows": 100957,
+      "users": 7151,
+      "items": 69089,
+      "pv": 90134,
+      "fav": 2861,
+      "cart": 5659,
+      "buy": 2303
+    },
+    {
+      "date": "2017-11-28",
+      "rows": 98265,
+      "users": 7030,
+      "items": 68158,
+      "pv": 88002,
+      "fav": 2669,
+      "cart": 5517,
+      "buy": 2077
+    },
+    {
+      "date": "2017-11-29",
+      "rows": 103559,
+      "users": 7174,
+      "items": 71090,
+      "pv": 92903,
+      "fav": 3007,
+      "cart": 5454,
+      "buy": 2195
+    },
+    {
+      "date": "2017-11-30",
+      "rows": 103516,
+      "users": 7305,
+      "items": 70610,
+      "pv": 92751,
+      "fav": 2849,
+      "cart": 5788,
+      "buy": 2128
+    },
+    {
+      "date": "2017-12-01",
+      "rows": 108852,
+      "users": 7420,
+      "items": 73972,
+      "pv": 97489,
+      "fav": 2978,
+      "cart": 6331,
+      "buy": 2054
+    }
+  ],
+  "v3_train_dates": [
+    "2017-11-25",
+    "2017-11-26",
+    "2017-11-27",
+    "2017-11-28",
+    "2017-11-29"
+  ],
+  "v3_select_date": "2017-11-30",
+  "v3_eval_date": "2017-12-01",
+  "splits": {
+    "train": {
+      "rows": 512517,
+      "buy_rows": 10625,
+      "sha256": "2d36ceaf13a49e9e830a2e8966015fff68a3a54229830bd069c5c2a37a291a85"
+    },
+    "select": {
+      "rows": 103516,
+      "buy_rows": 2128,
+      "sha256": "b1e654febeaaa6826b87f300ec67986a6ab7599805caa1f9401342bfe8d7fbbf"
+    },
+    "eval": {
+      "rows": 108852,
+      "buy_rows": 2054,
+      "sha256": "8cfe6c734cb70e1fd73033c200c242f865e992f30f209e1af6c19caef0859dc8"
+    }
+  }
+}
